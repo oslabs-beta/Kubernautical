@@ -1,0 +1,16 @@
+# General
+.DS_Store
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# output from webpack
+dist/
+
+#dotenv
+.env
