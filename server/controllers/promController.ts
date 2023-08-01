@@ -5,7 +5,7 @@ const promController = {};
 promController.getMetrics = async () => {
 
 
-    return 'fuck you';
+    return 'im sad';
 }
 
 
