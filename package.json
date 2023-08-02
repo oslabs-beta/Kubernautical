@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production nodemon server/server.ts",
     "build": "NODE_ENV=production webpack",
-    "dev": "NODE_ENV=development nodemon server/server.ts & NODE_ENV=development webpack serve --open",
+    "dev": "NODE_ENV=development nodemon server/server.ts & NODE_ENV=development webpack serve --open --hot",
     "devc": "NODE_ENV=development concurrently \"webpack serve --open\" \"nodemon server/server.ts\"",
     "devServer": "NODE_ENV=production nodemon server/server.ts",
     "iLoveAnthony": "NODE_ENV=development webpack serve --open"
@@ -28,6 +28,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-force-graph": "^1.43.0",
     "react-router-dom": "^6.14.2",
