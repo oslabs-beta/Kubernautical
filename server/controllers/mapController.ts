@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { mapController } from '../../types';
+import type { mapController } from '../../types/types';
 
 const mapController: mapController = {
 
@@ -16,12 +16,11 @@ const mapController: mapController = {
         namespaces: res.locals.namespaces,
       };
       res.locals.elements = elements;
-      console.log('els', res.locals.elements)
-      console.log('out of mappy')
-
+      // console.log('els', res.locals.elements)
+      // console.log('out of mappy')
       return next();
     } catch (err) {
-
+      return next(err);
     }
   }
 
