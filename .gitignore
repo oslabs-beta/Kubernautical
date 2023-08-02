@@ -17,4 +17,9 @@ node_modules/
 
 #GKE folder
 gke-setup
+<<<<<<< HEAD
 gmp-test-sa-key.json
+=======
+
+kubeconfig.yaml
+>>>>>>> dev
