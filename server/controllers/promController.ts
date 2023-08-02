@@ -1,14 +1,16 @@
 
 import type { Request, Response, NextFunction } from 'express';
+// import { promController } from '../../types';
+import type { prometheusController } from '../../types';
 
 
 
 // const promURL = 'http://localhost:9090/api/v1/query?query=';
 
 
-const promController = {
+const promController: prometheusController = {
 
-    getMetrics: async (req: Request, res: Response, next: NextFunction) => {
+    getMetrics: async (req : Request, res : Response, next : NextFunction) => {
         const { type } = req.query;
         let url = '';
         if (type === 'cpu') url = 'http://localhost:9090/api/v1/query?query=container_cpu_usage_seconds_total';
