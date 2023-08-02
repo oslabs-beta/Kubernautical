@@ -21,7 +21,7 @@ export default function CpuGraph() {
         },
       });
       const data = await response.json();
-      console.log(data[0].values);
+      console.log('backend cpu:', data[0].values);
       const time: Number[] = [];
       const cpuUsage: Number[] = [];
       data[0].values.forEach((el: [number, string]) => {

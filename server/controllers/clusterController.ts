@@ -2,6 +2,7 @@ import * as k8s from '@kubernetes/client-node';
 import os from 'os';
 import type { Request, Response, NextFunction } from 'express';
 import type { clusterController } from '../../types';
+// import  { Namespace } from '../../types';
 
 // declare kube file path
 const KUBE_FILE_PATH = `${os.homedir()}/.kube/config`;
@@ -73,7 +74,7 @@ const clusterController: clusterController = {
                 };
                 return response;
             });
-            res.locals.list = pods;
+            res.locals.pods = pods;
             return next();
         } catch (error) {
             return next(error);
@@ -82,7 +83,7 @@ const clusterController: clusterController = {
     getAllNodes: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await k8sApi.listNode();
-            console.log(result);
+            // console.log(result);
             const nodes = result.body.items.map((el) => {
                 const { name, namespace, uid, labels } = el.metadata || {};
                 const creationTimeStamp: any = el.metadata ? el.metadata.creationTimestamp : {};
@@ -101,17 +102,33 @@ const clusterController: clusterController = {
                 return response;
             });
 
-            res.locals.list = nodes;
+            res.locals.nodes = nodes;
             return next();
         } catch (error) {
             return next(error);
         }
     },
-    getAllNameSpaces: async (req: Request, res: Response, next: NextFunction) => {
+    getAllNamespaces: async (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log('in namesapce controller')
             const result = await k8sApi.listNamespace();
+            // console.log('namespaces', result)
             const namespaces = result.body.items
+            // .filter((namespace) => namespace.metadata.name.slice(0, 4) !== 'kube')
+                .map((namespace) => {
+                const { creationTimestamp } = namespace.metadata || {};
 
+                console.log('creationTimeStamp',creationTimestamp);
+                return {
+                    creationTimestamp: creationTimestamp,
+                    name: namespace.metadata?.name,
+                    id: namespace.metadata?.uid,
+                }
+            })
+            res.locals.namespaces = namespaces;
+            console.log('namespaces', res.locals.namespaces)
+            console.log('out of namesapce controller')
+            return next();
         } catch (error) {
             return next(error);
         }

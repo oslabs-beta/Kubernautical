@@ -14,13 +14,16 @@ export const Mapothy = () => {
 
     return (
         <div></div>
-        //     <Graph
-        //   graph={graph}
-        //   options={options}
-        //   events={events}
-        //   getNetwork={network => {
-        //     //  if you want access to vis.js network api you can set the state in a parent component using this property
-        //   }}
-        // />
+        // <div>
+        // //   <Graph
+        // //   graph={graph}
+        // //   options={options}
+        // //   events={events}
+        // //   getNetwork={network => {
+        // //     //  if you want access to vis.js network api you can set the state in a parent component using this property
+        // //   }}
+        // // />
+        // </div>
+  
     )
 }
