@@ -16,6 +16,8 @@ const promController: prometheusController = {
 
         const start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
         const end = new Date(Date.now()).toISOString();
+        //modularize queries, figure out how queries even work
+            //namespace, pod, node
         if (type === 'cpu') url = `http://localhost:9090/api/v1/query_range?query=sum(rate(container_cpu_usage_seconds_total[10m]))*100&start=${start}&end=${end}&step=30m`;
         if (type === 'mem') url = `http://localhost:9090/api/v1/query_range?query=sum(container_memory_usage_bytes)&start=${start}&end=${end}&step=30m`;
 

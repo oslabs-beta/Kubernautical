@@ -8,13 +8,13 @@ import { Mapothy } from '../components/2D/Mapothy'
 const MainContainer: FC = () => {
 
   return (
-    <>
+    <div className='mainContainer'>
       <Routes>
         <Route index element={<Mapothy />} />
         <Route path="/dashboard" element={<MainDashBoard />} />
         <Route path="/" element={<Mapothy />} />
       </Routes>
-    </>
+    </div>
   )
 }
 
