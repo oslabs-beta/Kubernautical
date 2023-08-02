@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 // import CytoscapeComponent from 'react-cytoscapejs';
 import Graph from 'react-graph-vis';
 import { ClusterNode, ClusterEdge, clusterGraphData } from '../../../types/types';
-import nsImg from './assets/ns-icon';
+import nsImg from './assets/ns-icon.png';
 import podImg from './assets/pod-icon.png';
-import nodeImg from './assets/node-icon.png';
+// import nodeImg from './assets/node-icon.png';
 
 const options = {
     layout: {
@@ -53,7 +53,8 @@ export const Mapothy = () => {
                     id: uid,
                     // label: name,
                     title: name,
-                    image: nsImg
+                    image: nsImg,
+                    shape: 'image',
                 }
                 nodesArr.push(nsObj);
                 edgesArr.push({ from: '0', to: uid });
@@ -64,7 +65,8 @@ export const Mapothy = () => {
                             id: uid,
                             // label: name,
                             title: name,
-                            image: podImg
+                            image: podImg,
+                            shape: 'image',
                         }
                         nodesArr.push(pObj);
                         edgesArr.push({ from: nsObj.id, to: uid });
