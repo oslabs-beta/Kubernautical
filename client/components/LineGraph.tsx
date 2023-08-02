@@ -1,20 +1,20 @@
 import React from 'react'
-import { useState, useEffect,FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 
 type Props = {
-  type : string;
+  type: string;
   title: string;
 }
 const defaultArr: Number[] = []; //typescript set up for UseState
 
-const LineGraph: FC<Props> = ({type,title}) => {
+const LineGraph: FC<Props> = ({ type, title }) => {
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(defaultArr);
-  const[finalData,setFinalData] = useState(defaultArr)
+  const [finalData, setFinalData] = useState(defaultArr)
 
   const getData = async () => {
     try {
@@ -42,23 +42,23 @@ const LineGraph: FC<Props> = ({type,title}) => {
   }, []);
   //convert bytes into Gigabytes
   const gigaBytes: number[] = []
-  data.forEach((el:any) =>{
-    const newEl = el/1073741824 //converts bytes into Gigabytes
+  data.forEach((el: any) => {
+    const newEl = el / 1073741824 //converts bytes into Gigabytes
     gigaBytes.push(newEl)
   })
 
- // make strings readable time
+  // make strings readable time
   const timeLabels: string[] = [];
   label.forEach((el: any) => {
-  const date: Date = new Date(1000 * el); // Convert seconds to milliseconds for Date Function
-  const formattedTime = `${date.getHours()}:${date.getMinutes()}`;
-  timeLabels.push(formattedTime);
+    const date: Date = new Date(1000 * el); // Convert seconds to milliseconds for Date Function
+    const formattedTime = `${date.getHours()}:${date.getMinutes()}`;
+    timeLabels.push(formattedTime);
   });
 
   //check what data you're passing
-  useEffect(()=>{
-    if(type === 'mem'){setFinalData(gigaBytes)}
-    if(type ==='cpu'){setFinalData(data)}
+  useEffect(() => {
+    if (type === 'mem') { setFinalData(gigaBytes) }
+    if (type === 'cpu') { setFinalData(data) }
   }, [data]);
 
   const dataSet = { // Data for tables
@@ -69,13 +69,13 @@ const LineGraph: FC<Props> = ({type,title}) => {
       fill: false,
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
-      yAxisType:'Cpu Usage Pecent',
-      xAxisType:'Time'
+      yAxisType: 'Cpu Usage Pecent',
+      xAxisType: 'Time'
     }]
   };
 
   return (
-    <div>
+    <div className='lineGraph'>
       <Line data={dataSet} />
     </div>
   )

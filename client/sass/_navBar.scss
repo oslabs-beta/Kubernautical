@@ -1,0 +1,15 @@
+.navBar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90vh;
+    width: 12vw;
+    color: white;
+    border: 2px solid black;
+}
+
+.navButton {
+    width: 50%;
+    margin: 5px;
+
+}
