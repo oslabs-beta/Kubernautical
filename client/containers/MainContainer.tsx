@@ -1,17 +1,19 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import {FC} from 'react'
+import { FC } from 'react'
 import MainDashBoard from "./MainDashBoard"
+import { Mapothy } from '../components/2D/Mapothy'
 
 
-const MainContainer: FC = () =>{
+const MainContainer: FC = () => {
 
   return (
     <>
-     <Routes>
-      <Route index element={<MainDashBoard />}/>
-      <Route path="/dashboard" element={<MainDashBoard />}/>
-     </Routes>
+      <Routes>
+        <Route index element={<Mapothy />} />
+        <Route path="/dashboard" element={<MainDashBoard />} />
+        <Route path="/" element={<Mapothy />} />
+      </Routes>
     </>
   )
 }

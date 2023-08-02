@@ -1,7 +1,7 @@
 
 import type { Request, Response, NextFunction } from 'express';
 // import { promController } from '../../types';
-import type { prometheusController } from '../../types';
+import type { prometheusController } from '../../types/types';
 
 
 
