@@ -10,5 +10,8 @@ router.get('/pods', clusterController.getAllPods, (req: Request, res: Response, 
 router.get('/nodes', clusterController.getAllNodes, (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json(res.locals.nodes);
 });
+router.get('/namespaces', clusterController.getAllNamespaces, (req: Request, res: Response, next: NextFunction) => {
+    res.status(200).json(res.locals.namespaces);
+});
 
 export default router;

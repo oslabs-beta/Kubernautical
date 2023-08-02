@@ -11,7 +11,7 @@ export interface clusterController {
     // getPodsByNode: (req: Request, res: Response, next: NextFunction) => Promise<void>
     getAllNodes: RequestHandler
     
-    getAllNameSpaces: RequestHandler
+    getAllNamespaces: RequestHandler
 }
 export interface prometheusController {
     // getMetrics: (req: Request, res: Response, next: NextFunction) => Promise<void>
@@ -21,3 +21,4 @@ export interface mapController {
     // getMetrics: (req: Request, res: Response, next: NextFunction) => Promise<void>
     getElements: RequestHandler
 }
+
