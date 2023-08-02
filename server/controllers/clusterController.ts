@@ -18,30 +18,91 @@ console.log('PATH');
 console.log(KUBE_FILE_PATH);
 console.log(k8sApi);
 
+// interface Node  {
+//     name: string;
+//     namespace: string;
+//     uid: string;
+//     creationTimeStamp?: any;
+//     labels: any;
+//     configSource: any;
+//     providerID: string;
+//     status: any;
+//   };
+
+
+// interface Pod {
+//     name: string;
+//     namespace: string;
+//     uid: string;
+//     creationTimestamp: any;
+//     labels: any;
+//     containersInfo: any;
+//     nodeName: string;
+//     serviceAccount: any;
+//     containerStatuses: any;
+//     hostIP: string;
+//     podIP: string;
+//     startTime: any;
+// }
 const clusterController: clusterController = {
 
-    getPodsByNode: async (req : Request, res : Response, next : NextFunction) => {
+    getAllPods: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const testName = 'gke-kubertest-default-pool-dde0ca96-0w9t';
-            const result = await k8sApi.listPodForAllNamespaces(undefined, undefined, `spec.nodeName=${testName}`);
-            res.locals.list = result;
+            const result = await k8sApi.listPodForAllNamespaces();
+            console.log(result);
+            const pods = result.body.items.map((data) => {
+                const { name, namespace, uid, creationTimestamp, labels } = data.metadata || {};
+                const { containers, nodeName, serviceAccount } = data.spec || {};
+                const { containerStatuses, hostIP, podIP, startTime } = data.status || {};
+                const containersInfo = containers ? containers.map((container) => ({
+                    image: container.image,
+                    name: container.name,
+                })) : {};
+                const response = {
+                    name,
+                    namespace,
+                    uid,
+                    creationTimestamp,
+                    labels,
+                    containersInfo,
+                    nodeName,
+                    serviceAccount,
+                    containerStatuses,
+                    hostIP,
+                    podIP,
+                    startTime,
+                };
+                return response;
+            });
+            res.locals.list = pods;
             return next();
         } catch (error) {
             return next(error);
         }
     },
-    getNodesByNamespace: async (req : Request, res : Response, next : NextFunction) => {
+    getAllNodes: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            //result.body.items[i].spec
-            //nodeName, containers
-            //result.body.items[i].metadata
-            //name (podname), uid (pod uid)
-            //result.body.items[i].status
-            //hostIP, phase, podIP
+            const result = await k8sApi.listNode();
+            console.log(result);
+            const nodes = result.body.items.map((el) => {
+                const { name, namespace, uid, labels } = el.metadata || {};
+                const creationTimeStamp: any = el.metadata ? el.metadata.creationTimestamp : {};
+                const { configSource, providerID } = el.spec || {};
+                const { status } = el;
+                const response = {
+                    name,
+                    namespace,
+                    uid,
+                    creationTimeStamp,
+                    labels,
+                    configSource,
+                    providerID,
+                    status,
+                };
+                return response;
+            });
 
-            const testName = 'gke-kubertest-default-pool-dde0ca96-0w9t';
-            const result = await k8sApi.listPodForAllNamespaces(undefined, undefined, `spec.nodeName=${testName}`);
-            res.locals.list = result.body.items;
+            res.locals.list = nodes;
             return next();
         } catch (error) {
             return next(error);

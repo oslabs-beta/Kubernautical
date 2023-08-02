@@ -6,9 +6,9 @@ export interface ServerError {
 }
 export interface clusterController {
     // getNodesByNamespace: (req: Request, res: Response, next: NextFunction) => Promise<void>
-    getNodesByNamespace: RequestHandler
+    getAllPods: RequestHandler
     // getPodsByNode: (req: Request, res: Response, next: NextFunction) => Promise<void>
-    getPodsByNode: RequestHandler
+    getAllNodes: RequestHandler
 }
 export interface prometheusController {
     // getMetrics: (req: Request, res: Response, next: NextFunction) => Promise<void>
