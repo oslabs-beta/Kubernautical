@@ -17,3 +17,5 @@ dist/
 
 #GKE folder
 gke-setup
+
+kubeconfig.yaml
