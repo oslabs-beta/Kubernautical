@@ -49,7 +49,6 @@ const clusterController: clusterController = {
     getAllPods: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await k8sApi.listPodForAllNamespaces();
-            console.log(result);
             const pods = result.body.items.map((data) => {
                 const { name, namespace, uid, creationTimestamp, labels } = data.metadata || {};
                 const { containers, nodeName, serviceAccount } = data.spec || {};
