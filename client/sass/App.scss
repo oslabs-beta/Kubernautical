@@ -1,0 +1,15 @@
+//imports
+@import '_navBar';
+@import '_mainContainer';
+
+
+body {
+    background-color: rgb(72, 71, 71);
+}
+
+.App {
+    display: flex;
+    height: 95vh;
+    // flex-direction: row;
+    border: 2px solid magenta;
+}
