@@ -127,11 +127,3 @@ const clusterController: clusterController = {
 }
 
 export default clusterController;
-
-
-
-//declare two empty arrays
-//for each data[0].values = []
-    //el ---> [0,1]
-        //arr1.push(el[0])
-        //arr2.push(el[1])
