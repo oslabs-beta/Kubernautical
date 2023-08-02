@@ -14,9 +14,9 @@ kc.loadFromFile(KUBE_FILE_PATH);
 
 // make api client
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
-console.log('PATH');
-console.log(KUBE_FILE_PATH);
-console.log(k8sApi);
+// console.log('PATH');
+// console.log(KUBE_FILE_PATH);
+// console.log(k8sApi);
 
 // interface Node  {
 //     name: string;
@@ -106,7 +106,24 @@ const clusterController: clusterController = {
         } catch (error) {
             return next(error);
         }
+    },
+    getAllNameSpaces: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const result = await k8sApi.listNamespace();
+            const namespaces = result.body.items
+
+        } catch (error) {
+            return next(error);
+        }
     }
 }
 
 export default clusterController;
+
+
+
+//declare two empty arrays
+//for each data[0].values = []
+    //el ---> [0,1]
+        //arr1.push(el[0])
+        //arr2.push(el[1])
