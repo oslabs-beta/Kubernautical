@@ -1,7 +1,7 @@
 import * as k8s from '@kubernetes/client-node';
 import os from 'os';
 import type { Request, Response, NextFunction } from 'express';
-import type { mapController } from '../../types';
+import type { mapController } from '../../types/types';
 
 
 //modularize later perhaps 
@@ -54,13 +54,11 @@ const mapController: mapController = {
           namespaces: res.locals.namespaces,
       };
       res.locals.elements = elements;
-      console.log('els', res.locals.elements)
-      console.log('out of mappy')
-        
-        return next();
-      } catch (err) {
-        
-      }
+      // console.log('els', res.locals.elements)
+      // console.log('out of mappy')
+      return next();
+    } catch (err) {
+      return next(err);
     }
 
 };

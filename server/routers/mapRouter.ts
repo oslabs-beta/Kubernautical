@@ -2,7 +2,6 @@ import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import mapController from '../controllers/mapController';
 import clusterController from '../controllers/clusterController';
-import cluster from 'cluster';
 const router = express.Router();
 
 

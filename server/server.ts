@@ -1,6 +1,6 @@
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
-import type { ServerError } from '../types';
+import type { ServerError } from '../types/types';
 import path from 'path';
 import apiRouter from './routers/apiRouter';
 
