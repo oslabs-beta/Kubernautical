@@ -36,3 +36,4 @@ declare module "react-graph-vis" {
       render();
     }
   }
+

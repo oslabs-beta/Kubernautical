@@ -36,7 +36,7 @@ export interface ClusterNode {
   // labels?: any;
   // matchLabels?: any;
   image?: any;
-  // shape: string;
+  shape?: string;
 }
 export interface ClusterEdge {
   from: string;
