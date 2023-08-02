@@ -36,6 +36,9 @@ const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 // };
 
 
+//Nodes saved under res.locals.nodes
+//Pods saved under res.locals.pods
+
 const mapController: mapController = {
   
 
