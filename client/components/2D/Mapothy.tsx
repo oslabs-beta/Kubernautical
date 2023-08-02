@@ -1,21 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
-import CytoscapeComponent from 'react-cytoscapejs';
-
+// import CytoscapeComponent from 'react-cytoscapejs';
+import Graph from 'react-graph-vis';
 
 
 
 export const Mapothy = () => {
 
+
+    // configure graph comp behavior/appearance
+    const options = { };
+
+    //nodes, namespaces, pod, services, deployments
+
     return (
-        // <CytoscapeComponent
-        //     elements={elements}
-        //     stylesheet={styleSheet}
-        //     style={{
-        //         width: '100%',
-        //         height: '65rem',
-        //         border: 'solid',
-        //         objectFit: 'cover',
-        //     }}
-        // ></CytoscapeComponent>
+        <div></div>
+    //     <Graph
+    //   graph={graph}
+    //   options={options}
+    //   events={events}
+    //   getNetwork={network => {
+    //     //  if you want access to vis.js network api you can set the state in a parent component using this property
+    //   }}
+    // />
     )
 }
