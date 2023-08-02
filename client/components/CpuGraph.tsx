@@ -8,6 +8,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const defaultArr: Number[] = []; //typescript set up for UseState
 
+//helper function for time
+
 export default function CpuGraph() {
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(defaultArr);

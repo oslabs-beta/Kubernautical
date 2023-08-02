@@ -73,7 +73,7 @@ const clusterController: clusterController = {
                 };
                 return response;
             });
-            res.locals.list = pods;
+            res.locals.pods = pods;
             return next();
         } catch (error) {
             return next(error);
@@ -101,7 +101,7 @@ const clusterController: clusterController = {
                 return response;
             });
 
-            res.locals.list = nodes;
+            res.locals.nodes = nodes;
             return next();
         } catch (error) {
             return next(error);
