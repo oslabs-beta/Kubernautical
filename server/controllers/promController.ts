@@ -11,8 +11,11 @@ const promController = {
     getMetrics: async (req: Request, res: Response, next: NextFunction) => {
         const { type } = req.query;
         let url = '';
-        if (type === 'cpu') url = 'http://localhost:9090/api/v1/query?query=container_cpu_usage_seconds_total';
-        if (type === 'mem') url = 'http://localhost:9090/api/v1/query?query=container_memory_usage_bytes';
+
+        const start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
+        const end = new Date(Date.now()).toISOString();
+        if (type === 'cpu') url = `http://localhost:9090/api/v1/query_range?query=sum(rate(container_cpu_usage_seconds_total[10m]))*100&start=${start}&end=${end}&step=30m`;
+        if (type === 'mem') url = `http://localhost:9090/api/v1/query_range?query=sum(container_memory_usage_bytes)&start=${start}&end=${end}&step=30m`;
 
         try {
             const response = await fetch(url);
