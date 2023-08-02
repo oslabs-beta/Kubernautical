@@ -19,7 +19,7 @@ const promController: prometheusController = {
         try {
             const response = await fetch(url);
             const data = await response.json();
-
+            
             //figure out what we want
             res.locals.data = data.data.result;
 
