@@ -2,14 +2,11 @@ import React from 'react'
 import { useState, useEffect, FC } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import type { Props } from '../../types/types';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 
-type Props = {
-  type: string;
-  title: string;
-}
-const defaultArr: Number[] = []; //typescript set up for UseState
+const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
 
 const LineGraph: FC<Props> = ({ type, title }) => {
   const [data, setData] = useState(defaultArr);

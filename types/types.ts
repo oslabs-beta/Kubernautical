@@ -47,3 +47,8 @@ export interface clusterGraphData {
   nodes: ClusterNode[];
   edges: ClusterEdge[];
 }
+export type Props = {
+  type?: string;
+  title?: string;
+  header?: string;
+}

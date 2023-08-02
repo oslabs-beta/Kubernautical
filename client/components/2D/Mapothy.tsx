@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, FC } from 'react';
 // import CytoscapeComponent from 'react-cytoscapejs';
 import Graph from 'react-graph-vis';
 import { ClusterNode, ClusterEdge, clusterGraphData } from '../../../types/types';
 import nsImg from './assets/ns-icon.png';
 import podImg from './assets/pod-icon.png';
 // import nodeImg from './assets/node-icon.png';
+import type { Props } from '../../../types/types';
 
 const options = {
     layout: {
@@ -15,7 +16,8 @@ const options = {
     },
     height: "500px"
 };
-export const Mapothy = () => {
+
+export const Mapothy: FC<Props> = ({ header })=>{
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
         edges: [],
@@ -91,14 +93,16 @@ export const Mapothy = () => {
     //name of entire cluster id = 0
 
     return (
-        <Graph
+        <div>
+            <div className='mainHeader'>{header}</div>
+            <Graph
             graph={graph}
             options={options}
             events={events}
             getNetwork={network => {
                 //  if you want access to vis.js network api you can set the state in a parent component using this property
-            }}
-        />
+            }}/>
+        </div>
     );
 
 }
