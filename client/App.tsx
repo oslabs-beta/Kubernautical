@@ -1,11 +1,12 @@
 import React from 'react';
 import './style.css';
-import CpuGraph from './components/CpuGraph'
+import MainContainer from './containers/MainContainer'
+import Navbar from './containers/Navbar'
 const App = () => {
   return (
     <div>
-        testing
-        <CpuGraph></CpuGraph>
+        <Navbar/>
+        <MainContainer/>
     </div>
   );
 };
