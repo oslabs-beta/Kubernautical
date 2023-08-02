@@ -1,14 +1,12 @@
 import React from 'react';
 import './style.css';
-import CpuGraph from './components/CpuGraph'
-import { Mapothy } from './components/2D/Mapothy';
-
+import MainContainer from './containers/MainContainer';
+import Navbar from './containers/Navbar';
 const App = () => {
   return (
     <div>
-        testing
-        {/* <CpuGraph></CpuGraph> */}
-        <Mapothy />
+        <Navbar/>
+        <MainContainer/>
     </div>
   );
 };

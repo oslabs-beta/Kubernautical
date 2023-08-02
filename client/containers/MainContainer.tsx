@@ -1,16 +1,19 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import {FC} from 'react'
+import MainDashBoard from "./MainDashBoard"
 
-export default function MainContainer(){
+
+const MainContainer: FC = () =>{
+
   return (
     <>
-    {/* <BrowserRouter>
      <Routes>
-      <Route index element/>
-      <Route  element/>
+      <Route index element={<MainDashBoard />}/>
+      <Route path="/dashboard" element={<MainDashBoard />}/>
      </Routes>
-    </BrowserRouter> */}
-    <div>Sup bitches </div>
     </>
   )
 }
+
+export default MainContainer
