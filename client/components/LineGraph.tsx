@@ -8,13 +8,14 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
 const stringArr: String[] = []
-const LineGraph: FC<Props> = ({ type, title, yAxisTitle,color,hour }) => {
+const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
-  console.log(type, title, yAxisTitle,color,hour)
+  const [hourSelection, setHourSelection] = useState('24')
+
   const getData = async () => {
     try {
-      const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hour}`, {
+      const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hourSelection}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -30,13 +31,13 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle,color,hour }) => {
 
       //convert bytes into gigabytes if asking for mem
       const gigaBytes: Number[] = []
-      if (type === 'mem'){
-        specificData.forEach((el:any)=>{
-          const newEl = el / 1073741824 
+      if (type === 'mem') {
+        specificData.forEach((el: any) => {
+          const newEl = el / 1073741824
           gigaBytes.push(newEl)
           setData(gigaBytes)
         })
-      }else{
+      } else {
         setData(specificData)
       }
       //set Unix time to Hours and Minutes
@@ -51,9 +52,11 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle,color,hour }) => {
       console.log('Error fetching data:', error);
     }
   }
+  
+  //TODO add needed watchers to useEffect
   useEffect(() => {
     getData();
-  }, []);
+  }, [hourSelection]);
 
   const dataSet = { // Data for tables
     labels: label, //set data for y Axis
@@ -61,14 +64,14 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle,color,hour }) => {
       label: title,
       data: data, // set data for x Axis
       fill: true,
-      backgroundColor:color,
+      backgroundColor: color,
       borderColor: color,
-      pointBorderColor:color,
+      pointBorderColor: color,
       tension: .5,
-      pointBorderWidth:1,
-      pointHoverRadius:4,
-      pointRadius:1,
-      borderWidth:1.5,
+      pointBorderWidth: 1,
+      pointHoverRadius: 4,
+      pointRadius: 1,
+      borderWidth: 1.5,
     }]
   };
   const options: ChartOptions<'line'> = {
@@ -76,30 +79,30 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle,color,hour }) => {
       tension: {
         duration: 1000,
         easing: 'linear',
-        from: .1,
+        from: 0.1,
         to: 0,
         loop: true
       }
     },
-    plugins:{
+    plugins: {
       legend: {
-        display:true
+        display: true
       }
     },
-    responsive:true,
-    scales:{
-      y:{
-        display:true,
-        title:{
-          display:true,
-          text:yAxisTitle
+    responsive: true,
+    scales: {
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: yAxisTitle
         }
       },
-      x:{
-        display:true,
-        title:{
-          display:true,
-          text: 'Time(24hrs)'
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: `Time(${hourSelection}hrs)`
         }
       }
     }
@@ -107,6 +110,14 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle,color,hour }) => {
 
   return (
     <div className='lineGraph'>
+      <div>
+        <select value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
+          <option value='1'>1 hour</option>
+          <option value='6'>6 hours</option>
+          <option value='12'>12 hours</option>
+          <option value='24'>24 hours</option>
+        </select>
+      </div>
       <Line data={dataSet} options={options} />
     </div>
   )
