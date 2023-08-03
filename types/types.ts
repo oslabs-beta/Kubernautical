@@ -59,4 +59,7 @@ export type Props = {
   type?: string;
   title?: string;
   header?: string;
+  yAxisTitle?:string;
+  color?:string;
+  hour?:string;
 }
