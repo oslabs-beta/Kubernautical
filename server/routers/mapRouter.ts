@@ -9,6 +9,8 @@ router.get('/elements',
     clusterController.getAllPods,
     clusterController.getAllNodes, 
     clusterController.getAllNamespaces,
+    clusterController.getAllDeployments,
+    clusterController.getAllServices,
     mapController.getElements, 
     (req: Request, res: Response, next: NextFunction) => {
         res.status(200).json(res.locals.elements); //fix to send elements back
