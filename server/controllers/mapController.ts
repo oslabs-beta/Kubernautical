@@ -6,24 +6,19 @@ const mapController: mapController = {
 
   getElements: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // console.log('in mappy')
-      // console.log('nodes', res.locals.nodes)
-      // console.log('pods', res.locals.pods)
-      // console.log('namespaces', res.locals.namespaces)
       const elements = {
         nodes: res.locals.nodes,
         pods: res.locals.pods,
         namespaces: res.locals.namespaces,
+        deployments: res.locals.deployments,
+        services: res.locals.services
       };
       res.locals.elements = elements;
-      // console.log('els', res.locals.elements)
-      // console.log('out of mappy')
       return next();
     } catch (err) {
       return next(err);
     }
   }
-
 };
 
 export default mapController;

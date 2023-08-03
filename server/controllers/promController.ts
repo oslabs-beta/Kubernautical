@@ -31,7 +31,7 @@ const promController: prometheusController = {
             //number of cores used * 100/2.82 (cores used * 35.46)
         //how to find available cores dynamically ---- Steves next task
 
-        //!<-------------------------------------------------------QUERIES FOR ENTIRE CLUSTER---------------------------------------------------------------->
+        //TODO<-------------------------------------------------------QUERIES FOR ENTIRE CLUSTER---------------------------------------------------------------->
         if (type === 'cpu') url = `http://localhost:9090/api/v1/query_range?query=sum(rate(container_cpu_usage_seconds_total{container!=""}[5m]))*35.46&start=${start}&end=${end}&step=30m`;
         if (type === 'mem') url = `http://localhost:9090/api/v1/query_range?query=sum(container_memory_usage_bytes{container!=""})&start=${start}&end=${end}&step=30m`;
 

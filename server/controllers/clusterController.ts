@@ -6,18 +6,16 @@ import type { clusterController } from '../../types/types';
 
 // declare kube file path
 const KUBE_FILE_PATH = `${os.homedir()}/.kube/config`;
-
 // create new kubeconfig class
 const kc = new k8s.KubeConfig();
 
 // load from kube config file
 kc.loadFromFile(KUBE_FILE_PATH);
 
-// make api client
-const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
-// console.log('PATH');
-// console.log(KUBE_FILE_PATH);
-// console.log(k8sApi);
+// make apis needed to intereact with client
+const k8sApi = kc.makeApiClient(k8s.CoreV1Api);  //used for nodes, pods, namespaces
+const k8sApi2 = kc.makeApiClient(k8s.AppsV1Api); //used for deployments and services
+// const k8sApi3 = kc.makeApiClient(k8s.NetworkingV1Api);  //used for ingress
 
 // interface Node  {
 //     name: string;
@@ -29,8 +27,6 @@ const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 //     providerID: string;
 //     status: any;
 //   };
-
-
 // interface Pod {
 //     name: string;
 //     namespace: string;
@@ -58,7 +54,7 @@ const clusterController: clusterController = {
                     image: container.image,
                     name: container.name,
                 })) : {};
-                const response = {
+                return {
                     name,
                     namespace,
                     uid,
@@ -71,7 +67,6 @@ const clusterController: clusterController = {
                     podIP,
                     startTime,
                 };
-                return response;
             });
             res.locals.pods = pods;
             return next();
@@ -86,7 +81,7 @@ const clusterController: clusterController = {
             const nodes = result.body.items.map((el) => {
                 const { name, uid, labels } = el.metadata || {};
                 const { allocatable, capacity, conditions, nodeInfo } = el.status || {};
-                const response = {
+                return {
                     name,
                     labels,
                     uid,
@@ -95,7 +90,6 @@ const clusterController: clusterController = {
                     conditions,
                     nodeInfo
                 };
-                return response;
             });
 
             res.locals.nodes = nodes;
@@ -110,9 +104,10 @@ const clusterController: clusterController = {
             const result = await k8sApi.listNamespace();
             const namespaces = result.body.items
                 .map((namespace) => {
-                    // console.log('creationTimeStamp',creationTimestamp);
+                    const name = namespace.metadata?.name;
+                    if (name?.slice(0, 4) === 'kube' || name?.slice(0, 7) === 'default') return; //this will return null if kube or default ns is found
                     return {
-                        name: namespace.metadata?.name,
+                        name: name,
                         uid: namespace.metadata?.uid
                     }
                 })
@@ -123,7 +118,50 @@ const clusterController: clusterController = {
         } catch (error) {
             return next(error);
         }
-    }
+    },
+    getAllServices: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            // console.log('in services controller')
+            const result = await k8sApi.listServiceForAllNamespaces();
+            const services = result.body.items
+                .map((service) => {
+                    const { name, uid, namespace } = service.metadata || {};
+                    //TODO pull more data as needed here
+                    return {
+                        name,
+                        uid,
+                        namespace
+                    }
+                })
+            res.locals.services = services;
+            // console.log('out of services controller')
+            return next();
+        } catch (error) {
+            return next(error);
+        }
+    },
+    getAllDeployments: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            // console.log('in deployments controller')
+            const result = await k8sApi2.listDeploymentForAllNamespaces();
+            const deployments = result.body.items
+                .map((deployment) => {
+                    const { name, uid, namespace } = deployment.metadata || {};
+                    //TODO pull more data as needed here
+                    return {
+                        name,
+                        uid,
+                        namespace
+                    }
+                })
+            res.locals.deployments = deployments;
+            // console.log('out of deployments controller')
+            return next();
+        } catch (error) {
+            return next(error);
+        }
+    },
+
 }
 
 export default clusterController;

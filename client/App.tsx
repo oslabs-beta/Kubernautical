@@ -5,8 +5,8 @@ import Navbar from './containers/Navbar';
 const App = () => {
   return (
     <div className='App'>
-        <Navbar/>
-        <MainContainer/>
+      <Navbar />
+      <MainContainer />
     </div>
   );
 };
