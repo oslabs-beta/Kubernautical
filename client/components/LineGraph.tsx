@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect, FC } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import type { Props } from '../../types/types';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -8,13 +8,13 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
 const stringArr: String[] = []
-const LineGraph: FC<Props> = ({ type, title }) => {
+const LineGraph: FC<Props> = ({ type, title, yAxisTitle,color,hour }) => {
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
-
+  console.log(type, title, yAxisTitle,color,hour)
   const getData = async () => {
     try {
-      const response = await fetch(`/api/prom/metrics?type=${type}`, {
+      const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hour}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const LineGraph: FC<Props> = ({ type, title }) => {
       }else{
         setData(specificData)
       }
-      //set time
+      //set Unix time to Hours and Minutes
       const timeLabels: String[] = [];
       time.forEach((el: any) => {
         const date: Date = new Date(1000 * el); // Convert seconds to milliseconds for Date Function
@@ -60,17 +60,54 @@ const LineGraph: FC<Props> = ({ type, title }) => {
     datasets: [{
       label: title,
       data: data, // set data for x Axis
-      fill: false,
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1,
-      yAxisType: 'Cpu Usage Pecent',
-      xAxisType: 'Time'
+      fill: true,
+      backgroundColor:color,
+      borderColor: color,
+      pointBorderColor:color,
+      tension: .5,
+      pointBorderWidth:1,
+      pointHoverRadius:4,
+      pointRadius:1,
+      borderWidth:1.5,
     }]
   };
+  const options: ChartOptions<'line'> = {
+    animations: {
+      tension: {
+        duration: 1000,
+        easing: 'linear',
+        from: .1,
+        to: 0,
+        loop: true
+      }
+    },
+    plugins:{
+      legend: {
+        display:true
+      }
+    },
+    responsive:true,
+    scales:{
+      y:{
+        display:true,
+        title:{
+          display:true,
+          text:yAxisTitle
+        }
+      },
+      x:{
+        display:true,
+        title:{
+          display:true,
+          text: 'Time(24hrs)'
+        }
+      }
+    }
+  }
 
   return (
     <div className='lineGraph'>
-      <Line data={dataSet} />
+      <Line data={dataSet} options={options} />
     </div>
   )
 
