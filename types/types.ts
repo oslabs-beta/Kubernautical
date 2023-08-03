@@ -5,6 +5,7 @@ import type { Request, Response, NextFunction, RequestHandler } from 'express';
 export interface ServerError {
   err: '400'
 }
+
 export interface clusterController {
   // getNodesByNamespace: (req: Request, res: Response, next: NextFunction) => Promise<void>
   getAllPods: RequestHandler
@@ -13,10 +14,14 @@ export interface clusterController {
 
   getAllNamespaces: RequestHandler
 }
+
 export interface prometheusController {
   // getMetrics: (req: Request, res: Response, next: NextFunction) => Promise<void>
   getMetrics: RequestHandler
+  
+  getCores: RequestHandler
 }
+
 export interface mapController {
   // getMetrics: (req: Request, res: Response, next: NextFunction) => Promise<void>
   getElements: RequestHandler
