@@ -5,17 +5,27 @@ import type { Props } from '../../types/types';
 
 const MainDashBoard: FC<Props> = ({ header }) => {
   return (
+
+
+
     <>
       <div className='mainHeader'>{header}</div>
-      <LineGraph
-        title="CPU Usage"
-        type="cpu"
-      />
-      <LineGraph
-        title="Memory Usage"
-        type="mem"
-      />
+
+      <div className='miniContainer'>
+
+        <LineGraph
+          title="CPU Usage"
+          type="cpu" />
+        <LineGraph
+          title="Memory Usage"
+          type="mem" />
+
+      </div>
     </>
+
+
+
+
   )
 }
 
