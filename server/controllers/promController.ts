@@ -63,6 +63,24 @@ const promController: prometheusController = {
         } catch (error) {
             return next(error);
         }
+    },
+    // might need to change, unsure of number 
+    // need to work on still
+    getMem: async (req: Request, res: Response, next: NextFunction) => {
+
+        try {
+            // resource => memory, cpu 
+            const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="memory"})`);
+            const data = await response.json();
+
+            // console.log('data:', data.data.result[0].value[1]);
+            // const cores = data.data.result[0].value[1]
+            // res.locals.cores = cores
+            // console.log('res.locals.cores:', res.locals.cores);
+            return next();
+        } catch (error) {
+            return next(error);
+        }
     }
 
 };
