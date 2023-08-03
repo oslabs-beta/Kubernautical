@@ -9,4 +9,8 @@ router.get('/metrics', promController.getMetrics, (req: Request, res: Response, 
 res.status(200).json(res.locals.data);
 });
 
+router.get('/cores', promController.getCores, (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).json(res.locals.cores);
+  });
+
 export default router;
