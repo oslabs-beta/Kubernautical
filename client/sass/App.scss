@@ -1,6 +1,7 @@
 //imports
 @import '_navBar';
 @import '_mainContainer';
+@import '_graph';
 
 
 body {
@@ -10,6 +11,4 @@ body {
 .App {
     display: flex;
     height: 95vh;
-    // flex-direction: row;
-    border: 2px solid magenta;
 }

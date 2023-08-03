@@ -7,11 +7,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
-
+const stringArr: String[] = []
 const LineGraph: FC<Props> = ({ type, title }) => {
   const [data, setData] = useState(defaultArr);
-  const [label, setLabel] = useState(defaultArr);
-  const [finalData, setFinalData] = useState(defaultArr)
+  const [label, setLabel] = useState(stringArr);
 
   const getData = async () => {
     try {
@@ -28,8 +27,26 @@ const LineGraph: FC<Props> = ({ type, title }) => {
         time.push(el[0]);
         specificData.push(Number(el[1]));
       })
-      setLabel(time);
-      setData(specificData);
+
+      //convert bytes into gigabytes if asking for mem
+      const gigaBytes: Number[] = []
+      if (type === 'mem'){
+        specificData.forEach((el:any)=>{
+          const newEl = el / 1073741824 
+          gigaBytes.push(newEl)
+          setData(gigaBytes)
+        })
+      }else{
+        setData(specificData)
+      }
+      //set time
+      const timeLabels: String[] = [];
+      time.forEach((el: any) => {
+        const date: Date = new Date(1000 * el); // Convert seconds to milliseconds for Date Function
+        const formattedTime = `${date.getHours()}:${date.getMinutes()}`;
+        timeLabels.push(formattedTime);
+        setLabel(timeLabels);
+      });
     } catch (error) {
       console.log('Error fetching data:', error);
     }
@@ -37,35 +54,12 @@ const LineGraph: FC<Props> = ({ type, title }) => {
   useEffect(() => {
     getData();
   }, []);
-  //convert bytes into Gigabytes
-  const gigaBytes: number[] = []
-  data.forEach((el: any) => {
-    const newEl = el / 1073741824 //converts bytes into Gigabytes
-    gigaBytes.push(newEl)
-  })
-
-  // make strings readable time
-  const timeLabels: string[] = [];
-  label.forEach((el: any) => {
-    const date: Date = new Date(1000 * el); // Convert seconds to milliseconds for Date Function
-    const formattedTime = `${date.getHours()}:${date.getMinutes()}`;
-    timeLabels.push(formattedTime);
-  });
-
-  //check what data you're passing
-    //boo terrible
-      //only need one useEffect
-        //check type before you do everything pls god 
-  useEffect(() => {
-    if (type === 'mem') { setFinalData(gigaBytes) }
-    if (type === 'cpu') { setFinalData(data) }
-  }, [data]);
 
   const dataSet = { // Data for tables
-    labels: timeLabels, //set data for y Axis
+    labels: label, //set data for y Axis
     datasets: [{
       label: title,
-      data: finalData, // set data for x Axis
+      data: data, // set data for x Axis
       fill: false,
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
