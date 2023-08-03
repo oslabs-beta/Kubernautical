@@ -14,10 +14,23 @@ const options = {
     edges: {
         color: "#000000"
     },
-    height: "500px"
+    interaction: {
+        hover: true,
+    },
+    autoResize: true,
+    physics: {
+        barnesHut: {
+            gravitationalConstant: -1000,
+            centralGravity: 0,
+            springLength: 150,
+            springConstant: 0.003,
+            damping: 0.09,
+            avoidOverlap: 0.2,
+        },
+    }
 };
 
-export const Mapothy: FC<Props> = ({ header })=>{
+export const Mapothy: FC<Props> = ({ header }) => {
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
         edges: [],
@@ -93,16 +106,18 @@ export const Mapothy: FC<Props> = ({ header })=>{
     //name of entire cluster id = 0
 
     return (
-        <div>
+        <>
             <div className='mainHeader'>{header}</div>
-            <Graph
-            graph={graph}
-            options={options}
-            events={events}
-            getNetwork={network => {
-                //  if you want access to vis.js network api you can set the state in a parent component using this property
-            }}/>
-        </div>
+            <div className='miniContainer'>
+                <Graph
+                    graph={graph}
+                    options={options}
+                    events={events}
+                    getNetwork={network => {
+                        //  if you want access to vis.js network api you can set the state in a parent component using this property
+                    }} />
+            </div>
+        </>
     );
 
 }

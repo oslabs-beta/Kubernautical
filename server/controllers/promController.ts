@@ -34,7 +34,6 @@ const promController: prometheusController = {
         //!<-------------------------------------------------------QUERIES FOR ENTIRE CLUSTER---------------------------------------------------------------->
         if (type === 'cpu') url = `http://localhost:9090/api/v1/query_range?query=sum(rate(container_cpu_usage_seconds_total{container!=""}[5m]))*35.46&start=${start}&end=${end}&step=30m`;
         if (type === 'mem') url = `http://localhost:9090/api/v1/query_range?query=sum(container_memory_usage_bytes{container!=""})&start=${start}&end=${end}&step=30m`;
-        // if (type === 'mem') url = `http://localhost:9090/api/v1/query_range?query=container_memory_usage_bytes&start=${start}&end=${end}&step=30m`;
 
         try {
             const response = await fetch(url);
