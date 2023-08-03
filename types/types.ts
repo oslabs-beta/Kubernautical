@@ -1,5 +1,7 @@
 import type { V1Container, V1ContainerImage, V1PodIP } from '@kubernetes/client-node';
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
+import { ReactElement } from 'react';
+import { JsxElement } from 'typescript';
 
 
 export interface ServerError {
@@ -7,12 +9,11 @@ export interface ServerError {
 }
 
 export interface clusterController {
-  // getNodesByNamespace: (req: Request, res: Response, next: NextFunction) => Promise<void>
   getAllPods: RequestHandler
-  // getPodsByNode: (req: Request, res: Response, next: NextFunction) => Promise<void>
   getAllNodes: RequestHandler
-
   getAllNamespaces: RequestHandler
+  getAllServices: RequestHandler
+  getAllDeployments: RequestHandler
 }
 
 export interface prometheusController {
@@ -33,7 +34,7 @@ export interface mapController {
 export interface ClusterNode {
   // kind: string;
   id: string;
-  title: string;
+  title?: string;
   label?: string | undefined;
   // size: number;
   // font: {
@@ -48,7 +49,7 @@ export interface ClusterNode {
 export interface ClusterEdge {
   from: string;
   to: string;
-  // length: number;
+  length?: number;
 }
 export interface clusterGraphData {
   nodes: ClusterNode[];
@@ -58,4 +59,7 @@ export type Props = {
   type?: string;
   title?: string;
   header?: string;
+  yAxisTitle?:string;
+  color?:string;
+  hour?:string;
 }
