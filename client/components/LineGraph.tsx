@@ -53,6 +53,9 @@ const LineGraph: FC<Props> = ({ type, title }) => {
   });
 
   //check what data you're passing
+    //boo terrible
+      //only need one useEffect
+        //check type before you do everything pls god 
   useEffect(() => {
     if (type === 'mem') { setFinalData(gigaBytes) }
     if (type === 'cpu') { setFinalData(data) }
