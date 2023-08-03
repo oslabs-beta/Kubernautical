@@ -51,7 +51,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
             const clusterData = await result.json();
             const { nodes, pods, namespaces, deployments, services } = clusterData;
             nodesArr.push({ id: '0', label: "Kussy", title: "im so confused" });
-
             //!-----------------------Node Search (Depracated)----------------------------------------->
             // controlPlaneId = `${node.name}-node`;
             // nodes.forEach((node: any) => { //fix typing this is lazy
@@ -80,7 +79,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
             //     ) as unknown as string;
             // }
             //?----------------------------------Helper Function for Modals---------------------------->
-
             namespaces.forEach((ns: any) => { //fix types pls i beg
                 if (ns === null) return;
                 const { name, uid } = ns;
