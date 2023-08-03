@@ -18,8 +18,10 @@ export interface clusterController {
 export interface prometheusController {
   // getMetrics: (req: Request, res: Response, next: NextFunction) => Promise<void>
   getMetrics: RequestHandler
-  
+
   getCores: RequestHandler
+
+  getMem: RequestHandler
 }
 
 export interface mapController {
