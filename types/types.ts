@@ -7,7 +7,6 @@ import { JsxElement } from 'typescript';
 export interface ServerError {
   err: '400'
 }
-
 export interface clusterController {
   getAllPods: RequestHandler
   getAllNodes: RequestHandler
