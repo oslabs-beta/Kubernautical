@@ -1,17 +1,22 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
 import Graph from 'react-graph-vis';
 import { ClusterNode, ClusterEdge, clusterGraphData, Props } from '../../../types/types';
+import { v4 as uuidv4 } from 'uuid';
 import nsImg from '../../assets/ns-icon.png';
 import podImg from '../../assets/pod-icon.png';
 import svcImg from '../../assets/svc-icon.png';
 import depImg from '../../assets/dep-icon.png';
 import logoImg from '../../assets/logo.png'
 
+
 const options = {
     //TODO look into layout options
     layout: {
+        // randomSeed: '0.07224874827053274:1691128352960',
+        // randomSeed: '0.13999053405779072:1691128555260'
+        randomSeed: '0.26923438127640864:1691128645444'
         // hierarchical: true,
-        improvedLayout: true
+        // improvedLayout: true
     },
     edges: {
         color: "#00FFFF"
@@ -79,6 +84,9 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 const header = document.createElement('div');
                 header.className = 'modalHeader';
                 header.innerText = `${type} Details`;
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'X';
+                deleteButton.addEventListener('click', () => console.log('deleted the johnson'))
                 div.appendChild(header);
                 div.appendChild(ul);
                 for (const key in obj) {
@@ -86,6 +94,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                     li.innerText = `${key}: ${obj[key]}`;
                     ul.appendChild(li);
                 }
+                div.appendChild(deleteButton);
                 return div as unknown as string;
             };
             //?----------------------------------Namespace Search------------------------------------->
@@ -169,28 +178,50 @@ export const Mapothy: FC<Props> = ({ header }) => {
     }
     useEffect(() => {
         getData();
-    }, [ns])
+    }, [ns]);
+
+    //TODO fix error so we dont have to ignore it // error is benign
+    useEffect(() => {
+        window.addEventListener('error', e => {
+            console.log(e.message);
+            if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
+                const resizeObserverErrDiv = document.getElementById(
+                    'webpack-dev-server-client-overlay-div'
+                );
+                const resizeObserverErr = document.getElementById(
+                    'webpack-dev-server-client-overlay'
+                );
+                if (resizeObserverErr) {
+                    resizeObserverErr.setAttribute('style', 'display: none');
+                }
+                if (resizeObserverErrDiv) {
+                    resizeObserverErrDiv.setAttribute('style', 'display: none');
+                }
+            }
+        });
+    }, [])
 
     //name of entire cluster id = 0
     return (
         <>
             <div className='mainHeader'>{header}</div>
             <div className='miniContainerMap'>
-                {/* <div>
-                    <select value={ns} onChange={(e) => setNs(e.target.value)}>
+                <div>
+                    <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
                         <option value='Cluster'>Cluster</option>
                         {nsArr ? nsArr.map((el) => {
                             return (
-                                <option value={el}>{el}</option>
+                                <option key={uuidv4()} value={el}>{el}</option>
                             )
                         }) : <div></div>}
                     </select>
-                </div> */}
+                </div>
                 <Graph
                     graph={graph}
                     options={options}
                     events={events}
                     getNetwork={(network) => {
+                        console.log(network.getSeed());
                         setTimeout(
                             () =>
                                 network.fit({
@@ -199,7 +230,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                                         easingFunction: 'easeOutQuad',
                                     },
                                 }),
-                            2000
+                            5000
                         );
                     }} />
             </div>

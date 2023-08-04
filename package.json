@@ -23,6 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@kubernetes/client-node": "^0.18.1",
+    "@types/uuid": "^9.0.2",
     "cookie-parser": "^1.4.6",
     "d3": "^7.8.5",
     "dotenv": "^16.3.1",
