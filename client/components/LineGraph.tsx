@@ -1,13 +1,13 @@
 import React from 'react'
 import { useState, useEffect, FC } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions,Filler  } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import type { Props } from '../../types/types';
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend,Filler);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
-const stringArr: String[] = []
+const stringArr: String[] = [];
 
 const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   const [data, setData] = useState(defaultArr);
@@ -15,6 +15,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   const [hourSelection, setHourSelection] = useState('24')
   const [nameSpaceSelection, setNameSpaceSelection] = useState('')
   const [nameSpaces, setNameSpaces] = useState(stringArr)
+
 
   const getNameSpaces = async () => {
     try {
@@ -35,9 +36,14 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
     } catch (error) {
       console.log('Error fetching NameSpaces:', error);
     }
-  }
+  };
 
   const getData = async () => {
+
+    const time: Number[] = [];
+    const specificData: Number[] = [];
+    const gigaBytes: Number[] = []
+
     try {
       const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hourSelection}&namespace=${nameSpaceSelection}`, {
         method: 'GET',
@@ -46,15 +52,12 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
         },
       });
       const data = await response.json();
-      const time: Number[] = [];
-      const specificData: Number[] = [];
       data[0].values.forEach((el: [number, string]) => {
         time.push(el[0]);
         specificData.push(Number(el[1]));
       })
 
       //convert bytes into gigabytes if asking for mem
-      const gigaBytes: Number[] = []
       if (type === 'mem') {
         specificData.forEach((el: any) => {
           const newEl = el / 1073741824
@@ -80,7 +83,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   //TODO add needed watchers to useEffect
   useEffect(() => {
     getData();
-    getNameSpaces()
+    getNameSpaces();
   }, [hourSelection]);
 
   const dataSet = { // Data for tables
@@ -132,13 +135,6 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
       }
     }
   }
-  nameSpaces.map((el) => {
-    return (
-      <option value="hello">{el}</option>
-    )
-  })
-
-  
   return (
     <div className='lineGraph'>
       <div>
@@ -148,8 +144,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
           <option value='12'>12 hours</option>
           <option value='24'>24 hours</option>
         </select>
-
-        <select value = {nameSpaceSelection} onChange = {(e) => setNameSpaceSelection(e.target.value)}>
+        <select value={nameSpaceSelection} onChange={(e) => setNameSpaceSelection(e.target.value)}>
           {nameSpaces.map((el) => {
             return (
               <option value={`${el}`}>{el}</option>
