@@ -23,20 +23,34 @@ const promController: prometheusController = {
         let step = 10;
         let query = 'http://localhost:9090/api/v1/query_range?query=';
 
-        const { type, hour } = req.query;
+        const { type, hour, namespace, pod } = req.query;
         const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
         step = Math.ceil((step / (24 / Number(hour))));
 
         //!<-------------------------------------------------------QUERIES FOR ENTIRE CLUSTER---------------------------------------------------------------->
-        // if (type === 'cpu') query = `sum(rate(container_cpu_usage_seconds_total{container!=""}[5m]))*35.46&start=${start}&end=${end}&step=30m`;
-        // if (type === 'mem') query = `sum(container_memory_usage_bytes{container!=""})&start=${start}&end=${end}&step=30m`;
+        let cpuQuery = '';
 
-        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!=""}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
+        if (type === 'cpu') {
+            console.log('in cpu')
+            cpuQuery = `sum(rate(container_cpu_usage_seconds_total{container!=""}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
+            if (namespace) cpuQuery = `sum(rate(container_cpu_usage_seconds_total{container="",namespace="${namespace}"}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
+
+           
+            console.log('cpuQuery', cpuQuery);
+        }
+
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!=""})&start=${start}&end=${end}&step=${step}m`;
 
+
+        // if (namespace) {
+        //     query = `sum(rate(container_cpu_usage_seconds_total{container="",namespace="${namespace}"}[5m]))`;
+        //     // const cpuRequestsQuery = `sum(kube_pod_container_resource_requests_cpu_cores{container="",namespace="${namespace}"})`;
+        // }
+        console.log('url:', query + cpuQuery);
+
         try {
-            const response = await fetch(query);
+            const response = await fetch(query + cpuQuery);
             const data = await response.json();
             res.locals.data = data.data.result;
             return next();
@@ -44,6 +58,9 @@ const promController: prometheusController = {
             return next(error);
         }
     },
+
+    
+
     getCores: async (req: Request, res: Response, next: NextFunction) => {
 
         try {
