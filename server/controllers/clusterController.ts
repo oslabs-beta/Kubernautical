@@ -17,30 +17,6 @@ const k8sApi = kc.makeApiClient(k8s.CoreV1Api);  //used for nodes, pods, namespa
 const k8sApi2 = kc.makeApiClient(k8s.AppsV1Api); //used for deployments and services
 // const k8sApi3 = kc.makeApiClient(k8s.NetworkingV1Api);  //used for ingress
 
-// interface Node  {
-//     name: string;
-//     namespace: string;
-//     uid: string;
-//     creationTimeStamp?: any;
-//     labels: any;
-//     configSource: any;
-//     providerID: string;
-//     status: any;
-//   };
-// interface Pod {
-//     name: string;
-//     namespace: string;
-//     uid: string;
-//     creationTimestamp: any;
-//     labels: any;
-//     containersInfo: any;
-//     nodeName: string;
-//     serviceAccount: any;
-//     containerStatuses: any;
-//     hostIP: string;
-//     podIP: string;
-//     startTime: any;
-// }
 const clusterController: clusterController = {
 
     getAllPods: async (req: Request, res: Response, next: NextFunction) => {
@@ -103,16 +79,17 @@ const clusterController: clusterController = {
             // console.log('in namesapce controller')
             const result = await k8sApi.listNamespace();
             const namespaces = result.body.items
-                .map((namespace) => {
+                .filter((namespace) => {
                     const name = namespace.metadata?.name;
-                    if (name?.slice(0, 4) === 'kube' || name?.slice(0, 7) === 'default') return; //this will return null if kube or default ns is found
+                    return name?.slice(0, 4) !== 'kube' ? name?.slice(0, 7) !== 'default' : false;
+                })
+                .map((namespace) => {
                     return {
-                        name: name,
+                        name: namespace.metadata?.name,
                         uid: namespace.metadata?.uid
                     }
                 })
             res.locals.namespaces = namespaces;
-            // console.log('namespaces', res.locals.namespaces)
             // console.log('out of namesapce controller')
             return next();
         } catch (error) {

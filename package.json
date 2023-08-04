@@ -36,7 +36,8 @@
     "three": "^0.155.0",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vis-network": "^9.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
