@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
 import Graph from 'react-graph-vis';
 import { ClusterNode, ClusterEdge, clusterGraphData, Props } from '../../../types/types';
-import nsImg from './assets/ns-icon.png';
-import podImg from './assets/pod-icon.png';
-import svcImg from './assets/svc-icon.png';
-import depImg from './assets/dep-icon.png';
-import logoImg from './assets/logo.png'
+import nsImg from '../../assets/ns-icon.png';
+import podImg from '../../assets/pod-icon.png';
+import svcImg from '../../assets/svc-icon.png';
+import depImg from '../../assets/dep-icon.png';
+import logoImg from '../../assets/logo.png'
 
 const options = {
     //TODO look into layout options
@@ -175,8 +175,8 @@ export const Mapothy: FC<Props> = ({ header }) => {
     return (
         <>
             <div className='mainHeader'>{header}</div>
-            <div className='miniContainer'>
-                <div>
+            <div className='miniContainerMap'>
+                {/* <div>
                     <select value={ns} onChange={(e) => setNs(e.target.value)}>
                         <option value='Cluster'>Cluster</option>
                         {nsArr ? nsArr.map((el) => {
@@ -185,7 +185,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                             )
                         }) : <div></div>}
                     </select>
-                </div>
+                </div> */}
                 <Graph
                     graph={graph}
                     options={options}

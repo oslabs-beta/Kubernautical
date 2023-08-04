@@ -23,40 +23,20 @@ const promController: prometheusController = {
         let step = 10;
         let query = 'http://localhost:9090/api/v1/query_range?query=';
 
-        const { type, hour, namespace, pod } = req.query;
+        const { type, hour, scope, name } = req.query; //pods--->scope, podname---->name
+
+        //     api/prom/metrics?type=cpu&hour=24&scope=namespace&name=gmp-system
         const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
         step = Math.ceil((step / (24 / Number(hour))));
 
-        //!<-------------------------------------------------------QUERIES FOR ENTIRE CLUSTER---------------------------------------------------------------->
-        // let cpuQuery = '';
-        
-
-        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${namespace ? `namespace="${namespace}"`:''}}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
-            // cpuQuery = `sum(rate(container_cpu_usage_seconds_total{container!=""[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
-            // if (namespace) cpuQuery = `sum(rate(container_cpu_usage_seconds_total{container="",namespace="${namespace}"}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
-
-           
-            console.log('cpuQuery', query);
-        
-
-        if (type === 'mem') {
-            console.log('in here:', namespace)
-            query = `sum(container_memory_usage_bytes{container!="",${namespace ? `namespace="${namespace}"`:''}})&start=${start}&end=${end}&step=${step}m`;
-        }
-
-        
-        // query += `sum(container_memory_usage_bytes{container!=""})&start=${start}&end=${end}&step=${step}m`;
-
-
-        // if (namespace) {
-        //     query = `sum(rate(container_cpu_usage_seconds_total{container="",namespace="${namespace}"}[5m]))`;
-        //     // const cpuRequestsQuery = `sum(kube_pod_container_resource_requests_cpu_cores{container="",namespace="${namespace}"})`;
-        // }
-        console.log('url:', query + query);
+        console.log(scope, name)
+        //!<-------------------------------------------------------QUERIES (NOW MODULARIZED)---------------------------------------------------------------->
+        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
+        if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})&start=${start}&end=${end}&step=${step}m`;
 
         try {
-            const response = await fetch(query + query);
+            const response = await fetch(query);
             const data = await response.json();
             res.locals.data = data.data.result;
             return next();
@@ -65,10 +45,7 @@ const promController: prometheusController = {
         }
     },
 
-    
-
     getCores: async (req: Request, res: Response, next: NextFunction) => {
-
         try {
             const query = `sum(kube_node_status_allocatable{resource="cpu"})`;
             const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="cpu"})`);
