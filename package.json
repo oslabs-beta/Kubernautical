@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production nodemon server/server.ts",
     "build": "NODE_ENV=production webpack",
-    "dev": "NODE_ENV=development nodemon server/server.ts & NODE_ENV=development webpack serve --open",
+    "dev": "NODE_ENV=development nodemon server/server.ts & NODE_ENV=development webpack serve --open --hot",
     "devc": "NODE_ENV=development concurrently \"webpack serve --open\" \"nodemon server/server.ts\"",
     "devServer": "NODE_ENV=production nodemon server/server.ts",
     "iLoveAnthony": "NODE_ENV=development webpack serve --open"
@@ -22,17 +22,22 @@
   "author": "Jeremiah Hogue",
   "license": "ISC",
   "dependencies": {
+    "@kubernetes/client-node": "^0.18.1",
     "cookie-parser": "^1.4.6",
     "d3": "^7.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-force-graph": "^1.43.0",
     "react-router-dom": "^6.14.2",
     "sass": "^1.64.1",
+    "three": "^0.155.0",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vis-network": "^9.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
@@ -46,6 +51,7 @@
     "@types/node": "^18.7.20",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/vis": "^4.21.24",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
     "babel": "^6.23.0",
@@ -55,6 +61,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.3",
     "nodemon": "^3.0.1",
+    "react-graph-vis": "^1.0.7",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "typescript": "^5.1.6",
