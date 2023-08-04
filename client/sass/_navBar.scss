@@ -1,18 +1,45 @@
 .navBar {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    height: 90vh;
+    align-items: flex-start;
+    height: 98vh;
     width: 12vw;
     padding: 5px;
-    margin: 10px;
-    color: white;
-    border: 2px solid cyan;
+    margin: 10px 5px 5px 5px;
+    background:linear-gradient(rgb(253,93,146), rgb(236,37,14));
+    color: #EEEEEE;
     border-radius: 5px;
+    
 }
+
+// title
+.navBarTitle {
+    align-self: center;
+    font-size: 2rem
+}
+
+// Button
 
 .navButton {
     width: 50%;
     margin: 5px;
+    border: none;
+    font-size: 1.5rem;
+    background:transparent;
+    display: flex;
+    align-items: center;
+    color:white
 
+}
+.navButton:hover {
+  cursor: pointer;
+  transform: translate(1px, 1px);
+  color: white;
+}
+.btn-icon{
+    margin-right: 1.2rem;
+}
+
+.btn-text {
+    text-align: left;
 }
