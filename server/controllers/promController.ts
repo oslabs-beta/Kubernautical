@@ -42,10 +42,35 @@ const promController: prometheusController = {
         if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})`;
         query += `&start=${start}&end=${end}&step=${step}m`;
 
-        // console.log('query:', query);
+        //!<-------------------------------------------------------QUERIES FOR ENTIRE CLUSTER---------------------------------------------------------------->
+        // let cpuQuery = '';
+        
+
+        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${namespace ? `namespace="${namespace}"`:''}}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
+            // cpuQuery = `sum(rate(container_cpu_usage_seconds_total{container!=""[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
+            // if (namespace) cpuQuery = `sum(rate(container_cpu_usage_seconds_total{container="",namespace="${namespace}"}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
+
+           
+            console.log('cpuQuery', query);
+        
+
+        if (type === 'mem') {
+            console.log('in here:', namespace)
+            query = `sum(container_memory_usage_bytes{container!="",${namespace ? `namespace="${namespace}"`:''}})&start=${start}&end=${end}&step=${step}m`;
+        }
+
+        
+        // query += `sum(container_memory_usage_bytes{container!=""})&start=${start}&end=${end}&step=${step}m`;
+
+
+        // if (namespace) {
+        //     query = `sum(rate(container_cpu_usage_seconds_total{container="",namespace="${namespace}"}[5m]))`;
+        //     // const cpuRequestsQuery = `sum(kube_pod_container_resource_requests_cpu_cores{container="",namespace="${namespace}"})`;
+        // }
+        console.log('url:', query + query);
+
         try {
-            // console.log(query)
-            const response = await fetch(query);
+            const response = await fetch(query + query);
             const data = await response.json();
 
             console.log('data:', data.data)
