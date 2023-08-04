@@ -7,9 +7,9 @@
 
 
 body {
-    background-color: rgb(30,30,47);
+    background-color: rgb(30, 30, 47);
     color: white;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
 
 .App {
@@ -24,7 +24,7 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
-       /*  height: 90vh;
+        /*  height: 90vh;
         width: 12vw;
         padding: 5px;
         margin: 10px;
@@ -46,7 +46,7 @@ body {
         font-size: 1.2rem;
     }
 
-    .miniContainer{
+    .miniContainer {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -58,6 +58,7 @@ body {
     .nav-title {
         font-size: 1.8rem;
     }
+
     .navButton {
         width: 11vw;
         font-size: 1.1rem;
@@ -69,6 +70,7 @@ body {
         display: flex;
         flex-direction: column;
     }
+
     .navBar {
         width: 98.5%;
         padding: 10px;
@@ -76,12 +78,15 @@ body {
         flex-direction: row;
         justify-content: flex-start;
     }
+
     .nav-title {
         padding-top: 10%;
     }
+
     .nav-title {
         font-size: 1.8rem;
     }
+
     .navButton {
         width: 11vw;
         font-size: 1.1rem;

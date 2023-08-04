@@ -23,7 +23,21 @@
     font-size: 50px;
 }
 
-.miniContainer {
+.miniContainerMap {
+    // border: 2px solid cyan;
+    border-radius: 5px;
+    padding: 5px;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    margin: 8px;
+    border-radius: 5px;
+    background-color: rgb(39, 41, 61);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    // flex-direction: column;
+}
+
+.miniContainerGraph {
     // border: 2px solid cyan;
     border-radius: 5px;
     padding: 5px;
@@ -31,4 +45,15 @@
     height: 80%;
     display: flex;
     // flex-direction: column;
+}
+
+.containerButton {
+    // width: 95%;
+    // height: 45%;
+    color: rgb(162, 161, 161);
+    margin: 5px 5px 0 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(39, 41, 61);
+    box-shadow: rgba(0, 0, 0, 0.24) 3px 3px 3px 3px;
 }

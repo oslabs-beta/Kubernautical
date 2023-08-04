@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
-import clusterpic from '../images/clusterPic.png'
-import mainDashBoard from '../images/mainDashBoard.png'
+import clusterpic from '../assets/images/clusterPic.png'
+import mainDashBoard from '../assets/images/mainDashBoard.png'
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -14,13 +14,13 @@ export default function Navbar() {
   }
   return (
     <div className='navBar'>
-      <div className = 'navBarTitle'>KUBERNAUTICAL</div>
+      <div className='navBarTitle'>KUBERNAUTICAL</div>
 
       <button className='navButton' onClick={MainDashBoard}>
-        <img className="btn-icon" src = {mainDashBoard} />
+        <img className="btn-icon" src={mainDashBoard} />
         <p className="btn-text">Main Dashboard</p></button>
       <button className='navButton' onClick={GoHome}>
-        <img className="btn-icon" src = {clusterpic} />
+        <img className="btn-icon" src={clusterpic} />
         <p className="btn-text">Cluster View</p>
       </button>
 
