@@ -12,9 +12,10 @@ const stringArr: String[] = [];
 const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
-  const [hourSelection, setHourSelection] = useState('24')
-  const [nameSpaceSelection, setNameSpaceSelection] = useState('')
-  const [nameSpaces, setNameSpaces] = useState(stringArr)
+  const [hourSelection, setHourSelection] = useState('24');
+  const [scope, setScope] = useState('');
+  const [scopeType, setScopeType] = useState('');
+  const [nameSpaces, setNameSpaces] = useState(stringArr);
 
 
   const getNameSpaces = async () => {
@@ -45,18 +46,21 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
     const gigaBytes: Number[] = []
 
     try {
-      const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hourSelection}&namespace=${nameSpaceSelection}`, {
+      const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
       const data = await response.json();
+      if (!data[0]) {
+        setData([]);
+        return;
+      }
       data[0].values.forEach((el: [number, string]) => {
         time.push(el[0]);
         specificData.push(Number(el[1]));
       })
-
       //convert bytes into gigabytes if asking for mem
       if (type === 'mem') {
         specificData.forEach((el: any) => {
@@ -80,19 +84,23 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
     }
   }
 
-  //TODO add needed watchers to useEffect
+  //? add needed watchers to useEffect
   useEffect(() => {
     getData();
     getNameSpaces();
-  }, [hourSelection]);
+  }, [hourSelection, scope]);
+  //*only need to get namespaces once
+  useEffect(() => {
+    getNameSpaces();
+  }, []);
 
   const dataSet = { // Data for tables
-    labels: label, //set data for y Axis
+    labels: label, //set data for X Axis
     datasets: [{
       label: title,
-      data: data, // set data for x Axis
+      data: data, // set data for Y Axis
       fill: true,
-      backgroundColor: color,
+      // backgroundColor: color,
       borderColor: color,
       pointBorderColor: color,
       tension: .5,
@@ -144,7 +152,8 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
           <option value='12'>12 hours</option>
           <option value='24'>24 hours</option>
         </select>
-        <select value={nameSpaceSelection} onChange={(e) => setNameSpaceSelection(e.target.value)}>
+        <select value={scope} onChange={(e) => { setScope(e.target.value); setScopeType('namespace') }}>
+          <option value=''>Cluster</option>
           {nameSpaces.map((el) => {
             return (
               <option value={`${el}`}>{el}</option>
@@ -155,7 +164,6 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
       <Line data={dataSet} options={options} />
     </div>
   )
-
 }
 
 export default LineGraph;
