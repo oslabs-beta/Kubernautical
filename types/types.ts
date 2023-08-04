@@ -20,6 +20,8 @@ export interface prometheusController {
   // getMetrics: (req: Request, res: Response, next: NextFunction) => Promise<void>
   getMetrics: RequestHandler
 
+  // getNamespaceMetrics: RequestHandler
+
   getCores: RequestHandler
 
   getMem: RequestHandler
