@@ -95,7 +95,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
       backgroundColor: color,
       borderColor: color,
       pointBorderColor: color,
-      tension: .5,
+      tension: .7,
       pointBorderWidth: 1,
       pointHoverRadius: 4,
       pointRadius: 1,
@@ -107,7 +107,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
       tension: {
         duration: 1000,
         easing: 'linear',
-        from: 0.1,
+        from: .1,
         to: 0,
         loop: true
       }

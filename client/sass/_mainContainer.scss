@@ -1,5 +1,5 @@
 .mainContainer {
-    border: 2px solid cyan;
+    // border: 2px solid cyan;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -11,12 +11,11 @@
 }
 
 .mainHeader {
+    // border:2px solid pink;
     padding: 5px;
     margin: 5px;
     width: 80%;
     height: 15%;
-    border: 2px solid magenta;
-    color: white;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -25,7 +24,7 @@
 }
 
 .miniContainer {
-    border: 2px solid cyan;
+    // border: 2px solid cyan;
     border-radius: 5px;
     padding: 5px;
     width: 80%;
