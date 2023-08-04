@@ -146,13 +146,13 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   return (
     <div className='lineGraph'>
       <div>
-        <select value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
+        <select className='containerButton' value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
           <option value='1'>1 hour</option>
           <option value='6'>6 hours</option>
           <option value='12'>12 hours</option>
           <option value='24'>24 hours</option>
         </select>
-        <select value={scope} onChange={(e) => { setScope(e.target.value); setScopeType('namespace') }}>
+        <select className='containerButton' value={scope} onChange={(e) => { setScope(e.target.value); setScopeType('namespace') }}>
           <option value=''>Cluster</option>
           {nameSpaces.map((el) => {
             return (
