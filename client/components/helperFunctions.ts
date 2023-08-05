@@ -1,4 +1,4 @@
-import { CLusterObj, nestedObj } from '../../../types/types';
+import { CLusterObj, nestedObj } from '../../types/types';
 
 
 //~----------------------------------------------Modal--------------------------------------------------------->

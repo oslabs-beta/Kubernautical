@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, Dispatch, SetStateAction  } from 'react';
 import './sass/App.scss';
 import MainContainer from './containers/MainContainer';
 import Navbar from './containers/Navbar';
 import { GlobalContext } from './components/Contexts';
 
-const stringArr: String[] = [];
+
+
+const stringArr: string[] = [];
 
 const App = () => {
-  const [globalNameSpaces, setGlobalNameSpaces] = useState(stringArr)
+  const [globalNamespaces, setGlobalNamesapces] = useState(stringArr);
   return (
     <div className='App'>
-      <GlobalContext.Provider value={{globalNameSpaces,setGlobalNameSpaces}}>
+      <GlobalContext.Provider value={{ globalNamespaces, setGlobalNamesapces }}>
         <Navbar />
         <MainContainer />
       </GlobalContext.Provider>
