@@ -44,6 +44,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
     const time: Number[] = [];
     const specificData: Number[] = [];
     const gigaBytes: Number[] = []
+    const kiloBytes: Number[] = []
 
     try {
       const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
@@ -68,7 +69,13 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
           gigaBytes.push(newEl)
           setData(gigaBytes)
         })
-      } else {
+      } else if (type ==='trans'|| type ==='rec'){ // convert bytes into kilobytes if asking for trans or rec
+        specificData.forEach((el:any)=>{
+          const newEl = el / 1000
+          kiloBytes.push(newEl)
+          setData(kiloBytes)
+        })
+      }else {
         setData(specificData)
       }
       //set Unix time to Hours and Minutes
