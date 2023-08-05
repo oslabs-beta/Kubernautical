@@ -32,43 +32,17 @@ const promController: prometheusController = {
         step = Math.ceil((step / (24 / Number(hour))));
         const results = [];
         // console.log(scope, name)
-        // console.group('scope:', scope)
-        // console.group('name:', name)
+        
         //!<-------------------------------------------------------QUERIES (NOW MODULARIZED)---------------------------------------------------------------->
         if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[5m]))*${userCores}`;
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
-        if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`; 
-        if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`; 
-        if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})`;
+        if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`;
+        if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`;
+        
+        
         query += `&start=${start}&end=${end}&step=${step}m`;
 
-        //!<-------------------------------------------------------QUERIES FOR ENTIRE CLUSTER---------------------------------------------------------------->
-        // let cpuQuery = '';
-        
-
-        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${namespace ? `namespace="${namespace}"`:''}}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
-            // cpuQuery = `sum(rate(container_cpu_usage_seconds_total{container!=""[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
-            // if (namespace) cpuQuery = `sum(rate(container_cpu_usage_seconds_total{container="",namespace="${namespace}"}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
-
-           
-            console.log('cpuQuery', query);
-        
-
-        if (type === 'mem') {
-            console.log('in here:', namespace)
-            query = `sum(container_memory_usage_bytes{container!="",${namespace ? `namespace="${namespace}"`:''}})&start=${start}&end=${end}&step=${step}m`;
-        }
-
-        
-        // query += `sum(container_memory_usage_bytes{container!=""})&start=${start}&end=${end}&step=${step}m`;
-
-
-        // if (namespace) {
-        //     query = `sum(rate(container_cpu_usage_seconds_total{container="",namespace="${namespace}"}[5m]))`;
-        //     // const cpuRequestsQuery = `sum(kube_pod_container_resource_requests_cpu_cores{container="",namespace="${namespace}"})`;
-        // }
-        console.log('url:', query + query);
-
+        console.log('query:', query);
         try {
             const response = await fetch(query + query);
             const data = await response.json();
