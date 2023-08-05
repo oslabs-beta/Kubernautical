@@ -1,7 +1,7 @@
 import { CLusterObj, nestedObj } from '../../../types/types';
 
 
-//?----------------------------------------------Modal--------------------------------------------------------->
+//~----------------------------------------------Modal--------------------------------------------------------->
 export const makeModal = (obj: CLusterObj, type: string) => {
     const subLists: HTMLElement[] = [];
     const div = document.createElement('div');
@@ -45,7 +45,7 @@ export const makeModal = (obj: CLusterObj, type: string) => {
     // div.appendChild(deleteButton);
     return div as unknown as string;
 };
-//?--------------------------------------------Window Helper----------------------------------------------->
+//~--------------------------------------------Window Helper----------------------------------------------->
 export const windowHelper = () => {
     window.addEventListener('error', e => {
         console.log(e.message);
