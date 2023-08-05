@@ -52,6 +52,7 @@ export interface clusterGraphData {
 }
 export interface Props {
   type?: string;
+  graphType?: string;
   title?: string;
   header?: string;
   yAxisTitle?: string;
