@@ -1,7 +1,7 @@
 import React from 'react'
 import LineGraph from '../components/LineGraph'
-import GaugeChart from '../components/GaugeChart'
-import BarGraph from '../components/BarGraph'
+// import GaugeChart from '../components/GaugeChart'
+// import BarGraph from '../components/BarGraph'
 import { FC, useState } from 'react'
 import type { Props } from '../../types/types';
 
@@ -12,7 +12,7 @@ const MainDashBoard: FC<Props> = ({ header }) => {
       <div className='mainHeader'>{header}</div>
 
       <div className='miniContainerGraph'>
-
+      
         <LineGraph
           title="CPU Usage"
           type="cpu"

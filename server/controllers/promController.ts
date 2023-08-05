@@ -49,7 +49,10 @@ const promController: prometheusController = {
             const data = await response.json();
 
             console.log('data:', data.data)
+
+            console.log('data:', data.data)
             res.locals.data = data.data.result;
+        
         
             return next();
         } catch (error) {
