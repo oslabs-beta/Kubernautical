@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import MainDashBoard from "./MainDashBoard"
 import { Mapothy } from '../components/Mapothy'
-import NetworkPerformance from '../components/NetworkPerformance'
+import NetworkPerformance from '../components/Graphs/NetworkPerformance'
 const MainContainer: FC = () => {
 
   return (

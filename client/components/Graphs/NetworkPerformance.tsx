@@ -1,7 +1,7 @@
 import React from 'react'
 import LineGraph from './LineGraph'
 import { FC} from 'react'
-import type { Props } from '../../types/types';
+import type { Props } from '../../../types/types';
 
 const NetworkPerformance: FC<Props> = ({ header }) => {
   return (
