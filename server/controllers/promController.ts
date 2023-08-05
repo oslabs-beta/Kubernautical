@@ -37,6 +37,8 @@ const promController: prometheusController = {
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
         if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`;
         if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`;
+
+        if (type === 'test') query += `sum(kube_pod_container_resource_requests${scope ? `{${scope}="${name}"}` : ''})`;
         
         
         query += `&start=${start}&end=${end}&step=${step}m`;
