@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import MainDashBoard from "./MainDashBoard"
 import { Mapothy } from '../components/2D/Mapothy'
-
+import NetworkPerformance from './NetworkPerformance'
 const MainContainer: FC = () => {
 
   return (
@@ -10,7 +10,8 @@ const MainContainer: FC = () => {
       <Routes>
         {/* <Route index element={<Mapothy />} /> not necessary, default route handles this */}
         <Route path="/" element={<Mapothy header='Cluster View' />} />
-        <Route path="/dashboard" element={<MainDashBoard header="Health Metrics" />} />
+        <Route path="/dashboard" element={<MainDashBoard header="Cluster Health Monitor" />} />
+        <Route path="/network" element={<NetworkPerformance header = "Network Performance Monitor"/>}/>
       </Routes>
     </div>
   )
