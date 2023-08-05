@@ -29,16 +29,26 @@ const promController: prometheusController = {
         const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
         step = Math.ceil((step / (24 / Number(hour))));
-
-        console.log(scope, name)
+        const results = [];
+        // console.log(scope, name)
+        
         //!<-------------------------------------------------------QUERIES (NOW MODULARIZED)---------------------------------------------------------------->
-        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
-        if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})&start=${start}&end=${end}&step=${step}m`;
+        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[5m]))*${userCores}`;
+        if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
+        if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`;
+        if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`;
+        
+        
+        query += `&start=${start}&end=${end}&step=${step}m`;
 
+        console.log('query:', query);
         try {
             const response = await fetch(query);
             const data = await response.json();
+
+            console.log('data:', data.data)
             res.locals.data = data.data.result;
+        
             return next();
         } catch (error) {
             return next(error);
