@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, useContext, FC } from 'react';
+import { GlobalContext } from './Contexts';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import type { Props } from '../../types/types';
@@ -10,34 +10,12 @@ const defaultArr: Number[] = []; //typescript set up for UseState make this in t
 const stringArr: String[] = [];
 
 const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
+  const { globalNamespaces } = useContext(GlobalContext);
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
   const [hourSelection, setHourSelection] = useState('24');
   const [scope, setScope] = useState('');
   const [scopeType, setScopeType] = useState('');
-  const [nameSpaces, setNameSpaces] = useState(stringArr);
-
-
-  const getNameSpaces = async () => {
-    try {
-      const response = await fetch('/api/cluster/namespaces', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json()
-      const names: String[] = []
-      data.forEach((el: any) => {
-        if (el === null) return
-        if (el.name)
-          names.push(el.name)
-      })
-      setNameSpaces(names)
-    } catch (error) {
-      console.log('Error fetching NameSpaces:', error);
-    }
-  };
 
   const getData = async () => {
 
@@ -94,12 +72,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   //? add needed watchers to useEffect
   useEffect(() => {
     getData();
-    getNameSpaces();
   }, [hourSelection, scope]);
-  //*only need to get namespaces once
-  useEffect(() => {
-    getNameSpaces();
-  }, []);
 
   const dataSet = { // Data for tables
     labels: label, //set data for X Axis
@@ -161,11 +134,11 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
         </select>
         <select className='containerButton' value={scope} onChange={(e) => { setScope(e.target.value); setScopeType('namespace') }}>
           <option value=''>Cluster</option>
-          {nameSpaces.map((el) => {
+          {globalNamespaces ? globalNamespaces.map((el) => {
             return (
               <option value={`${el}`}>{el}</option>
             )
-          })}
+          }) : <div></div>}
         </select>
       </div>
       <Line data={dataSet} options={options} />

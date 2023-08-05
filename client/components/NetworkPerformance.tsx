@@ -1,5 +1,5 @@
 import React from 'react'
-import LineGraph from '../components/LineGraph'
+import LineGraph from './LineGraph'
 import { FC} from 'react'
 import type { Props } from '../../types/types';
 

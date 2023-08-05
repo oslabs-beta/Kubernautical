@@ -30,29 +30,26 @@ const promController: prometheusController = {
         const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
         step = Math.ceil((step / (24 / Number(hour))));
-        const results = [];
         // console.log(scope, name)
-        
+        // console.group('scope:', scope)
+        // console.group('name:', name)
         //!<-------------------------------------------------------QUERIES (NOW MODULARIZED)---------------------------------------------------------------->
-        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[5m]))*${userCores}`;
+        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[10m]))*${userCores}`;
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
-        if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`;
-        if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[5m]))`;
-
-        if (type === 'test') query += `sum(kube_pod_container_resource_requests${scope ? `{${scope}="${name}"}` : ''})`;
-        
-        
+        if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
+        if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
+        if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})`;
         query += `&start=${start}&end=${end}&step=${step}m`;
 
-        console.log('query:', query);
+        // console.log('query:', query);
         try {
-            console.log(query)
+            // console.log(query)
             const response = await fetch(query);
             const data = await response.json();
 
-            console.log('data:', data.data)
+            // console.log('data:', data.data)
             res.locals.data = data.data.result;
-        
+
             return next();
         } catch (error) {
             return next(error);
@@ -63,10 +60,8 @@ const promController: prometheusController = {
         try {
             const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="cpu"})`);
             const data = await response.json();
-
             const cores = data.data.result[0].value[1]
             res.locals.cores = cores
-
             return next();
         } catch (error) {
             return next(error);

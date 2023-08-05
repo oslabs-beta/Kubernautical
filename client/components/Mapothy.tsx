@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useRef, FC } from 'react';
+import React, { useEffect, useState, useContext, FC } from 'react';
+import { GlobalContext } from './Contexts';
 import Graph from 'react-graph-vis';
-import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj, ClusterData } from '../../../types/types';
+import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj, ClusterData } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
 import { makeModal, windowHelper } from './helperFunctions';
-import nsImg from '../../assets/ns-icon.png';
-import podImg from '../../assets/pod-icon.png';
-import svcImg from '../../assets/svc-icon.png';
-import depImg from '../../assets/dep-icon.png';
-import logoImg from '../../assets/logo.png'
-
+import nsImg from '../assets/ns-icon.png';
+import podImg from '../assets/pod-icon.png';
+import svcImg from '../assets/svc-icon.png';
+import depImg from '../assets/dep-icon.png';
+import logoImg from '../assets/logo.png';
 
 //?-----------------------------------------Physics Testing------------------------------------------------>
 const options = {
@@ -60,6 +60,7 @@ const options = {
 const defaultObj: ClusterData = {};
 //?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
+    const { setGlobalNamesapces } = useContext(GlobalContext);
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
         edges: [],
@@ -171,7 +172,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //         }
                 //     })
             })
-            if (nsArr.length === 1) setNsArr(namespaceArr);
+            if (nsArr.length === 1) { setNsArr(namespaceArr); setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : '' }
             setGraph({
                 nodes: nodesArr,
                 edges: edgesArr
