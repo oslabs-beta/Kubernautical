@@ -1,6 +1,8 @@
-import {createContext} from 'react'
+import { createContext, Dispatch, SetStateAction } from 'react'
 
-type NameSpacesContext = {
+interface GlobalContext {
+    globalNamespaces?: string[]
+    setGlobalNamesapces?: Dispatch<SetStateAction<string[]>>
 }
 
-export const GlobalContext = createContext<NameSpacesContext>('')
+export const GlobalContext = createContext<GlobalContext>({})

@@ -36,7 +36,6 @@ const promController: prometheusController = {
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})&start=${start}&end=${end}&step=${step}m`;
 
         try {
-            console.log(query)
             const response = await fetch(query);
             const data = await response.json();
             res.locals.data = data.data.result;
