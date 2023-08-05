@@ -25,7 +25,8 @@ const promController: prometheusController = {
 
         const { type, hour, scope, name } = req.query; //pods--->scope, podname---->name
 
-        //     api/prom/metrics?type=cpu&hour=24&scope=namespace&name=gmp-system
+        //api/prom/metrics?type=cpu&hour=24&scope=namespace&name=gmp-system
+        //^hour is required
         const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
         step = Math.ceil((step / (24 / Number(hour))));
@@ -45,6 +46,7 @@ const promController: prometheusController = {
 
         console.log('query:', query);
         try {
+            console.log(query)
             const response = await fetch(query);
             const data = await response.json();
 

@@ -76,6 +76,12 @@ export interface CLusterObj {
   availableReplicas?: number
   // conditions?: string
 }
+export interface ClusterData {
+  pods?: CLusterObj
+  namespaces?: CLusterObj
+  deployments?: CLusterObj
+  services?: CLusterObj
+}
 // export interface strategyObj {
 //   [key: string]: any
 //   type: string
@@ -86,6 +92,9 @@ export interface portObj {
   port: number
   protocol: string
   targetPort: number
+}
+export interface nestedObj {
+  [key: string | number]: any
 }
 // export interface CLusterObj {
 //   [key: string]: number | string | CLusterObj | undefined

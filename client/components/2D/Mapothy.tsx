@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
 import Graph from 'react-graph-vis';
-import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj } from '../../../types/types';
+import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj, ClusterData } from '../../../types/types';
 import { v4 as uuidv4 } from 'uuid';
-import { makeModal } from './modal';
+import { makeModal, windowHelper } from './helperFunctions';
 import nsImg from '../../assets/ns-icon.png';
 import podImg from '../../assets/pod-icon.png';
 import svcImg from '../../assets/svc-icon.png';
@@ -16,7 +16,9 @@ const options = {
     layout: {
         // randomSeed: '0.07224874827053274:1691128352960',
         // randomSeed: '0.13999053405779072:1691128555260'
-        randomSeed: '0.26923438127640864:1691128645444'
+        // randomSeed: '0.26923438127640864:1691128645444'
+        randomSeed: '0.00836184154624342:1691197042873' //current god seed
+        // randomSeed: '0.19873095642451144:1691197919546' //current demi god seed
         // hierarchical: true,
         // improvedLayout: true
     },
@@ -55,6 +57,7 @@ const options = {
         // }
     }
 };
+const defaultObj: ClusterData = {};
 //?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
     const [graph, setGraph] = useState<clusterGraphData>({
@@ -63,6 +66,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
     });
     const [ns, setNs] = useState('Cluster');
     const [nsArr, setNsArr] = useState(['']);
+    const [clusterData, setclusterData] = useState(defaultObj);
     const events = {
         select: function (event: any) { //TODO fix typing 
             var { nodes, edges } = event;
@@ -74,9 +78,14 @@ export const Mapothy: FC<Props> = ({ header }) => {
             const edgesArr: ClusterEdge[] = [];
             const namespaceArr: string[] = [];
             let filteredNsArr: CLusterObj[] = [];
-            const result = await fetch('api/map/elements');
-            const clusterData = await result.json();
-            const { nodes, pods, namespaces, deployments, services } = clusterData;
+            let data;
+            if (!clusterData.namespaces) {
+                const result = await fetch('api/map/elements');
+                data = await result.json();
+                setclusterData(data);
+            }
+            else { data = clusterData }
+            const { pods, namespaces, deployments, services } = data;
             nodesArr.push({ id: '0', title: "KuberNautical", size: 100, image: logoImg, shape: 'image' });
             //?----------------------------------Namespace Search------------------------------------->
             if (ns === 'Cluster') filteredNsArr = namespaces;
@@ -175,29 +184,10 @@ export const Mapothy: FC<Props> = ({ header }) => {
     useEffect(() => {
         getData();
     }, [ns]);
-
     //TODO fix error so we dont have to ignore it // error is benign
     useEffect(() => {
-        window.addEventListener('error', e => {
-            console.log(e.message);
-            if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
-                const resizeObserverErrDiv = document.getElementById(
-                    'webpack-dev-server-client-overlay-div'
-                );
-                const resizeObserverErr = document.getElementById(
-                    'webpack-dev-server-client-overlay'
-                );
-                if (resizeObserverErr) {
-                    resizeObserverErr.setAttribute('style', 'display: none');
-                }
-                if (resizeObserverErrDiv) {
-                    resizeObserverErrDiv.setAttribute('style', 'display: none');
-                }
-            }
-        });
+        windowHelper();
     }, [])
-
-    //name of entire cluster id = 0
     return (
         <>
             <div className='mainHeader'>{header}</div>
@@ -226,7 +216,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                                         easingFunction: 'easeOutQuad',
                                     },
                                 }),
-                            5000
+                            3000
                         );
                     }} />
             </div>
