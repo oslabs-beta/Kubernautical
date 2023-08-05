@@ -31,7 +31,7 @@ body {
         color: #EEEEEE;
         border: 2px solid cyan;
         border-radius: 5px; */
-        font-size: 2.2rem;
+        font-size: 1.5rem;
     }
 
     .nav-title {
@@ -56,7 +56,7 @@ body {
 
 @media screen and (max-width: 1350px) {
     .nav-title {
-        font-size: 1.8rem;
+        font-size: 1 rem;
     }
 
     .navButton {
@@ -81,10 +81,7 @@ body {
 
     .nav-title {
         padding-top: 10%;
-    }
-
-    .nav-title {
-        font-size: 1.8rem;
+        font-size: 0.8rem;
     }
 
     .navButton {

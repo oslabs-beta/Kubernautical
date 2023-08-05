@@ -1,17 +1,24 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
 import Graph from 'react-graph-vis';
-import { ClusterNode, ClusterEdge, clusterGraphData, Props } from '../../../types/types';
+import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj } from '../../../types/types';
+import { v4 as uuidv4 } from 'uuid';
+import { makeModal } from './modal';
 import nsImg from '../../assets/ns-icon.png';
 import podImg from '../../assets/pod-icon.png';
 import svcImg from '../../assets/svc-icon.png';
 import depImg from '../../assets/dep-icon.png';
 import logoImg from '../../assets/logo.png'
 
+
+//?-----------------------------------------Physics Testing------------------------------------------------>
 const options = {
     //TODO look into layout options
     layout: {
+        // randomSeed: '0.07224874827053274:1691128352960',
+        // randomSeed: '0.13999053405779072:1691128555260'
+        randomSeed: '0.26923438127640864:1691128645444'
         // hierarchical: true,
-        improvedLayout: true
+        // improvedLayout: true
     },
     edges: {
         color: "#00FFFF"
@@ -48,7 +55,7 @@ const options = {
         // }
     }
 };
-
+//?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
@@ -57,7 +64,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
     const [ns, setNs] = useState('Cluster');
     const [nsArr, setNsArr] = useState(['']);
     const events = {
-        select: function (event: any) {
+        select: function (event: any) { //TODO fix typing 
             var { nodes, edges } = event;
         }
     };
@@ -66,41 +73,23 @@ export const Mapothy: FC<Props> = ({ header }) => {
             const nodesArr: ClusterNode[] = [];
             const edgesArr: ClusterEdge[] = [];
             const namespaceArr: string[] = [];
-            let filteredNsArr: Object[] = [];
+            let filteredNsArr: CLusterObj[] = [];
             const result = await fetch('api/map/elements');
             const clusterData = await result.json();
             const { nodes, pods, namespaces, deployments, services } = clusterData;
             nodesArr.push({ id: '0', title: "KuberNautical", size: 100, image: logoImg, shape: 'image' });
-            //?----------------------------------Function for Modals---------------------------------->
-            const makeModal = (obj: any, type: string) => { //fix typing
-                const div = document.createElement('div');
-                div.className = 'modal';
-                const ul = document.createElement('ul');
-                const header = document.createElement('div');
-                header.className = 'modalHeader';
-                header.innerText = `${type} Details`;
-                div.appendChild(header);
-                div.appendChild(ul);
-                for (const key in obj) {
-                    const li = document.createElement('li');
-                    li.innerText = `${key}: ${obj[key]}`;
-                    ul.appendChild(li);
-                }
-                return div as unknown as string;
-            };
             //?----------------------------------Namespace Search------------------------------------->
             if (ns === 'Cluster') filteredNsArr = namespaces;
             else {
-                filteredNsArr = [namespaces.find(({ name }: any) => name === ns)]
+                filteredNsArr = [namespaces.find(({ name }: any) => name === ns)];
             }
-            filteredNsArr.forEach((ns: any) => { //fix types pls i beg
+            filteredNsArr.forEach((ns: CLusterObj) => {
                 if (ns === null) return;
                 namespaceArr.push(ns.name);
                 const { name, uid } = ns;
                 const nsObj = {
                     id: uid,
                     name: name,
-                    // title: makeModal(ns),
                     title: makeModal(ns, 'Namespace'),
                     size: 70,
                     image: nsImg,
@@ -109,7 +98,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 nodesArr.push(nsObj);
                 edgesArr.push({ from: '0', to: uid, length: 400 });
                 //?------------------------------Pod Search------------------------------------------>
-                pods.forEach((pod: any) => { //not very effecient it hurts me
+                pods.forEach((pod: CLusterObj) => {
                     const { name, namespace, uid } = pod;
                     if (namespace === nsObj.name) {
                         const pObj = {
@@ -125,7 +114,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                     }
                 })
                 //?------------------------------Services Search------------------------------------------>
-                services.forEach((service: any) => { //not very effecient it hurts me
+                services.forEach((service: CLusterObj) => {
                     const { name, namespace, uid } = service;
                     if (namespace === nsObj.name) {
                         const sObj = {
@@ -141,7 +130,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                     }
                 })
                 //?------------------------------Deployments Search------------------------------------------>
-                deployments.forEach((deployment: any) => { //not very effecient it hurts me
+                deployments.forEach((deployment: CLusterObj) => {
                     const { name, namespace, uid } = deployment;
                     if (namespace === nsObj.name) {
                         const dObj = {
@@ -156,6 +145,22 @@ export const Mapothy: FC<Props> = ({ header }) => {
                         edgesArr.push({ from: nsObj.id, to: uid, length: 150 });
                     }
                 })
+                //TODO------------------------------Ingress Search------------------------------------------>
+                //     ingresses.forEach((ingress: ClusterObj) => { 
+                //         const { name, namespace, uid } = ingress;
+                //         if (namespace === nsObj.name) {
+                //             const dObj = {
+                //                 id: uid,
+                //                 // label: name,
+                //                 title: makeModal(ingress, 'Deployment'),
+                //                 image: depImg,
+                //                 size: 45,
+                //                 shape: 'image',
+                //             }
+                //             nodesArr.push(dObj);
+                //             edgesArr.push({ from: nsObj.id, to: uid, length: 150 });
+                //         }
+                //     })
             })
             if (nsArr.length === 1) setNsArr(namespaceArr);
             setGraph({
@@ -169,28 +174,50 @@ export const Mapothy: FC<Props> = ({ header }) => {
     }
     useEffect(() => {
         getData();
-    }, [ns])
+    }, [ns]);
+
+    //TODO fix error so we dont have to ignore it // error is benign
+    useEffect(() => {
+        window.addEventListener('error', e => {
+            console.log(e.message);
+            if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
+                const resizeObserverErrDiv = document.getElementById(
+                    'webpack-dev-server-client-overlay-div'
+                );
+                const resizeObserverErr = document.getElementById(
+                    'webpack-dev-server-client-overlay'
+                );
+                if (resizeObserverErr) {
+                    resizeObserverErr.setAttribute('style', 'display: none');
+                }
+                if (resizeObserverErrDiv) {
+                    resizeObserverErrDiv.setAttribute('style', 'display: none');
+                }
+            }
+        });
+    }, [])
 
     //name of entire cluster id = 0
     return (
         <>
             <div className='mainHeader'>{header}</div>
             <div className='miniContainerMap'>
-                {/* <div>
-                    <select value={ns} onChange={(e) => setNs(e.target.value)}>
+                <div>
+                    <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
                         <option value='Cluster'>Cluster</option>
                         {nsArr ? nsArr.map((el) => {
                             return (
-                                <option value={el}>{el}</option>
+                                <option key={uuidv4()} value={el}>{el}</option>
                             )
                         }) : <div></div>}
                     </select>
-                </div> */}
+                </div>
                 <Graph
                     graph={graph}
                     options={options}
                     events={events}
                     getNetwork={(network) => {
+                        console.log(network.getSeed());
                         setTimeout(
                             () =>
                                 network.fit({
@@ -199,7 +226,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                                         easingFunction: 'easeOutQuad',
                                     },
                                 }),
-                            2000
+                            5000
                         );
                     }} />
             </div>

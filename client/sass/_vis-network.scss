@@ -238,14 +238,14 @@ input.vis-configuration.vis-config-range:-moz-focusring {
   outline-offset: -1px;
 }
 
-input.vis-configuration.vis-config-range::-ms-track {
-  width: 300px;
-  height: 5px;
-  background: 0 0;
-  border-color: transparent;
-  border-width: 6px 0;
-  color: transparent;
-}
+// input.vis-configuration.vis-config-range::-ms-track {
+//   width: 300px;
+//   height: 5px;
+//   background: 0 0;
+//   border-color: transparent;
+//   border-width: 6px 0;
+//   color: transparent;
+// }
 
 input.vis-configuration.vis-config-range::-ms-fill-lower {
   background: #777;
