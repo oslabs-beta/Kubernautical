@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext, FC } from 'react';
-import { GlobalContext } from './Contexts';
+import { GlobalContext } from '../Contexts';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import type { Props } from '../../types/types';
+import type { Props } from '../../../types/types';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 

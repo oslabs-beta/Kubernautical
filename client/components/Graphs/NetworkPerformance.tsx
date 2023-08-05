@@ -1,7 +1,7 @@
 import React from 'react'
-import LineGraph from '../components/LineGraph'
+import LineGraph from './LineGraph'
 import { FC} from 'react'
-import type { Props } from '../../types/types';
+import type { Props } from '../../../types/types';
 
 const NetworkPerformance: FC<Props> = ({ header }) => {
   return (
@@ -10,7 +10,7 @@ const NetworkPerformance: FC<Props> = ({ header }) => {
       <div className='mainHeader'>{header}</div>
 
       <div className='miniContainerGraph'>
-      
+
         <LineGraph
           title = "KiloBytes Transmitted"
           type = 'trans'
@@ -21,9 +21,9 @@ const NetworkPerformance: FC<Props> = ({ header }) => {
           title = "KiloBytes Recieved"
           type = 'rec'
           yAxisTitle='KiloBytes Recieved'
-          color = 'rgba(226, 0, 255, 0.3)'        
+          color = 'rgba(226, 0, 255, 0.3)'
         />
-       
+
       </div>
     </>
 
