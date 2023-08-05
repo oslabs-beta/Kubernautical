@@ -1,5 +1,7 @@
-import { CLusterObj } from '../../../types/types';
+import { CLusterObj, nestedObj } from '../../../types/types';
 
+
+//?----------------------------------------------Modal--------------------------------------------------------->
 export const makeModal = (obj: CLusterObj, type: string) => {
     const subLists: HTMLElement[] = [];
     const div = document.createElement('div');
@@ -14,15 +16,16 @@ export const makeModal = (obj: CLusterObj, type: string) => {
     Object.keys(obj).forEach((key) => {
         if (key === 'uid') return;
         if (typeof obj[key] === 'object') {
-            const newObj = obj[key];
+            let newObj: nestedObj = obj[key];
+            if (typeof newObj[0] === 'object') newObj = newObj[0]; //!hard coded garbage
             const subList = document.createElement('ul');
             const smallHeader = document.createElement('div');
             smallHeader.className = 'modalHeader';
             smallHeader.innerText = `${key}`;
             subList.appendChild(smallHeader);
-            Object.keys(newObj).forEach((k) => {
+            Object.keys(newObj).forEach((k: any) => { //TODO fix this type
                 const smallLi = document.createElement('li');
-                smallLi.innerText = `${newObj[k]}`;
+                Array.isArray(newObj) ? smallLi.innerText = `${newObj[k]}` : smallLi.innerText = `${k}: ${newObj[k]}`;
                 subList.appendChild(smallLi);
             });
             subLists.push(subList);
@@ -42,3 +45,23 @@ export const makeModal = (obj: CLusterObj, type: string) => {
     // div.appendChild(deleteButton);
     return div as unknown as string;
 };
+//?--------------------------------------------Window Helper----------------------------------------------->
+export const windowHelper = () => {
+    window.addEventListener('error', e => {
+        console.log(e.message);
+        if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
+            const resizeObserverErrDiv = document.getElementById(
+                'webpack-dev-server-client-overlay-div'
+            );
+            const resizeObserverErr = document.getElementById(
+                'webpack-dev-server-client-overlay'
+            );
+            if (resizeObserverErr) {
+                resizeObserverErr.setAttribute('style', 'display: none');
+            }
+            if (resizeObserverErrDiv) {
+                resizeObserverErrDiv.setAttribute('style', 'display: none');
+            }
+        }
+    });
+}

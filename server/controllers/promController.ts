@@ -25,17 +25,18 @@ const promController: prometheusController = {
 
         const { type, hour, scope, name } = req.query; //pods--->scope, podname---->name
 
-        //     api/prom/metrics?type=cpu&hour=24&scope=namespace&name=gmp-system
+        //api/prom/metrics?type=cpu&hour=24&scope=namespace&name=gmp-system
+        //^hour is required
         const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
         step = Math.ceil((step / (24 / Number(hour))));
 
-        console.log(scope, name)
         //!<-------------------------------------------------------QUERIES (NOW MODULARIZED)---------------------------------------------------------------->
         if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[5m]))*${userCores}&start=${start}&end=${end}&step=${step}m`;
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})&start=${start}&end=${end}&step=${step}m`;
 
         try {
+            console.log(query)
             const response = await fetch(query);
             const data = await response.json();
             res.locals.data = data.data.result;
