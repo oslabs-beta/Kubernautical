@@ -12,7 +12,7 @@ const MainDashBoard: FC<Props> = ({ header }) => {
       <div className='mainHeader'>{header}</div>
 
       <div className='miniContainerGraph'>
-
+      
         <LineGraph
           title="CPU Usage"
           type="cpu"
