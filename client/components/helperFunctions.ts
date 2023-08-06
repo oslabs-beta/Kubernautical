@@ -10,7 +10,7 @@ export const makeModal = (obj: CLusterObj, type: string) => {
     const header = document.createElement('div');
     header.className = 'modalHeader';
     header.innerText = `${type} Details`;
-    for (let key in obj) {
+    Object.keys(obj).forEach((key: any) => {
         if (key === 'uid') return;
         if (typeof obj[key] === 'object') {
             subLists.push(recursiveList(obj[key], key));
@@ -20,7 +20,7 @@ export const makeModal = (obj: CLusterObj, type: string) => {
             li.innerText = `${key}: ${obj[key]}`;
             ul.appendChild(li);
         }
-    }
+    })
     div.appendChild(header);
     div.appendChild(ul);
     subLists.forEach((el) => {
@@ -34,14 +34,14 @@ const recursiveList = (obj: nestedObj, key?: any) => {
     smallHeader.className = 'modalHeader';
     key ? smallHeader.innerText = `${key}` : '';
     subList.appendChild(smallHeader);
-    for (let k in obj) { //fix typing here
+    Object.keys(obj).forEach((k: any) => { //fix typing here
         const li = document.createElement('li');
         if (typeof obj[k] === 'object') subList.appendChild(recursiveList(obj[k]));
         else {
             Array.isArray(obj) ? li.innerText = `${obj[k]}` : li.innerText = `${k}: ${obj[k]}`;
             subList.appendChild(li);
         }
-    };
+    });
     // subLists.push(subList);
     return subList;
 }
