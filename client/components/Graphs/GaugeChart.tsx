@@ -1,10 +1,10 @@
-import React,{FC,useState,useEffect} from 'react'
-import { Chart as ChartJS, ArcElement,Tooltip,Legend,} from 'chart.js';
-import {  Doughnut } from 'react-chartjs-2';
-ChartJS.register(ArcElement,Tooltip, Legend,);
-import type { Props } from '../../types/types';
+import React, { FC, useState, useEffect } from 'react'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+ChartJS.register(ArcElement, Tooltip, Legend,);
+import type { Props } from '../../../types/types';
 
-const GaugeChart: FC<Props> = (type,labels,) => {
+const GaugeChart: FC<Props> = (type, labels,) => {
   const [guageData, setGuageData] = useState(0);
 
   const getData = async () => {
@@ -20,7 +20,7 @@ const GaugeChart: FC<Props> = (type,labels,) => {
         setGuageData(0);
         return;
       }
-    
+
       const cpuRequested = Math.round(data[0].values[0][1] * 100) / 100
       setGuageData(cpuRequested)
     } catch (error) {
@@ -34,36 +34,36 @@ const GaugeChart: FC<Props> = (type,labels,) => {
   const allocatable: number = Math.round((100 - guageData) * 100) / 100
 
   const data = {
-    labels:[`${guageData}%`,`${allocatable}%`], // this is Memory Used vs how much is left
+    labels: [`${guageData}%`, `${allocatable}%`], // this is Memory Used vs how much is left
     datasets: [{
-      label:'Percentage',
-      data:[guageData,allocatable], // data here Memory Percentage out of how much is left
-      backgroundColor:['rgba(250, 0, 133, 0.3)','rgba(70, 0, 250, 0.3)'],
-      borderColor:['rgba(250, 0, 133, 0.7)','rgba(70, 0, 250, 0.7)'],
-      circumference:180,
-      rotation:270,
-      cutout:'60%',
+      label: 'Percentage',
+      data: [guageData, allocatable], // data here Memory Percentage out of how much is left
+      backgroundColor: ['rgba(250, 0, 133, 0.3)', 'rgba(70, 0, 250, 0.3)'],
+      borderColor: ['rgba(250, 0, 133, 0.7)', 'rgba(70, 0, 250, 0.7)'],
+      circumference: 180,
+      rotation: 270,
+      cutout: '60%',
     }]
   }
- 
+
   const options = {
     // aspectRatioL:2,
     responsive: true,
     maintainAspectRatio: false,
-    plugins:{
-      legend:{
-        display:true
+    plugins: {
+      legend: {
+        display: true
       },
-      title:{
-        display:true,
-        text:'Total Cores Requested   Total Cores Allocatable',
-      }
+      title: {
+        display: true,
+        text: 'Total Cores Requested   Total Cores Allocatable',
       }
     }
+  }
 
-  return(
+  return (
     <div className='guageGraph'>
-    <Doughnut data = {data} options = {options}/>
+      <Doughnut data={data} options={options} />
     </div>
   )
 }
