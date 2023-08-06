@@ -7,7 +7,7 @@ const mapController: mapController = {
   getElements: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const elements = {
-        nodes: res.locals.nodes,
+        // nodes: res.locals.nodes,
         pods: res.locals.pods,
         namespaces: res.locals.namespaces,
         deployments: res.locals.deployments,
