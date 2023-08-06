@@ -111,14 +111,16 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
         display: true,
         title: {
           display: true,
-          text: yAxisTitle
+          text: yAxisTitle,
+          color:color
         }
       },
       x: {
         display: true,
         title: {
           display: true,
-          text: `Time(${hourSelection}hrs)`
+          text: `Time(${hourSelection}hrs)`,
+          color:color
         }
       }
     }

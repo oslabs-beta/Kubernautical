@@ -10,7 +10,7 @@
     "dev": "NODE_ENV=development nodemon server/server.ts & NODE_ENV=development webpack serve --open --hot",
     "devc": "NODE_ENV=development concurrently \"webpack serve --open\" \"nodemon server/server.ts\"",
     "devServer": "NODE_ENV=production nodemon server/server.ts",
-    "iLoveAnthony": "NODE_ENV=development webpack serve --open"
+    "iLoveAnthony": "NODE_ENV=development concurrently \"webpack serve --open\" \"nodemon server/server.ts\" \"kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090\""
   },
   "repository": {
     "type": "git",
