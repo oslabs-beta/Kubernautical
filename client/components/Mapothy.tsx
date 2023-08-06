@@ -156,18 +156,18 @@ export const Mapothy: FC<Props> = ({ header }) => {
                     }
                 })
                 //TODO------------------------------Ingress Search------------------------------------------>
+                //!currently no ingresses
                 //     ingresses.forEach((ingress: ClusterObj) => { 
                 //         const { name, namespace, uid } = ingress;
                 //         if (namespace === nsObj.name) {
-                //             const dObj = {
+                //             const iObj = {
                 //                 id: uid,
-                //                 // label: name,
                 //                 title: makeModal(ingress, 'Deployment'),
                 //                 image: depImg,
                 //                 size: 45,
                 //                 shape: 'image',
                 //             }
-                //             nodesArr.push(dObj);
+                //             nodesArr.push(iObj);
                 //             edgesArr.push({ from: nsObj.id, to: uid, length: 150 });
                 //         }
                 //     })
