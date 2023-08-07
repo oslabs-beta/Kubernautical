@@ -2,28 +2,25 @@ import React, { FC, useState, useContext, SyntheticEvent, CSSProperties } from '
 import { v4 as uuidv4 } from 'uuid';
 import type { Props } from '../../types/types';
 import { GlobalContext } from '../components/Contexts';
-import { METHODS } from 'http';
 
 // let defaultCSS : CSSProperties;
 const InvisibleNavbar: FC<Props> = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalPos, setModalPos] = useState(0);
-    const [vU ,setVu]= useState(0)
-    const [duration, setDuration ]= useState(0)
 
     const openModal = (e: SyntheticEvent) => {
         setModalPos(e.currentTarget.getBoundingClientRect().bottom + 5);
         showModal ? setShowModal(false) : setShowModal(true);
     }
-    const loadtest = async () =>{
+    const loadtest = async () => {
         try {
             const response = await fetch('/api/k6/test')
             const data = response.json()
             setShowModal(false)
             console.log('Load Testing')
-            
+
         } catch (error) {
-            console.log('error in running load test:',error)
+            console.log('error in running load test:', error)
         }
     }
 
@@ -39,21 +36,11 @@ const InvisibleNavbar: FC<Props> = () => {
                 const response = await fetch(`/api/k6/test?vus=${vU}&duration=${duration}&ip=${service}`)
                 const data = response.json()
                 setShowModal(false)
-                setLoading(true)
                 console.log('Load Testing')
             } catch (error) {
                 console.log('error in running load test:', error)
             }
         }
-  
-        const toMilliseconds = Number(duration)* 1000
-
-        useEffect(()=>{
-            console.log('hello')
-            setTimeout(()=>{
-                setLoading(false)
-            },toMilliseconds)
-        },[loading])
 
         const imgSrc = '../assets/images/network.png'
         return (
@@ -70,10 +57,10 @@ const InvisibleNavbar: FC<Props> = () => {
                             }) : <div></div>}
                         </select>
                     </div>
-                    <input type='number' placeholder='Number of VUs' onChange={(e) => setVu(e.target.value)} />
-                    <input type='number' placeholder='Test Duration' onChange={(e) => setDuration(e.target.value)} />
-                    <button onClick={loadtest}>DDOS me</button>
-                    <button onClick={() => setShowModal(false)} >X</button>
+                    <input className='InvisInput' type='number' placeholder='Number of VUs' onChange={(e) => setVu(e.target.value)} />
+                    <input className='InvisInput' type='number' placeholder='Test Duration' onChange={(e) => setDuration(e.target.value)} />
+                    <button className='InvisSubmit' onClick={loadtest}>DDOS me</button>
+                    <button className='closeInvisModal' onClick={() => setShowModal(false)} >X</button>
                 </div>
             </>
         )
