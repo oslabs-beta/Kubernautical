@@ -16,13 +16,15 @@ export default function Navbar() {
     <div className='navBar'>
       <div className='navBarTitle'>KUBERNAUTICAL</div>
 
-      <button className='navButton' onClick={MainDashBoard}>
-        <img className="btn-icon" src={mainDashBoard} />
-        <p className="btn-text">Main Dashboard</p></button>
-      <button className='navButton' onClick={GoHome}>
-        <img className="btn-icon" src={clusterpic} />
-        <p className="btn-text">Cluster View</p>
-      </button>
+      <div className='btn-container'>
+        <button className='navButton' onClick={MainDashBoard}>
+          <img className="btn-icon" src={mainDashBoard} />
+          <p className="btn-text">Main Dashboard</p></button>
+        <button className='navButton' onClick={GoHome}>
+          <img className="btn-icon" src={clusterpic} />
+          <p className="btn-text">Cluster View</p>
+        </button>
+      </div>
 
     </div>
   )
