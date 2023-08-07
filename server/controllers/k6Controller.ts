@@ -1,16 +1,17 @@
 import type { Request, Response, NextFunction } from 'express';
 import type { k6Controller } from '../../types/types';
-import { exec, execFile } from 'child_process';
+import { exec, execFile, execSync } from 'child_process';
 require('dotenv').config();
-
+//we can set this up to pull dynamically
 
 
 const k6Controller: k6Controller = {
     testing: async (req: Request, res: Response, next: NextFunction) => {
-        console.log('hello from the load')
+        const { vus, duration } = req.query;
         try {
             // const command = 'export INGRESS_EP k6 run scripts/loadtest.js';
-            const command = `export INGRESS_EP=${process.env.INGRESS_EP} && k6 run scripts/loadtest.js`;
+            const command = `export INGRESS_EP=${process.env.INGRESS_EP} && k6 run${vus ? ` --vus ${vus}` : ''}${duration ? ` --duration ${duration}s` : ''} scripts/loadtest.js`;
+            console.log(command);
             exec(command, (err) => {
                 if (err !== null) {
                     throw new Error();
