@@ -1,9 +1,9 @@
-import type { V1Container, V1ContainerImage, V1PodIP } from '@kubernetes/client-node';
+// import type { V1Container, V1ContainerImage, V1PodIP } from '@kubernetes/client-node';
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
-import { type } from 'os';
-import { ReactElement } from 'react';
-import { JsxElement } from 'typescript';
-
+// import { type } from 'os';
+// import { ReactElement } from 'react';
+// import { JsxElement } from 'typescript';
+import { IncomingMessage } from 'http';
 
 export interface ServerError {
   err: '400'
@@ -15,6 +15,7 @@ export interface clusterController {
   getAllServices: RequestHandler
   getAllDeployments: RequestHandler
   getAllIngresses: RequestHandler
+  // getAllPodLogs: RequestHandler
 }
 
 export interface prometheusController {
@@ -121,17 +122,18 @@ export interface nestedObj {
 //     providerID: string;
 //     status: any;
 //   };
-// interface Pod {
-//     name: string;
-//     namespace: string;
-//     uid: string;
-//     creationTimestamp: any;
-//     labels: any;
-//     containersInfo: any;
-//     nodeName: string;
-//     serviceAccount: any;
-//     containerStatuses: any;
-//     hostIP: string;
-//     podIP: string;
-//     startTime: any;
-// }
+export interface Pod {
+  name: string;
+  namespace: string;
+  uid: string;
+  // labels: any;
+  containerNames: string[];
+  nodeName: string;
+  serviceAccount: string;
+  phase: string;
+  subdomain: string;
+}
+export interface log {
+  response: IncomingMessage;
+  body: string;
+}

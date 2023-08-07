@@ -3,6 +3,7 @@ import { GlobalContext } from '../Contexts';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import type { Props } from '../../../types/types';
+import { v4 as uuidv4 } from 'uuid';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 
@@ -47,13 +48,13 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
           gigaBytes.push(newEl)
           setData(gigaBytes)
         })
-      } else if (type ==='trans'|| type ==='rec'){ // convert bytes into kilobytes if asking for trans or rec
-        specificData.forEach((el:any)=>{
+      } else if (type === 'trans' || type === 'rec') { // convert bytes into kilobytes if asking for trans or rec
+        specificData.forEach((el: any) => {
           const newEl = el / 1000
           kiloBytes.push(newEl)
           setData(kiloBytes)
         })
-      }else {
+      } else {
         setData(specificData)
       }
       //set Unix time to Hours and Minutes
@@ -112,7 +113,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
         title: {
           display: true,
           text: yAxisTitle,
-          color:color
+          color: color
         }
       },
       x: {
@@ -120,7 +121,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
         title: {
           display: true,
           text: `Time(${hourSelection}hrs)`,
-          color:color
+          color: color
         }
       }
     }
@@ -138,7 +139,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
           <option value=''>Cluster</option>
           {globalNamespaces ? globalNamespaces.map((el) => {
             return (
-              <option value={`${el}`}>{el}</option>
+              <option key={uuidv4()} value={`${el}`}>{el}</option>
             )
           }) : <div></div>}
         </select>

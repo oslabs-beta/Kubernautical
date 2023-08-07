@@ -4,7 +4,6 @@ import { CLusterObj, nestedObj } from '../../types/types';
 //~----------------------------------------------Modal--------------------------------------------------------->
 export const makeModal = (obj: CLusterObj, type: string) => {
     const subLists: HTMLElement[] = [];
-    //?elements created for list
     const div = document.createElement('div'); div.className = 'modal';
     const ul = document.createElement('ul');
     const header = document.createElement('div');
@@ -17,7 +16,7 @@ export const makeModal = (obj: CLusterObj, type: string) => {
         }
         else {
             const li = document.createElement('li');
-            li.innerText = `${key}: ${obj[key]}`;
+            li.innerText = `${humanReadable(key)}: ${obj[key]}`;
             ul.appendChild(li);
         }
     })
@@ -28,24 +27,38 @@ export const makeModal = (obj: CLusterObj, type: string) => {
     })
     return div as unknown as string;
 };
+//?recursively iterate nested objects to create sub lists
 const recursiveList = (obj: nestedObj, key?: any) => {
     const subList = document.createElement('ul');
     const smallHeader = document.createElement('div');
     smallHeader.className = 'modalHeader';
-    key ? smallHeader.innerText = `${key}` : '';
+    key ? smallHeader.innerText = `${humanReadable(key)}` : '';
+    if (Array.isArray(obj) && obj.length === 1 && typeof obj[0] !== 'object') {
+        const singleLi = document.createElement('li')
+        singleLi.innerText = `${humanReadable(key)}: ${obj[0]}`;
+        subList.appendChild(singleLi);
+        return subList;
+    }
     subList.appendChild(smallHeader);
     Object.keys(obj).forEach((k: any) => { //fix typing here
         const li = document.createElement('li');
         if (typeof obj[k] === 'object') subList.appendChild(recursiveList(obj[k]));
         else {
-            Array.isArray(obj) ? li.innerText = `${obj[k]}` : li.innerText = `${k}: ${obj[k]}`;
+            Array.isArray(obj) ? li.innerText = `${obj[k]}` : li.innerText = `${humanReadable(k)}: ${obj[k]}`;
             subList.appendChild(li);
         }
     });
-    // subLists.push(subList);
     return subList;
 }
+//?helper function to make keys human readable
+const humanReadable = (name: string) => {
+    var words = name.match(/[A-Za-z][a-z]*/g) || [];
 
+    return words.map(capitalize).join(" ");
+}
+const capitalize = (word: string) => {
+    return word.charAt(0).toUpperCase() + word.substring(1);
+}
 //~--------------------------------------------Window Helper----------------------------------------------->
 export const windowHelper = () => {
     window.addEventListener('error', e => {
@@ -66,49 +79,3 @@ export const windowHelper = () => {
         }
     });
 }
-
-
-//~deprecated modal function
-// export const makeModal = (obj: CLusterObj, type: string) => {
-//     const subLists: HTMLElement[] = [];
-//     const div = document.createElement('div');
-//     div.className = 'modal';
-//     const ul = document.createElement('ul');
-//     const header = document.createElement('div');
-//     header.className = 'modalHeader';
-//     header.innerText = `${type} Details`;
-//     // const deleteButton = document.createElement('button');
-//     // deleteButton.innerText = 'X';
-//     // deleteButton.addEventListener('click', () => console.log('deleted the johnson'))
-//     Object.keys(obj).forEach((key) => {
-//         if (key === 'uid') return;
-//         if (typeof obj[key] === 'object') {
-//             let newObj: nestedObj = obj[key];
-//             if (typeof newObj[0] === 'object') newObj = newObj[0]; //!hard coded garbage
-//             const subList = document.createElement('ul');
-//             const smallHeader = document.createElement('div');
-//             smallHeader.className = 'modalHeader';
-//             smallHeader.innerText = `${key}`;
-//             subList.appendChild(smallHeader);
-//             Object.keys(newObj).forEach((k: any) => { //TODO fix this type
-//                 const smallLi = document.createElement('li');
-//                 Array.isArray(newObj) ? smallLi.innerText = `${newObj[k]}` : smallLi.innerText = `${k}: ${newObj[k]}`;
-//                 subList.appendChild(smallLi);
-//             });
-//             subLists.push(subList);
-//         }
-//         else {
-//             const li = document.createElement('li');
-//             li.innerText = `${key}: ${obj[key]}`;
-//             ul.appendChild(li);
-//         }
-//     })
-//     div.appendChild(header);
-//     div.appendChild(ul);
-//     //TODO make this effecient its sickening
-//     subLists.forEach((el) => {
-//         div.appendChild(el);
-//     })
-//     // div.appendChild(deleteButton);
-//     return div as unknown as string;
-// };
