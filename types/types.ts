@@ -141,3 +141,8 @@ export interface log {
   response: IncomingMessage;
   body: string;
 }
+export interface globalServiceObj {
+  name: string
+  ip: string
+  ports?: portObj[]
+}

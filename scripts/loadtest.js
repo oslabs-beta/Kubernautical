@@ -1,18 +1,6 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
 
-// export let options = {
-//     vus: 30,
-//     duration: '10s',
-// }
-//? child process
-
-//?can we dynamically pull the endpoint from yaml
-
-//?how to alter options
-//~through cli concatenation or through options object manipulation
-
-
 export default function () {
     //pull ip dynamically
     //? IN TERMINAL : export CLUSTER_ENDPOINT= 'your endpoint here'

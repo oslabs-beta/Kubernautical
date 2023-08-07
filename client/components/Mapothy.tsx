@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, FC } from 'react';
 import { GlobalContext } from './Contexts';
 import Graph from 'react-graph-vis';
-import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj, ClusterData } from '../../types/types';
+import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj, ClusterData, globalServiceObj } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
 import { makeModal, windowHelper } from './helperFunctions';
 import nsImg from '../assets/ns-icon.png';
@@ -58,15 +58,17 @@ const options = {
     }
 };
 const defaultObj: ClusterData = {};
+const defaultservArr: globalServiceObj[] = [];
 //?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
-    const { setGlobalNamesapces } = useContext(GlobalContext);
+    const { setGlobalNamesapces, setGlobalServices, globalServices } = useContext(GlobalContext);
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
         edges: [],
     });
     const [ns, setNs] = useState('Cluster');
     const [nsArr, setNsArr] = useState(['']);
+    // const [serviceArr, setServiceArr] = useState(defaultservArr);
     const [clusterData, setclusterData] = useState(defaultObj);
     const events = {
         select: function (event: any) { //TODO fix typing 
@@ -78,6 +80,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
             const nodesArr: ClusterNode[] = [];
             const edgesArr: ClusterEdge[] = [];
             const namespaceArr: string[] = [];
+            const serviceArrTemp: globalServiceObj[] = [];
             let filteredNsArr: CLusterObj[] = [];
             let data;
             if (!clusterData.namespaces) {
@@ -113,7 +116,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
                     if (namespace === nsObj.name) {
                         const pObj = {
                             id: uid,
-                            // label: name,
                             title: makeModal(pod, 'Pod'),
                             size: 45,
                             image: podImg,
@@ -125,16 +127,16 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 })
                 //?------------------------------Services Search------------------------------------------>
                 services.forEach((service: CLusterObj) => {
-                    const { name, namespace, uid } = service;
+                    const { name, namespace, uid, ingressIP, ports } = service;
                     if (namespace === nsObj.name) {
                         const sObj = {
                             id: uid,
-                            // label: name,
                             title: makeModal(service, 'Service'),
                             size: 45,
                             image: svcImg,
                             shape: 'image',
                         }
+                        if (ingressIP) serviceArrTemp.push({ name: name, ip: `${ingressIP}:${ports ? ports[0].port : ''}` });
                         nodesArr.push(sObj);
                         edgesArr.push({ from: nsObj.id, to: uid, length: 300 });
                     }
@@ -145,7 +147,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
                     if (namespace === nsObj.name) {
                         const dObj = {
                             id: uid,
-                            // label: name,
                             title: makeModal(deployment, 'Deployment'),
                             image: depImg,
                             size: 45,
@@ -173,6 +174,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //     })
             })
             if (nsArr.length === 1) { setNsArr(namespaceArr); setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : '' }
+            if (globalServices?.length === 0) setGlobalServices ? setGlobalServices(serviceArrTemp) : '';
             setGraph({
                 nodes: nodesArr,
                 edges: edgesArr

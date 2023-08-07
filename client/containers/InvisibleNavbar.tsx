@@ -1,5 +1,8 @@
-import React, { FC, useState, SyntheticEvent, CSSProperties } from 'react'
+import React, { FC, useState, useContext, SyntheticEvent, CSSProperties } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 import type { Props } from '../../types/types';
+import { GlobalContext } from '../components/Contexts';
+import { METHODS } from 'http';
 
 // let defaultCSS : CSSProperties;
 const InvisibleNavbar: FC<Props> = () => {
@@ -12,13 +15,15 @@ const InvisibleNavbar: FC<Props> = () => {
     }
 
     const Modal: FC<Props> = ({ style }) => {
+        const { globalServices } = useContext(GlobalContext);
         const [vU, setVu] = useState('')
         const [duration, setDuration] = useState('');
+        const [service, setService] = useState('');
         const loadtest = async () => {
             //do we need both inputs
             if (vU !== '' && duration === '' || vU === '' && duration !== '') return alert('Please fill out both fields');
             try {
-                const response = await fetch(`/api/k6/test?vus=${vU}&duration=${duration}`)
+                const response = await fetch(`/api/k6/test?vus=${vU}&duration=${duration}&ip=${service}`)
                 const data = response.json()
                 setShowModal(false)
                 console.log('Load Testing')
@@ -30,6 +35,16 @@ const InvisibleNavbar: FC<Props> = () => {
             <>
                 <div className='page-mask'></div>
                 <div className='invisModal' style={{ top: style, position: 'absolute' }}>
+                    <div>
+                        <select className='containerButton mapButton' value={service} onChange={(e) => setService(e.target.value)}>
+                            <option value=''>Select Service</option>
+                            {globalServices ? globalServices.map((el) => {
+                                return (
+                                    <option key={uuidv4()} value={el.ip}>{el.name}</option>
+                                )
+                            }) : <div></div>}
+                        </select>
+                    </div>
                     <input type='number' placeholder='Number of VUs' onChange={(e) => setVu(e.target.value)} />
                     <input type='number' placeholder='Test Duration' onChange={(e) => setDuration(e.target.value)} />
                     <button onClick={loadtest}>DDOS me</button>
