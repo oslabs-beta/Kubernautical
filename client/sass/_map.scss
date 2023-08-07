@@ -21,9 +21,9 @@ div.vis-tooltip {
     white-space: normal;
     font-family: verdana;
     font-size: 14px;
-    color: rgb(162, 161, 161);
-    background-color: rgb(39, 41, 61);
-    box-shadow: rgba(0, 0, 0, 0.24) 3px 3px 3px 3px;
+    color: lighten($font-color, 20%);
+    background-color: $container-background;
+    box-shadow: $container-shadow;
     margin: 5px 5px 0 5px;
     border-radius: 5px;
     border: 1px solid rgb(24, 25, 35);

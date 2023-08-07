@@ -12,6 +12,7 @@
 
 .mainHeader {
     // border:2px solid pink;
+    color: lighten($font-color, 30%);
     padding: 5px;
     margin: 5px;
     width: 80%;
@@ -51,12 +52,12 @@
 .containerButton {
     // width: 95%;
     // height: 45%;
-    color: rgb(102, 102, 102);
+    color: $font-color;
     margin: 5px 5px 0 5px;
     border-radius: 5px;
     border: none;
-    background-color: rgb(39, 41, 61);
-    box-shadow: rgba(0, 0, 0, 0.24) 3px 3px 3px 3px;
+    background-color: $container-background;
+    box-shadow: $container-shadow;
 }
 
 .mapButton {

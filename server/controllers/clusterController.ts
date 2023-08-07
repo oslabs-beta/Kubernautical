@@ -74,7 +74,8 @@ const clusterController: clusterController = {
             const namespaces = result.body.items
                 .filter((namespace) => {
                     const name = namespace.metadata?.name;
-                    return name?.slice(0, 4) !== 'kube' ? name?.slice(0, 7) !== 'default' : false; //TODO ? name?.slice(0, 10) !== 'gmp-public' 
+                    //!very readable ternary operator here
+                    return name?.slice(0, 4) !== 'kube' ? name?.slice(0, 7) !== 'default' ? name?.slice(0, 10) !== 'gmp-public' ? true : false : false : false;
                 })
                 .map((namespace) => {
                     const { metadata } = namespace;
