@@ -12,10 +12,10 @@
 
 .mainHeader {
     // border:2px solid pink;
-    padding: 5px;
-    margin: 5px;
+    padding: 0 5px 5px 5px;
+    margin: 0 5px 20px 5px;
     width: 80%;
-    height: 15%;
+    /* height: 8vh; */
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -27,8 +27,8 @@
     // border: 2px solid cyan;
     border-radius: 5px;
     padding: 5px;
-    width: 80%;
-    height: 80%;
+    min-width: 95%;
+    height: 90%;
     display: flex;
     margin: 8px;
     border-radius: 5px;

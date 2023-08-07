@@ -18,7 +18,7 @@ body {
 }
 
 
-// large screen
+// very large screen
 @media screen and (max-width: 1599px) {
     .navBar {
         display: flex;
@@ -54,21 +54,17 @@ body {
     }
 }
 
-@media screen and (max-width: 1350px) {
-    .nav-title {
-        font-size: 1.8rem;
-    }
-
-    .navButton {
-        width: 11vw;
-        font-size: 1.1rem;
-    }
-}
-
-@media screen and (max-width: 1100px) {
+// large screen
+@media screen and (max-width: 1405px) {
     .App {
         display: flex;
         flex-direction: column;
+    }
+
+    .btn-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
     }
 
     .navBar {
@@ -84,11 +80,51 @@ body {
     }
 
     .nav-title {
-        font-size: 1.8rem;
+        font-size: 5rem;
     }
 
     .navButton {
         width: 11vw;
         font-size: 1.1rem;
+        margin: 0 20px;
     }
 }
+
+// @media screen and (max-width: 1350px) {
+//     .nav-title {
+//         font-size: 1.8rem;
+//     }
+
+//     .navButton {
+//         width: 11vw;
+//         font-size: 1.1rem;
+//     }
+// }
+
+// @media screen and (max-width: 1100px) {
+//     .App {
+//         display: flex;
+//         flex-direction: column;
+//     }
+
+//     .navBar {
+//         width: 98.5%;
+//         padding: 10px;
+//         display: flex;
+//         flex-direction: row;
+//         justify-content: flex-start;
+//     }
+
+//     .nav-title {
+//         padding-top: 10%;
+//     }
+
+//     .nav-title {
+//         font-size: 1.8rem;
+//     }
+
+//     .navButton {
+//         width: 11vw;
+//         font-size: 1.1rem;
+//     }
+// }
