@@ -8,6 +8,7 @@
     padding: 5px;
     margin: 10px;
     height: 90vh;
+    
 }
 
 .mainHeader {
@@ -22,6 +23,7 @@
     align-items: center;
     justify-content: center;
     font-size: 50px;
+    animation:loadin 1s ease-in;
 }
 
 .miniContainerMap {
@@ -36,6 +38,7 @@
     background-color: rgb(39, 41, 61);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     // flex-direction: column;
+    animation:loadin 1s ease-in;
 }
 
 .miniContainerGraph {
@@ -46,6 +49,7 @@
     height: 40%;
     display: flex;
     // flex-direction: column;
+    animation:loadin 1s lienar;
 }
 
 
@@ -63,4 +67,15 @@
 .mapButton {
     position: absolute;
     z-index: 3;
+}
+
+@keyframes loadin{
+    from{
+        opacity:0;
+        transform:translateX(-10px)
+    }
+    to{
+        opacity:1;
+        transform:translateX(0)
+    }
 }
