@@ -2,8 +2,8 @@ import http from 'k6/http';
 import { sleep } from 'k6';
 
 export let options = {
-    vus: 60,
-    duration: '45s',
+    vus: 30,
+    duration: '10s',
 }
 //? child process
 
