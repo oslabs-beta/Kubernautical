@@ -26,9 +26,10 @@
 }
 .invisModal {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     width: 200px;
-    height: 100px;
+    height: 200px;
     margin: 8px;
     padding: 5px 5px 0 5px;
     border-radius: 5px;
@@ -46,3 +47,37 @@
     bottom: 0;
     left: 0;
 }
+
+.closeInvisModal{
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    top: 16px;
+    right: 16px;
+    border-radius: 8px;
+    border: none;
+    background-color:rgb(225,70,89);
+  }
+  .closeInvisModal:hover{
+    cursor:pointer;
+    transform: translate(1px, 1px);
+    color: white;
+  
+  }
+  .InvisInput{
+    border-radius: 6px;
+    border: none;
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 4px;
+    background-color: rgb(66, 73, 90);
+    color: rgba(246, 247, 249, 0.8);
+  }
+  .InvisSubmit{
+    width: 95%;
+    margin-top: 5px;
+    border-radius: 6px;
+    padding: 9px;
+    border: none;
+    background-color:rgb(225,70,89);
+  }

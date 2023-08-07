@@ -8,10 +8,23 @@ import { METHODS } from 'http';
 const InvisibleNavbar: FC<Props> = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalPos, setModalPos] = useState(0);
+    const [vU ,setVu]= useState(0)
+    const [duration, setDuration ]= useState(0)
 
     const openModal = (e: SyntheticEvent) => {
         setModalPos(e.currentTarget.getBoundingClientRect().bottom + 5);
         showModal ? setShowModal(false) : setShowModal(true);
+    }
+    const loadtest = async () =>{
+        try {
+            const response = await fetch('/api/k6/test')
+            const data = response.json()
+            setShowModal(false)
+            console.log('Load Testing')
+            
+        } catch (error) {
+            console.log('error in running load test:',error)
+        }
     }
 
     const Modal: FC<Props> = ({ style }) => {
@@ -26,11 +39,23 @@ const InvisibleNavbar: FC<Props> = () => {
                 const response = await fetch(`/api/k6/test?vus=${vU}&duration=${duration}&ip=${service}`)
                 const data = response.json()
                 setShowModal(false)
+                setLoading(true)
                 console.log('Load Testing')
             } catch (error) {
                 console.log('error in running load test:', error)
             }
         }
+  
+        const toMilliseconds = Number(duration)* 1000
+
+        useEffect(()=>{
+            console.log('hello')
+            setTimeout(()=>{
+                setLoading(false)
+            },toMilliseconds)
+        },[loading])
+
+        const imgSrc = '../assets/images/network.png'
         return (
             <>
                 <div className='page-mask'></div>
