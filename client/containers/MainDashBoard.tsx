@@ -1,9 +1,9 @@
-import React from 'react'
 import LineGraph from '../components/Graphs/LineGraph'
 import GaugeChart from '../components/Graphs/GaugeChart'
 // import BarGraph from '../components/BarGraph'
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import type { Props } from '../../types/types';
+import InvisibleNavbar from './InvisibleNavbar';
 
 const MainDashBoard: FC<Props> = ({ header }) => {
   return (
@@ -12,6 +12,7 @@ const MainDashBoard: FC<Props> = ({ header }) => {
     //
     <>
       <div className='mainHeader'>{header}</div>
+      <InvisibleNavbar />
       <div className='miniContainerGraph'>
         <LineGraph
           title="CPU Usage"
