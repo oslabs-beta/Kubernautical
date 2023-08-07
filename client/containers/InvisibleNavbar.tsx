@@ -48,7 +48,7 @@ const InvisibleNavbar: FC<Props> = () => {
                 <div className='page-mask'></div>
                 <div className='invisModal' style={{ top: style, position: 'absolute' }}>
                     <div>
-                        <select className='containerButton mapButton' value={service} onChange={(e) => setService(e.target.value)}>
+                        <select className='InvisService' value={service} onChange={(e) => setService(e.target.value)}>
                             <option value=''>Select Service</option>
                             {globalServices ? globalServices.map((el) => {
                                 return (
