@@ -99,6 +99,8 @@ const clusterController: clusterController = {
                 .map((service) => {
                     const { name, uid, namespace } = service.metadata || {};
                     const { ipFamilies, ports, type } = service.spec || {};
+                    const ips = service.status?.loadBalancer?.ingress || [];
+                    const ingressIP = ips[0]?.ip;
                     //TODO pull more data as needed here
                     return {
                         name,
@@ -106,6 +108,7 @@ const clusterController: clusterController = {
                         namespace,
                         ipFamilies,
                         ports,
+                        ingressIP,
                         type
                     }
                 })
