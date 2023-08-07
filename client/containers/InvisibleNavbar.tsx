@@ -6,10 +6,23 @@ import loadingImage from '../assets/images/network.png'
 const InvisibleNavbar: FC<Props> = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalPos, setModalPos] = useState(0);
+    const [vU ,setVu]= useState(0)
+    const [duration, setDuration ]= useState(0)
 
     const openModal = (e: SyntheticEvent) => {
         setModalPos(e.currentTarget.getBoundingClientRect().bottom + 5);
         showModal ? setShowModal(false) : setShowModal(true);
+    }
+    const loadtest = async () =>{
+        try {
+            const response = await fetch('/api/k6/test')
+            const data = response.json()
+            setShowModal(false)
+            console.log('Load Testing')
+            
+        } catch (error) {
+            console.log('error in running load test:',error)
+        }
     }
 
     const Modal: FC<Props> = ({ style }) => {
