@@ -1,7 +1,7 @@
 // import type { V1Container, V1ContainerImage, V1PodIP } from '@kubernetes/client-node';
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 // import { type } from 'os';
-// import { ReactElement } from 'react';
+// import { CSSProperties } from 'react';
 // import { JsxElement } from 'typescript';
 import { IncomingMessage } from 'http';
 
@@ -59,6 +59,7 @@ export interface Props {
   yAxisTitle?: string;
   color?: string;
   hour?: string;
+  style?: number
 }
 export interface CLusterObj {
   // [key: string]: number | string | CLusterObj | undefined
