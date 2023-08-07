@@ -13,9 +13,6 @@ const MainDashBoard: FC<Props> = ({ header }) => {
     <>
       <div className='mainHeader'>{header}</div>
       <div className='miniContainerGraph'>
-        <GaugeChart
-          type="req"
-        />
         <LineGraph
           title="CPU Usage"
           type="cpu"
@@ -27,6 +24,11 @@ const MainDashBoard: FC<Props> = ({ header }) => {
           type="mem"
           yAxisTitle='Memory Used (GB)'
           color='rgba(0, 255, 66, 0.3)'
+        />
+      </div>
+      <div className='miniContainerGraph gaugeContainer'>
+        <GaugeChart
+          type="req"
         />
       </div>
     </>

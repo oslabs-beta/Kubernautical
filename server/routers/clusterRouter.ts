@@ -13,6 +13,9 @@ router.get('/pods', clusterController.getAllPods, (req: Request, res: Response, 
 router.get('/nodes', clusterController.getAllNodes, (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json(res.locals.nodes);
 });
+// router.get('/logs', clusterController.getAllPods, clusterController.getAllPodLogs, (req: Request, res: Response, next: NextFunction) => {
+//     res.status(200).json(res.locals.logs);
+// });
 
 //!---------------------------------------------These Routes are for testing (for now)------------------------------------->
 router.get('/services', clusterController.getAllServices, (req: Request, res: Response, next: NextFunction) => {
