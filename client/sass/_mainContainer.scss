@@ -4,10 +4,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     flex-grow: 1;
-    padding: 5px;
-    margin: 10px;
-    height: 80vh;
+    padding: 0px 0 5px 5px;
+
+    height: 95vh;
+    width: 80vh;
 }
 
 .mainHeader {
@@ -27,10 +29,10 @@
     // border: 2px solid cyan;
     border-radius: 5px;
     padding: 5px;
-    min-width: 80%;
-    height: 80%;
+    min-width: 70vw;
+    height: 70vh;
     display: flex;
-    margin: 8px;
+    margin: 4%;
     border-radius: 5px;
     background-color: rgb(39, 41, 61);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

@@ -59,6 +59,8 @@ body {
     .App {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .btn-container {
@@ -68,8 +70,9 @@ body {
     }
 
     .navBar {
-        width: 98.5%;
-        padding: 10px;
+        width: 100%;
+       /*  margin: 20px 20px;
+        padding-top: 10px; */
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -102,55 +105,32 @@ body {
 }
 
 @media screen and (max-width: 1100px) {
-    .App {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .navBar {
-        width: 98.5%;
-        padding: 10px;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-    }
-
-    .nav-title {
-        padding-top: 10%;
-    }
-
-    .nav-title {
-        font-size: 1.8rem;
-    }
-
-    .navButton {
-        width: 11vw;
-        font-size: 1.1rem;
-    }
-}
-
-@media screen and (max-width: 1100px) {
     .navBar {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        height: 25%;
-        width: 98.5%;
-        padding: 0;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        height: 20vh;
+        width: 98%;
+        /* padding: 50px 10px 50px 10px; */
         margin: 2px;
+
     }
 
     .navBarTitle {
+        padding-top: 2vh;
+        margin-bottom: 0;
         align-self: center;
         font-size: 1.5rem;
-        margin:0;
-        padding-top: 1%;
+
+        margin-left: 4%;
     }
 
     .mainContainer {
         // border: 2px solid cyan;
 
-        margin: 0px;
+        padding-top: 30px;
 
     }
 
@@ -160,7 +140,7 @@ body {
         justify-content: center;
         width: 96%;
         height: 75%;
-        margin-top: 2%;
+        margin-top: 1%;
     }
 
     div.navBar {
@@ -171,6 +151,23 @@ body {
 
     .navButton {
         margin-right: 5%;
+        font-size: 0.8rem;
     }
 
+
+    .btn-icon {
+        width: 1rem;
+        margin-right: 0.5rem;
+        height: auto;
+    }
+
+    p.btn-text {
+        min-width: 15vw;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .navButton {
+        margin-left: 8vw;
+    }
 }
