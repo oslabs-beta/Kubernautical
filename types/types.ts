@@ -23,6 +23,9 @@ export interface prometheusController {
   getCores: RequestHandler
   getMem: RequestHandler
 }
+export interface k6Controller {
+  testing: RequestHandler
+}
 
 export interface mapController {
   getElements: RequestHandler
