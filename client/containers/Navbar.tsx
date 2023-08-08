@@ -6,7 +6,7 @@ import netWork from '../assets/images/network.png'
 import { GlobalContext } from '../components/Contexts';
 
 export default function Navbar() {
-  const { globalTimer, setGlobalTimer } = useContext(GlobalContext);
+  const { globalTimer, setGlobalTimer, globalServiceTest, setGlobalServiceTest } = useContext(GlobalContext);
   const [activeTimer, setActiveTimer] = useState(0); //this sucks but im an idiot
   const navigate = useNavigate();
   function MainDashBoard() { navigate('/dashboard') }
@@ -15,16 +15,19 @@ export default function Navbar() {
 
   useEffect(() => {
     console.log(globalTimer)
-    if (globalTimer && (globalTimer - Date.now()) < 0) setGlobalTimer ? setGlobalTimer(0) : '';
+    if (globalTimer && (globalTimer - Date.now()) < 0) {
+      setGlobalTimer ? setGlobalTimer(0) : null;
+      setGlobalServiceTest ? setGlobalServiceTest('') : null;
+    }
     setTimeout(() => {
-      globalTimer ? setActiveTimer(Math.floor((globalTimer - Date.now()) / 1000)) : '';
+      globalTimer ? setActiveTimer(Math.floor((globalTimer - Date.now()) / 1000)) : null;
     }, 1000)
   }, [globalTimer, activeTimer])
 
   return (
     <div className='navBar'>
       <div className='navBarTitle'>KUBERNAUTICAL</div>
-      <hr className = 'hr'/>
+      <hr className='hr' />
       <button className='navButton' onClick={GoHome}>
         <img className="btn-icon" src={clusterpic} />
         <p className="btn-text">Cluster View</p>
@@ -40,7 +43,7 @@ export default function Navbar() {
         <p className="btn-text">Network Performance</p>
       </button>
       <div className='loadingStatus'>
-        {globalTimer ? `Load test time remaining: ${Math.floor((globalTimer - Date.now()) / 1000)}s` : ''}
+        {globalTimer ? `Load test time remaining: ${Math.floor((globalTimer - Date.now()) / 1000)}s, running on ${globalServiceTest}` : null}
       </div>
     </div>
   )
