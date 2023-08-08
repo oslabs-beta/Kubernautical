@@ -73,9 +73,13 @@ const GaugeChart: FC<Props> = ({type}) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
+        labels:{
+          color:'rgba(255, 255, 255, 0.702)'
+        },
         display: true
       },
       title: {
+        color:'rgba(255, 255, 255, 0.702)',
         display: true,
         text: type === 'test' ? 'Memory' : 'Total Cores Requested   Total Cores Allocatable',
       }

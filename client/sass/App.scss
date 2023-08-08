@@ -7,7 +7,6 @@
 @import '_map';
 @import '_invisNav';
 
-
 body {
     background-color: rgb(30, 30, 47);
     color: white;
@@ -17,6 +16,15 @@ body {
 .App {
     display: flex;
     height: 95vh;
+}
+.hr{
+    border: 1px solid white;
+    width:90%;
+}
+.footer{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 
