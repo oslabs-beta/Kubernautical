@@ -1,6 +1,7 @@
-# README
 
-# Implemented Technologies:
+# Kubernautical README:
+
+## Implemented Technologies:
 
   ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
   ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
@@ -14,14 +15,14 @@
   ![Javascript](https://img.shields.io/badge/javascript-yellow?style=for-the-badge&logo=javascript)
   ![node](https://img.shields.io/badge/nodejs-forestgreen?style=for-the-badge&logo=nodedotjs&logoColor=black)
 
-# Kubernautical
-
-# Meet the Team
+## Meet the Team
  ![Jeremiah Hogue](client/assets/images/kitten.png) | ![Anthony Vuong](client/assets/images/kitten.png) | ![Stephen Acosta](client/assets/images/kitten.png) |  ![Michael Van](client/assets/images/kitten.png) |
 | ------------- | ------------- |------------- | ------------- |
 | Jeremiah Hogue [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/NotHogue)  [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/jeremiah-hogue/)| Anthony Vuong [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/AnthonyKTVuong) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/anthony-v-9772351b7/) | Stephen Acosta  [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/STAC98) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/sacosta756/)  | Michael Van [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/michaelvan996) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/michael-van-901533222/) |
 
+#
 **Introducing Kubernautical: Empowering Comprehensive Kubernetes Cluster Health Visualization**
+#
 
 Hey there,
 
@@ -49,16 +50,31 @@ In conclusion, Kubernautical represents a significant advancement in the realm o
 
 Thank you for your time and attention. We invite you to explore Kubernautical and embark on a journey towards enhanced Kubernetes cluster health management.
 
+## Terminal Commands
+1. Fork this repository and clone it onto your local machine:
+    `git clone https://github.com/oslabs-beta/Kubernautical`
+1. Run `npm install` to install all package dependencies
+## Contributing
+Contributions play a vital role in the open-source community. Any contributions are greatly appreciated!
+
+- Fork the project.
+- Create and work off of your feature branch.
+- Create a pull request with detailed description of your changes from your feature branch to dev branch.
+- Inform us upon PR submission. Once the changes are reviewed and approved, we will merge your code into the main repository.
+
 # Kubernautical - Prometheus Setup Guide
 
 Welcome to the Kubernautical open source project's guide on setting up Prometheus for monitoring Kubernetes clusters. Prometheus is a powerful monitoring and alerting tool that helps you gain insights into your cluster's performance metrics. This guide will walk you through the process of setting up Prometheus using various resources and links.
 
 ## Table of Contents
 
-- [README](#readme)
-- [Implemented Technologies:](#implemented-technologies)
-- [Kubernautical](#kubernautical)
-- [Meet the Team](#meet-the-team)
+- [Kubernautical README:](#kubernautical-readme)
+  - [Implemented Technologies:](#implemented-technologies)
+  - [Meet the Team](#meet-the-team)
+- [](#)
+- [](#-1)
+  - [Terminal Commands](#terminal-commands)
+  - [Contributing](#contributing)
 - [Kubernautical - Prometheus Setup Guide](#kubernautical---prometheus-setup-guide)
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
@@ -68,11 +84,11 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
     - [Helm Charts Prometheus](#helm-charts-prometheus)
     - [Custom YAML Configuration](#custom-yaml-configuration)
   - [Port Forwarding](#port-forwarding)
-  - [](#)
+  - [](#-2)
 - [Setting Up Google Kubernetes Engine (GKE)](#setting-up-google-kubernetes-engine-gke)
   - [Prerequisites](#prerequisites-1)
   - [GKE Setup](#gke-setup)
-- [](#-1)
+- [](#-3)
 - [General Kubernetes Setup Guide](#general-kubernetes-setup-guide)
   - [Managing Kubernetes Clusters](#managing-kubernetes-clusters)
     - [Deleting Clusters from Kube Config](#deleting-clusters-from-kube-config)
@@ -80,7 +96,7 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
   - [Exposing Applications as Services](#exposing-applications-as-services)
   - [Load Testing with K6](#load-testing-with-k6)
   - [Removing Deployments](#removing-deployments)
-- [](#-2)
+- [](#-4)
 - [Helpful Resources](#helpful-resources)
   - [TypeScript - Why Use TypeScript?](#typescript---why-use-typescript)
   - [Design Assets - Canva Folder](#design-assets---canva-folder)
