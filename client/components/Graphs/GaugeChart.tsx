@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend,);
 import type { Props } from '../../../types/types';
+import { totalmem } from 'os';
 
 const GaugeChart: FC<Props> = ({type}) => {
   const [guageData, setGuageData] = useState(0);
@@ -14,7 +15,7 @@ const GaugeChart: FC<Props> = ({type}) => {
       if (type === 'req') {
         URL = `/api/prom/metrics?type=req&hour=24`;
       } else if (type === 'test') {
-        URL = `/api/prom/mem?hour=24`;
+        URL = `/api/prom/mem?type=mem&hour=24`;
       }
       const response = await fetch(URL, {
         method: 'GET',
@@ -23,6 +24,7 @@ const GaugeChart: FC<Props> = ({type}) => {
         },
       });
       const data = await response.json();
+      console.log(`data`, data)
       if (!data[0]) {
         setGuageData(0);
         return;
@@ -33,14 +35,7 @@ const GaugeChart: FC<Props> = ({type}) => {
 
       } else if (type === 'test') {
 
-
-        const memValues = data.map((value: any) => Number(value[1]));
-        // console.log('mem:', mem);
-        const totalMem = memValues.reduce((total: number, val: number) => total + val, 0);
-        // console.log('totalMem:', totalMem);
-        const memPercents = memValues.map((value: number) => (value / totalMem) * 100);
-        console.log(memPercents);
-        setMemValues(memPercents);
+        setMemValues(data);
     } 
   } catch (error) {
     console.log('Error fetching data:', error);
@@ -55,7 +50,7 @@ const GaugeChart: FC<Props> = ({type}) => {
 
   // const memLabels = memValues.length > 0 ? memValues.map(val => val < 1 ? '<1%' : `${Math.round(val)}%`): [];
   const memLabels = memValues.length > 0 ? memValues.map(val => val < 1 ? '<1%' : `${Number(val).toFixed(2)}%`) : [];
-  console.log('memLabels:', memLabels);
+  // console.log('memLabels:', memLabels);
 
   const data = {
     labels: memValues.length > 0 ? memLabels : [`${guageData}%`, `${allocatable}%`],
