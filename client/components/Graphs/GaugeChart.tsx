@@ -24,7 +24,7 @@ const GaugeChart: FC<Props> = ({type}) => {
         },
       });
       const data = await response.json();
-      console.log(`data`, data)
+      
       if (!data[0]) {
         setGuageData(0);
         return;

@@ -90,13 +90,10 @@ const promController: prometheusController = {
         console.log('res.locals.data:', res.locals.data[0].values.slice(-1)[0][1]);
         const lastUsed = res.locals.data[0].values.slice(-1)[0][1];
 
-
         let totalQ = query + `sum(node_memory_MemTotal_bytes)` + range;
-                                        
 
         let reqQ = query + `sum(kube_pod_container_resource_requests{resource="memory"})` + range;
         // console.log(reqQ)
-
 
         try {
             const totRes = await fetch(totalQ);
