@@ -148,7 +148,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
   return (
     <div className='lineGraph'>
       <div>
-        <select className='containerButton' value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
+        <select className='containerButton' id ='hourDropDown' value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
           <option value='1'>1 hour</option>
           <option value='6'>6 hours</option>
           <option value='12'>12 hours</option>
