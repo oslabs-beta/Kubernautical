@@ -74,7 +74,16 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
   - [Exposing Applications as Services](#exposing-applications-as-services)
   - [Load Testing with K6](#load-testing-with-k6)
   - [Removing Deployments](#removing-deployments)
-  - [Conclusion](#conclusion)
+- [](#-2)
+- [Kubernautical Open Source Project - Helpful Resources](#kubernautical-open-source-project---helpful-resources)
+  - [TypeScript - Why Use TypeScript?](#typescript---why-use-typescript)
+  - [Design Assets - Canva Folder](#design-assets---canva-folder)
+  - [SeeQR - GitHub Repository](#seeqr---github-repository)
+  - [ClusterWatch Data Fetch - Example Code](#clusterwatch-data-fetch---example-code)
+  - [Kubernetes Icon Assets](#kubernetes-icon-assets)
+  - [VIS Physics Docs - Visualizations](#vis-physics-docs---visualizations)
+  - [Easing Algorithms Explained](#easing-algorithms-explained)
+  - [k6 Load Testing Script](#k6-load-testing-script)
 
 ## Prerequisites
 
@@ -169,4 +178,48 @@ For load testing your applications within the Kubernetes environment, you can us
 
 When it's necessary to remove deployments from your Kubernetes cluster, refer to the following documentation for guidance:
 - [Removing Deployments from Kubernetes](https://www.ibm.com/docs/en/control-desk/7.6.1.x?topic=containers-stop-existing-deployments)
+
+#
+# Kubernautical Open Source Project - Helpful Resources
+
+Welcome to the Kubernautical open source project! This README is designed to provide you with an array of helpful links and code snippets to streamline your journey in understanding and contributing to our project.
+
+## TypeScript - Why Use TypeScript?
+
+Learn why TypeScript is a valuable addition to our project development by reading this insightful article: [Why Use TypeScript?](https://tsh.io/blog/why-use-typescript/)
+
+## Design Assets - Canva Folder
+
+Access our design assets and visuals on our [Canva Folder](https://www.canva.com).
+
+## SeeQR - GitHub Repository
+
+Explore the [SeeQR GitHub Repository](https://github.com/open-source-labs/SeeQR) for inspiration and insights on effective open source project management.
+
+## ClusterWatch Data Fetch - Example Code
+
+For data fetching in the ClusterWatch project, refer to the `clusterController.ts` file in the repository: [ClusterWatch clusterController.ts](https://github.com/oslabs-beta/ClusterWatch/blob/main/server/controllers/clusterController.ts).
+
+## Kubernetes Icon Assets
+
+Enhance the visual representation of your project with official Kubernetes icons. Find them in the [Kubernetes Icon Assets](https://github.com/kubernetes/community/tree/master/icons) repository.
+
+[Kubernetes Logo](https://github.com/kubernetes/kubernetes/blob/master/logo/logo.png)
+
+## VIS Physics Docs - Visualizations
+
+For interactive visualizations, consult the [VIS Physics Documentation](https://almende.github.io/vis/docs/network/#methodPhysics).
+
+## Easing Algorithms Explained
+
+Understand easing algorithms and their applications for smooth animations. Explore [Easing Algorithms Explained](https://easings.net/) for detailed explanations.
+
+## k6 Load Testing Script
+
+Utilize the following command to execute a k6 load testing script:
+
+```shell
+k6 run --vus 30 --duration 30s scripts/loadtest.js
+```
+
 
