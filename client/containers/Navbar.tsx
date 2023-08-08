@@ -11,7 +11,7 @@ export default function Navbar() {
     globalServiceTest, setGlobalServiceTest,
     showEditModal, setShowEditModal
   } = useContext(GlobalContext);
-  const [activeTimer, setActiveTimer] = useState(0); //this sucks but im an idiot
+  const [activeTimer, setActiveTimer] = useState(0); //!this sucks but im an idiot
   const navigate = useNavigate();
   function MainDashBoard() { navigate('/dashboard') }
   function GoHome() { navigate('/'); }

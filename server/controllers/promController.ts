@@ -17,8 +17,6 @@ const promController: prometheusController = {
 
     getMetrics: async (req: Request, res: Response, next: NextFunction) => {
         const { type, hour, scope, name, notTime } = req.query; //pods--->scope, podname---->name
-
-        const { type, hour, scope, name, notTime } = req.query; //pods--->scope, podname---->name
         //? default start, stop, step, query string
         let start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
         let end = new Date(Date.now()).toISOString();
@@ -42,21 +40,21 @@ const promController: prometheusController = {
         if (!notTime) query += `&start=${start}&end=${end}&step=${step}m`;
 
         try {
-            
+
             const response = await fetch(query);
             // const data = response.json();
-            
+
             if (notTime) {
                 const usedMemory = Number((await response.json()).data.result[0].value[1]);
                 res.locals.usedMemory = usedMemory
-             } 
-             else {
+            }
+            else {
                 const data = await response.json();
                 res.locals.data = data.data.result;
             }
-   
+
             return next();
-            } catch (error) {
+        } catch (error) {
             return next(error);
         }
     },
@@ -94,11 +92,11 @@ const promController: prometheusController = {
 
             const usedMem = res.locals.usedMemory;
             const remMem = totalMem - (reqMem + usedMem);
-            
-            mem.push(reqMem, usedMem, remMem);
-            const memoryPercents = mem.map((value) => (value/totalMem) * 100);
 
-            res.locals.memoryPercents = [{usedMemory: memoryPercents[0]}, {requestedMemory: memoryPercents[1]}, {allocatableMemory: memoryPercents[2]}];
+            mem.push(reqMem, usedMem, remMem);
+            const memoryPercents = mem.map((value) => (value / totalMem) * 100);
+
+            res.locals.memoryPercents = [{ usedMemory: memoryPercents[0] }, { requestedMemory: memoryPercents[1] }, { allocatableMemory: memoryPercents[2] }];
             // totalMem
             return next();
         } catch (err) {

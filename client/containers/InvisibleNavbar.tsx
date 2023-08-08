@@ -2,7 +2,7 @@ import React, { FC, useState, SyntheticEvent, CSSProperties, useEffect } from 'r
 import type { Props } from '../../types/types';
 import { GlobalContext } from '../components/Contexts';
 
-// let defaultCSS : CSSProperties;
+
 const InvisibleNavbar: FC<Props> = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalPos, setModalPos] = useState(0);
@@ -19,7 +19,6 @@ const InvisibleNavbar: FC<Props> = () => {
         const [service, setService] = useState('');
 
         const loadtest = async () => {
-            //do we need both inputs
             if (vU < 0 || duration < 0) return alert('Please choose positive numbers');
             if (vU === 0 && duration === 0 || vU !== 0 && duration === 0 || vU === 0 && duration !== 0) return alert('Please fill out both fields');
             if (globalTimer && (globalTimer - Date.now()) > 0) return alert('Load test is currently running, please wait');
