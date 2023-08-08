@@ -16,6 +16,11 @@
 
 # Kubernautical
 
+# Meet the Team
+ ![Jeremiah Hogue](client/assets/images/kitten.png) | ![Anthony Vuong](client/assets/images/kitten.png) | ![Stephen Acosta](client/assets/images/kitten.png) |  ![Michael Van](client/assets/images/kitten.png) |
+| ------------- | ------------- |------------- | ------------- |
+| Jeremiah Hogue [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/NotHogue)  [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/jeremiah-hogue/)| Anthony Vuong [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/AnthonyKTVuong) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/anthony-v-9772351b7/) | Stephen Acosta  [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/STAC98) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/sacosta756/)  | Michael Van [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/michaelvan996) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/michael-van-901533222/) |
+
 **Introducing Kubernautical: Empowering Comprehensive Kubernetes Cluster Health Visualization**
 
 Hey there,
@@ -53,6 +58,7 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
 - [README](#readme)
 - [Implemented Technologies:](#implemented-technologies)
 - [Kubernautical](#kubernautical)
+- [Meet the Team](#meet-the-team)
 - [Kubernautical - Prometheus Setup Guide](#kubernautical---prometheus-setup-guide)
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
@@ -75,7 +81,7 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
   - [Load Testing with K6](#load-testing-with-k6)
   - [Removing Deployments](#removing-deployments)
 - [](#-2)
-- [Kubernautical Open Source Project - Helpful Resources](#kubernautical-open-source-project---helpful-resources)
+- [Helpful Resources](#helpful-resources)
   - [TypeScript - Why Use TypeScript?](#typescript---why-use-typescript)
   - [Design Assets - Canva Folder](#design-assets---canva-folder)
   - [SeeQR - GitHub Repository](#seeqr---github-repository)
@@ -180,7 +186,7 @@ When it's necessary to remove deployments from your Kubernetes cluster, refer to
 - [Removing Deployments from Kubernetes](https://www.ibm.com/docs/en/control-desk/7.6.1.x?topic=containers-stop-existing-deployments)
 
 #
-# Kubernautical Open Source Project - Helpful Resources
+# Helpful Resources
 
 Welcome to the Kubernautical open source project! This README is designed to provide you with an array of helpful links and code snippets to streamline your journey in understanding and contributing to our project.
 
@@ -221,5 +227,3 @@ Utilize the following command to execute a k6 load testing script:
 ```shell
 k6 run --vus 30 --duration 30s scripts/loadtest.js
 ```
-
-
