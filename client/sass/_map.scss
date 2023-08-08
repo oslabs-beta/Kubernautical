@@ -33,3 +33,24 @@ div.vis-tooltip {
     pointer-events: none;
     z-index: 5;
 }
+
+.mapButton {
+    // position: absolute;
+    z-index: 3;
+}
+
+.mapButton2 {
+    // position: absolute;
+    top: 23%;
+    height: 15px;
+    width: 200px;
+    padding: 0;
+    z-index: 3;
+}
+
+.mapButton:hover,
+.mapButton2:hover {
+    cursor: pointer;
+    transform: translate(1px, 1px);
+    color: lighten($font-color, 20%);
+}
