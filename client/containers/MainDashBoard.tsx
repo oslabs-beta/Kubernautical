@@ -1,6 +1,6 @@
 import LineGraph from '../components/Graphs/LineGraph'
 import GaugeChart from '../components/Graphs/GaugeChart'
-import EditModal from '../components/EditModal';
+import EditModal from '../components/CRUDModal';
 import React, { FC } from 'react'
 import type { Props } from '../../types/types';
 import InvisibleNavbar from './InvisibleNavbar';

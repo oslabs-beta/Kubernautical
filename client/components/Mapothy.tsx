@@ -57,18 +57,19 @@ const options = {
         // }
     }
 };
-const defaultObj: ClusterData = {};
 const defaultservArr: globalServiceObj[] = [];
 //?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
-    const { setGlobalNamesapces, setGlobalServices, globalServices } = useContext(GlobalContext);
+    const { setGlobalNamesapces,
+        setGlobalServices, globalServices,
+        globalClusterData, setGlobalClusterData
+    } = useContext(GlobalContext);
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
         edges: [],
     });
     const [ns, setNs] = useState('Cluster');
     const [nsArr, setNsArr] = useState(['']);
-    const [clusterData, setclusterData] = useState(defaultObj);
     const events = {
         select: function (event: any) { //TODO fix typing 
             var { nodes, edges } = event;
@@ -82,12 +83,12 @@ export const Mapothy: FC<Props> = ({ header }) => {
             const serviceArrTemp: globalServiceObj[] = [];
             let filteredNsArr: CLusterObj[] = [];
             let data;
-            if (!clusterData.namespaces) {
+            if (!globalClusterData?.namespaces) {
                 const result = await fetch('api/map/elements');
                 data = await result.json();
-                setclusterData(data);
+                setGlobalClusterData ? setGlobalClusterData(data) : null;
             }
-            else { data = clusterData }
+            else { data = globalClusterData }
             const { pods, namespaces, deployments, services } = data;
             nodesArr.push({ id: '0', title: "KuberNautical", size: 100, image: logoImg, shape: 'image' });
             //?----------------------------------Namespace Search------------------------------------->
@@ -180,7 +181,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
             });
         } catch (error) {
             throw (error);
-            console.log(error);
         }
     }
     useEffect(() => {
