@@ -25,7 +25,7 @@ const promController: prometheusController = {
 
         const { type, hour, scope, name } = req.query; //pods--->scope, podname---->name
 
-        //api/prom/metrics?type=cpu&hour=24&scope=namespace&name=gmp-system
+        //api/prom/metrics?type=cpu&hour=24&name=gmp-system
         //^hour is required
         const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
@@ -39,6 +39,7 @@ const promController: prometheusController = {
         if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
         if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
         if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})*${userCores}`; //requested divided by available
+
         query += `&start=${start}&end=${end}&step=${step}m`;
 
         // console.log('query:', query);
@@ -48,6 +49,7 @@ const promController: prometheusController = {
             const data = await response.json();
 
             // console.log('data:', data.data)
+            
             res.locals.data = data.data.result;
 
             return next();
@@ -70,13 +72,51 @@ const promController: prometheusController = {
     //TODO doesnt work
     getMem: async (req: Request, res: Response, next: NextFunction) => {
 
+        console.log('in getMem')
+
+        let start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
+        let end = new Date(Date.now()).toISOString();
+        let step = 10;
+
+        const { hour } = req.query;
+
+        start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
+        step = Math.ceil((step / (24 / Number(hour))));
+
+        let mem = [];
+        let range = `&start=${start}&end=${end}&step=${step}`;
+        let query = `http://localhost:9090/api/v1/query_range?query=`;
+
+        console.log('res.locals.data:', res.locals.data[0].values.slice(-1)[0][1]);
+        const lastUsed = res.locals.data[0].values.slice(-1)[0][1];
+
+        let totalQ = query + `sum(node_memory_MemTotal_bytes)` + range;
+
+        let reqQ = query + `sum(kube_pod_container_resource_requests{resource="memory"})` + range;
+        // console.log(reqQ)
+
         try {
-            // resource => memory, cpu 
-            const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="memory"})`);
-            const data = await response.json();
+            const totRes = await fetch(totalQ);
+            const totData = await totRes.json();
+            const lastTot = totData.data.result[0].values.slice(-1)[0][1];
+            // console.log('test', lastTot)
+            
+            const reqRes = await fetch(reqQ);
+            const reqData = await reqRes.json();
+            const lastReq = reqData.data.result[0].values.slice(-1)[0][1];
+
+            const remMem = lastTot - lastUsed;
+            mem.push(lastUsed,lastReq,remMem);
+            const percents = mem.map((value) => (value/lastTot) *100);
+            console.log(percents)
+
+
+            res.locals.mem = percents;
+            
             return next();
-        } catch (error) {
-            return next(error);
+        } catch (err) {
+        console.error('Error fetching metrics:', err);
+        
         }
     }
 

@@ -3,44 +3,64 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend,);
 import type { Props } from '../../../types/types';
+import { totalmem } from 'os';
 
-const GaugeChart: FC<Props> = (type, labels,) => {
+const GaugeChart: FC<Props> = ({type}) => {
   const [guageData, setGuageData] = useState(0);
+  const [memValues, setMemValues] = useState([]);
 
   const getData = async () => {
     try {
-      const response = await fetch(`/api/prom/metrics?type=req&hour=24`, {
+      let URL = '';
+      if (type === 'req') {
+        URL = `/api/prom/metrics?type=req&hour=24`;
+      } else if (type === 'test') {
+        URL = `/api/prom/mem?type=mem&hour=24`;
+      }
+      const response = await fetch(URL, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
       const data = await response.json();
+      
       if (!data[0]) {
         setGuageData(0);
         return;
       }
+      if (type === 'req') {
+        const cpuRequested = Math.round(data[0].values[0][1] * 100) / 100;
+        setGuageData(cpuRequested);
 
-      const cpuRequested = Math.round(data[0].values[0][1] * 100) / 100
-      setGuageData(cpuRequested)
-    } catch (error) {
-      console.log('Error fetching data:', error);
-    }
+      } else if (type === 'test') {
+
+        setMemValues(data);
+    } 
+  } catch (error) {
+    console.log('Error fetching data:', error);
+  }
+    
   }
   useEffect(() => {
     getData();
-  }, []);
+  }, [type]);
 
   const allocatable: number = Math.round((100 - guageData) * 100) / 100
 
+  // const memLabels = memValues.length > 0 ? memValues.map(val => val < 1 ? '<1%' : `${Math.round(val)}%`): [];
+  const memLabels = memValues.length > 0 ? memValues.map(val => val < 1 ? '<1%' : `${Number(val).toFixed(2)}%`) : [];
+  // console.log('memLabels:', memLabels);
+
   const data = {
-    labels: [`${guageData}%`, `${allocatable}%`], // this is Memory Used vs how much is left
+    labels: memValues.length > 0 ? memLabels : [`${guageData}%`, `${allocatable}%`],
+    // labels: [`${guageData}%`, `${allocatable}%`], // this is Memory Used vs how much is left
     datasets: [{
       label: 'Percentage',
-      data: [guageData, allocatable], // data here Memory Percentage out of how much is left
-      backgroundColor: ['rgba(250, 0, 133, .05)', 'rgba(70, 0, 250, .05)'],
-      borderColor: ['rgba(250, 0, 133, .67)', 'rgba(70, 0, 250, .67)'],
-      borderWidth: 5,
+      data: memValues.length > 0 ? memValues : [guageData, allocatable],
+      // data: [guageData, allocatable], // data here Memory Percentage out of how much is left
+      backgroundColor: ['rgba(250, 0, 133, 0.3)', 'rgba(70, 0, 250, 0.3)'],
+      borderColor: ['rgba(250, 0, 133, 0.7)', 'rgba(70, 0, 250, 0.7)'],
       circumference: 180,
       rotation: 270,
       cutout: '60%',
@@ -61,7 +81,7 @@ const GaugeChart: FC<Props> = (type, labels,) => {
       title: {
         color:'rgba(255, 255, 255, 0.702)',
         display: true,
-        text: 'Total Cores Requested   Total Cores Allocatable',
+        text: type === 'test' ? 'Memory' : 'Total Cores Requested   Total Cores Allocatable',
       }
     }
   }
