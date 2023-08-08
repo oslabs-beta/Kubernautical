@@ -7,6 +7,7 @@ import { GlobalContext } from './components/Contexts';
 
 
 
+
 const stringArr: string[] = [];
 const serviceArr: globalServiceObj[] = [];
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
           <MainContainer />
         </GlobalContext.Provider>
       </div>
+      <footer className = 'footer'>@2023 Kubernautical™ | All Rights Reserved </footer>
     </>
   );
 };

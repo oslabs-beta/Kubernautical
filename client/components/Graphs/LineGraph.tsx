@@ -85,6 +85,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
       borderColor: color,
       pointBorderColor: color,
       tension: .5,
+      pointBackgroundColor:'white',
       pointBorderWidth: 1,
       pointHoverRadius: 4,
       pointRadius: 1,
@@ -103,25 +104,43 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
     },
     plugins: {
       legend: {
+        labels:{
+          color:'rgba(255, 255, 255, 0.702)'
+        },
         display: true
+        
       },
     },
     responsive: true,
     scales: {
       y: {
+        ticks:{
+          color:'rgba(255, 255, 255, 0.702)'
+        },
+        grid: {
+          display: true ,
+          color: `rgba(128, 128, 128, 0.1)`
+        },
         display: true,
         title: {
           display: true,
           text: yAxisTitle,
-          color: color
+          color: 'rgba(255, 255, 255, 0.702)'
         }
       },
       x: {
+        ticks:{
+          color:'rgba(255, 255, 255, 0.702)'
+        },
+        grid: {
+          display: false ,
+          color: `rgba(128, 128, 128, 0.1)`
+        },
         display: true,
         title: {
           display: true,
           text: `Time(${hourSelection}hrs)`,
-          color: color
+          color: 'rgba(255, 255, 255, 0.702)'
         }
       }
     }

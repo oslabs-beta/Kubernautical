@@ -24,7 +24,7 @@ export default function Navbar() {
   return (
     <div className='navBar'>
       <div className='navBarTitle'>KUBERNAUTICAL</div>
-
+      <hr className = 'hr'/>
       <button className='navButton' onClick={GoHome}>
         <img className="btn-icon" src={clusterpic} />
         <p className="btn-text">Cluster View</p>
