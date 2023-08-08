@@ -17,6 +17,15 @@ body {
     display: flex;
     height: 95vh;
 }
+.hr{
+    border: 1px solid white;
+    width:90%;
+}
+.footer{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
 
 
 // large screen

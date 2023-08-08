@@ -57,10 +57,10 @@ const GaugeChart: FC<Props> = ({type}) => {
     // labels: [`${guageData}%`, `${allocatable}%`], // this is Memory Used vs how much is left
     datasets: [{
       label: 'Percentage',
-      data: memValues.length > 0 ? memValues : [guageData, allocatable],
-      // data: [guageData, allocatable], // data here Memory Percentage out of how much is left
-      backgroundColor: ['rgba(250, 0, 133, 0.3)', 'rgba(70, 0, 250, 0.3)'],
-      borderColor: ['rgba(250, 0, 133, 0.7)', 'rgba(70, 0, 250, 0.7)'],
+      data: [guageData, allocatable], // data here Memory Percentage out of how much is left
+      backgroundColor: ['rgba(250, 0, 133, .05)', 'rgba(70, 0, 250, .05)'],
+      borderColor: ['rgba(250, 0, 133, .67)', 'rgba(70, 0, 250, .67)'],
+      borderWidth: 5,
       circumference: 180,
       rotation: 270,
       cutout: '60%',
@@ -73,9 +73,13 @@ const GaugeChart: FC<Props> = ({type}) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
+        labels:{
+          color:'rgba(255, 255, 255, 0.702)'
+        },
         display: true
       },
       title: {
+        color:'rgba(255, 255, 255, 0.702)',
         display: true,
         text: type === 'test' ? 'Memory' : 'Total Cores Requested   Total Cores Allocatable',
       }
