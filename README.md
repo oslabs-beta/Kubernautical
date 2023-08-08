@@ -66,6 +66,15 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
 - [Setting Up Google Kubernetes Engine (GKE)](#setting-up-google-kubernetes-engine-gke)
   - [Prerequisites](#prerequisites-1)
   - [GKE Setup](#gke-setup)
+- [](#-1)
+- [General Kubernetes Setup Guide](#general-kubernetes-setup-guide)
+  - [Managing Kubernetes Clusters](#managing-kubernetes-clusters)
+    - [Deleting Clusters from Kube Config](#deleting-clusters-from-kube-config)
+    - [Exporting Kube Config](#exporting-kube-config)
+  - [Exposing Applications as Services](#exposing-applications-as-services)
+  - [Load Testing with K6](#load-testing-with-k6)
+  - [Removing Deployments](#removing-deployments)
+  - [Conclusion](#conclusion)
 
 ## Prerequisites
 
@@ -128,3 +137,36 @@ Follow these steps to set up Google Kubernetes Engine (GKE) for our open source 
    [Pushing Docker Images to Google Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images)
 
 Make sure to complete these steps to ensure a seamless setup of GKE for our project.
+
+#
+# General Kubernetes Setup Guide
+
+Welcome to the Kubernautical open source project! This guide will help you set up and manage a Kubernetes environment for using Kubernautical effectively. Below are essential steps and resources to assist you in various aspects of Kubernetes management.
+
+## Managing Kubernetes Clusters
+
+### Deleting Clusters from Kube Config
+
+If you need to remove clusters and contexts from your `kubectl` configuration, follow the steps provided in this Stack Overflow post:
+- [Delete Clusters and Contexts from Kube Config](https://stackoverflow.com/questions/37016546/kubernetes-how-do-i-delete-clusters-and-contexts-from-kubectl-config)
+
+### Exporting Kube Config
+
+To export a `kubeconfig` file from an existing cluster, you can use the instructions outlined in this Stack Overflow post:
+- [Export Kubeconfig File from Existing Cluster](https://stackoverflow.com/questions/61829214/how-to-export-kubeconfig-file-from-existing-cluster)
+
+## Exposing Applications as Services
+
+Kubernautical often requires exposing applications as services within your Kubernetes cluster. Learn how to do this with the following documentation:
+- [Exposing Applications as Services on Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/how-to/exposing-apps)
+
+## Load Testing with K6
+
+For load testing your applications within the Kubernetes environment, you can use K6. Get started with running K6 by following the steps here:
+- [Getting Started with Running K6](https://k6.io/docs/get-started/running-k6/)
+
+## Removing Deployments
+
+When it's necessary to remove deployments from your Kubernetes cluster, refer to the following documentation for guidance:
+- [Removing Deployments from Kubernetes](https://www.ibm.com/docs/en/control-desk/7.6.1.x?topic=containers-stop-existing-deployments)
+
