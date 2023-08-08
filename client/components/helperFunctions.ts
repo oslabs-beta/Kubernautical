@@ -10,7 +10,7 @@ export const makeModal = (obj: CLusterObj, type: string) => {
     header.className = 'modalHeader';
     header.innerText = `${type} Details`;
     Object.keys(obj).forEach((key: any) => {
-        if (key === 'uid') return;
+        if (key === 'uid' || key === 'ingressIP') return;
         if (typeof obj[key] === 'object') {
             subLists.push(recursiveList(obj[key], key));
         }
@@ -32,7 +32,7 @@ const recursiveList = (obj: nestedObj, key?: any) => {
     const subList = document.createElement('ul');
     const smallHeader = document.createElement('div');
     smallHeader.className = 'modalHeader';
-    key ? smallHeader.innerText = `${humanReadable(key)}` : '';
+    key ? smallHeader.innerText = `${humanReadable(key)}` : null;
     if (Array.isArray(obj) && obj.length === 1 && typeof obj[0] !== 'object') {
         const singleLi = document.createElement('li')
         singleLi.innerText = `${humanReadable(key)}: ${obj[0]}`;

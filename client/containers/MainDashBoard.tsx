@@ -51,7 +51,7 @@ const MainDashBoard: FC<Props> = ({ header }) => {
           graphTextColor='rgba(255, 255, 255, 0.702)'
         />
         <GaugeChart
-          type="test"
+          type="mem"
           backgroundColor={['rgba(250, 0, 133, 0.3)', 'rgba(70, 0, 250, 0.3)','rgba(250, 0, 133, 0.3)']}
           borderColor={['rgba(250, 0, 133, 0.7)', 'rgba(70, 0, 250, 0.7)','rgba(70, 0, 250, 0.7)']}
           title='Memory'
