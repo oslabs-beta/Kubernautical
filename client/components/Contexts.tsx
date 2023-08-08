@@ -8,6 +8,8 @@ interface GlobalContext {
     setGlobalServices?: Dispatch<SetStateAction<globalServiceObj[]>>
     globalTimer?: number
     setGlobalTimer?: Dispatch<SetStateAction<number>>
+    globalServiceTest?: string
+    setGlobalServiceTest?: Dispatch<SetStateAction<string>>
 }
 
 export const GlobalContext = createContext<GlobalContext>({})

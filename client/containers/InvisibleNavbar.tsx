@@ -14,7 +14,7 @@ const InvisibleNavbar: FC<Props> = () => {
     }
 
     const Modal: FC<Props> = ({ style }) => {
-        const { globalServices, globalTimer, setGlobalTimer } = useContext(GlobalContext);
+        const { globalServices, globalTimer, setGlobalTimer, setGlobalServiceTest } = useContext(GlobalContext);
         const [vU, setVu] = useState(0)
         const [duration, setDuration] = useState(0);
         const [service, setService] = useState('');
@@ -28,14 +28,14 @@ const InvisibleNavbar: FC<Props> = () => {
                 const response = await fetch(`/api/k6/test?vus=${vU}&duration=${duration}&ip=${service}`)
                 const data = response.json()
                 setShowModal(false);
-                console.log(duration)
-                setGlobalTimer ? setGlobalTimer((Date.now() + (duration * 1000))) : '';
+                const filtered = globalServices?.find((gService) => gService?.ip === service)
+                setGlobalServiceTest ? setGlobalServiceTest(filtered ? filtered.name : '') : null;
+                setGlobalTimer ? setGlobalTimer((Date.now() + (duration * 1000))) : null;
                 console.log('Load Testing')
             } catch (error) {
                 console.log('error in running load test:', error)
             }
         }
-        const imgSrc = '../assets/images/network.png'
         return (
             <>
                 <div className='page-mask'></div>
