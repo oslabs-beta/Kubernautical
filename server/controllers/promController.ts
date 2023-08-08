@@ -25,7 +25,7 @@ const promController: prometheusController = {
 
         const { type, hour, scope, name } = req.query; //pods--->scope, podname---->name
 
-        //api/prom/metrics?type=cpu&hour=24&scope=namespace&name=gmp-system
+        //api/prom/metrics?type=cpu&hour=24&name=gmp-system
         //^hour is required
         const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
@@ -37,7 +37,8 @@ const promController: prometheusController = {
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
         if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
         if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
-        if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})*${userCores}`;
+        if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})*${userCores}`; //requested divided by available
+
         query += `&start=${start}&end=${end}&step=${step}m`;
 
         console.log('query:', query);
@@ -46,6 +47,7 @@ const promController: prometheusController = {
             const data = await response.json();
 
             // console.log('data:', data.data)
+            
             res.locals.data = data.data.result;
 
             return next();
@@ -68,13 +70,68 @@ const promController: prometheusController = {
     //TODO doesnt work
     getMem: async (req: Request, res: Response, next: NextFunction) => {
 
+        // console.log('in getMem')
+
+        let start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
+        let end = new Date(Date.now()).toISOString();
+        let step = 10;
+
+        const { hour, scope, name } = req.query;
+
+        // const userCores = 100 / res.locals.cores;
+        start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
+        step = Math.ceil((step / (24 / Number(hour))));
+
+        let mem = [];
+        let range = `&start=${start}&end=${end}&step=${step}`;
+        let query = `http://localhost:9090/api/v1/query_range?query=`;
+
+        // let alloQ = query + `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})` + range
+        //  + range;
+        
+
+        // let usedQ = query + `sum(container_memory_usage_bytes{container="", pod!=""})` + range;
+                                        // if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
+        
+
+        let reqQ = query + `sum(kube_pod_container_resource_requests{resource="memory"})` + range;
+        console.log(reqQ)
+
+
         try {
-            // resource => memory, cpu 
-            const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="memory"})`);
-            const data = await response.json();
+            // const alloRes = await fetch(alloQ);
+            // const alloData = await alloRes.json();
+            // const lastAllo = alloData
+            // .data.result[1].values
+            // .slice(-1)[0];
+    
+            // const usedRes = await fetch(usedQ);
+            // const usedData = await usedRes.json();
+            // const lastUsed = usedData.data.result[1].values
+            // .slice(-1)[0];
+            
+            console.log(reqQ)
+            const reqRes = await fetch(reqQ);
+            const reqData = await reqRes.json();
+            // console.log('reqdata:', reqData)
+            const lastReq = reqData.data.result[0].values.slice(-1)[0][1];
+            // .result[1]
+            // .values.slice(-1)[0];
+    
+            // console.log('Most Recent Allo:', lastAllo);
+            // console.log('Most Recent Used:', lastUsed);
+            console.log('Most Recent Req:', lastReq);
+            mem.push({lastReq: lastReq});
+            // , lastReq, lastAllo
+            
+            // res.locals.lastAllo = lastAllo;
+            // res.locals.lastUsed = lastUsed;
+            res.locals.mem = mem;
+
             return next();
-        } catch (error) {
-            return next(error);
+        } catch (err) {
+        console.error('Error fetching metrics:', err);
+        
         }
     }
 
