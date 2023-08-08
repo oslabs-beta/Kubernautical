@@ -72,15 +72,14 @@ const promController: prometheusController = {
     //TODO doesnt work
     getMem: async (req: Request, res: Response, next: NextFunction) => {
 
-        // console.log('in getMem')
+        console.log('in getMem')
 
         let start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
         let end = new Date(Date.now()).toISOString();
         let step = 10;
 
-        const { hour, scope, name } = req.query;
+        const { hour } = req.query;
 
-        // const userCores = 100 / res.locals.cores;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
         step = Math.ceil((step / (24 / Number(hour))));
 
@@ -88,48 +87,35 @@ const promController: prometheusController = {
         let range = `&start=${start}&end=${end}&step=${step}`;
         let query = `http://localhost:9090/api/v1/query_range?query=`;
 
-        // let alloQ = query + `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})` + range
-        //  + range;
-        
+        console.log('res.locals.data:', res.locals.data[0].values.slice(-1)[0][1]);
+        const lastUsed = res.locals.data[0].values.slice(-1)[0][1];
 
-        // let usedQ = query + `sum(container_memory_usage_bytes{container="", pod!=""})` + range;
-                                        // if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
-        
+
+        let totalQ = query + `sum(node_memory_MemTotal_bytes)` + range;
+                                        
 
         let reqQ = query + `sum(kube_pod_container_resource_requests{resource="memory"})` + range;
-        console.log(reqQ)
+        // console.log(reqQ)
 
 
         try {
-            // const alloRes = await fetch(alloQ);
-            // const alloData = await alloRes.json();
-            // const lastAllo = alloData
-            // .data.result[1].values
-            // .slice(-1)[0];
-    
-            // const usedRes = await fetch(usedQ);
-            // const usedData = await usedRes.json();
-            // const lastUsed = usedData.data.result[1].values
-            // .slice(-1)[0];
+            const totRes = await fetch(totalQ);
+            const totData = await totRes.json();
+            const lastTot = totData.data.result[0].values.slice(-1)[0][1];
+            // console.log('test', lastTot)
             
-            console.log(reqQ)
             const reqRes = await fetch(reqQ);
             const reqData = await reqRes.json();
-            // console.log('reqdata:', reqData)
             const lastReq = reqData.data.result[0].values.slice(-1)[0][1];
-            // .result[1]
-            // .values.slice(-1)[0];
-    
-            // console.log('Most Recent Allo:', lastAllo);
-            // console.log('Most Recent Used:', lastUsed);
-            console.log('Most Recent Req:', lastReq);
-            mem.push({lastReq: lastReq});
-            // , lastReq, lastAllo
-            
-            // res.locals.lastAllo = lastAllo;
-            // res.locals.lastUsed = lastUsed;
-            res.locals.mem = mem;
 
+            const remMem = lastTot - lastUsed;
+            mem.push(lastUsed,lastReq,remMem);
+            const percents = mem.map((value) => (value/lastTot) *100);
+            console.log(percents)
+
+
+            res.locals.mem = percents;
+            
             return next();
         } catch (err) {
         console.error('Error fetching metrics:', err);
