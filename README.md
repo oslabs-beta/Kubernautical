@@ -43,3 +43,55 @@ Kubernautical is a cutting-edge open source product meticulously designed to pro
 In conclusion, Kubernautical represents a significant advancement in the realm of Kubernetes cluster health visualization. By offering a comprehensive and real-time overview of critical metrics, it equips users with the insights they need to maintain robust and stable clusters. With its intuitive interface and seamless cluster switching capabilities, Kubernautical transcends the limitations of traditional monitoring solutions, ensuring a user-friendly and highly effective experience.
 
 Thank you for your time and attention. We invite you to explore Kubernautical and embark on a journey towards enhanced Kubernetes cluster health management.
+
+# Kubernautical - Prometheus Setup Guide
+
+Welcome to the Kubernautical open source project's guide on setting up Prometheus for monitoring Kubernetes clusters. Prometheus is a powerful monitoring and alerting tool that helps you gain insights into your cluster's performance metrics. This guide will walk you through the process of setting up Prometheus using various resources and links.
+
+## Table of Contents
+
+- [README](#readme)
+- [Implemented Technologies:](#implemented-technologies)
+- [Kubernautical](#kubernautical)
+- [Kubernautical - Prometheus Setup Guide](#kubernautical---prometheus-setup-guide)
+  - [Table of Contents](#table-of-contents)
+  - [Prerequisites](#prerequisites)
+  - [Setup Steps](#setup-steps)
+    - [GKE Basic Prometheus Test](#gke-basic-prometheus-test)
+    - [AWS Prometheus](#aws-prometheus)
+    - [Helm Charts Prometheus](#helm-charts-prometheus)
+    - [Custom YAML Configuration](#custom-yaml-configuration)
+  - [Port Forwarding](#port-forwarding)
+
+## Prerequisites
+
+Before you begin, ensure that you have the following prerequisites in place:
+
+- A Kubernetes cluster is set up and accessible. If you don't have a cluster, you can use tools like Docker Desktop or Minikube to create a local cluster.
+- Helm is installed. You can install it using Homebrew on macOS: `brew install helm`.
+
+## Setup Steps
+
+### GKE Basic Prometheus Test
+
+Follow the steps provided in the [GKE Basic Prometheus Test tutorial](https://cloud.google.com/kubernetes-engine/docs/tutorials/observability-with-prometheus) to set up Prometheus on Google Kubernetes Engine (GKE). This tutorial will give you a basic understanding of Prometheus setup.
+
+### AWS Prometheus
+
+If you are using Amazon Web Services (AWS), refer to the [AWS Prometheus documentation](https://docs.aws.amazon.com/eks/latest/userguide/prometheus.html) for guidance on setting up Prometheus on Amazon EKS.
+
+### Helm Charts Prometheus
+
+For a more comprehensive setup using Helm charts, follow the steps outlined in the [How to Set Up Prometheus on Kubernetes with Helm Charts](https://devapo.io/blog/technology/how-to-set-up-prometheus-on-kubernetes-with-helm-charts/) guide. This guide will walk you through deploying Prometheus and Grafana using Helm charts.
+
+### Custom YAML Configuration
+
+If you prefer a more fine-tuned configuration, you can use the raw YAML configuration for Prometheus. Access the [Raw YAML File](https://raw.githubusercontent.com/prometheus-community/helm-charts/main/charts/prometheus/values.yaml) to get started. Modify the values as needed and apply the configuration to your cluster.
+
+## Port Forwarding
+
+After setting up Prometheus, you'll likely want to access its user interface for monitoring. To do this, you can use the port forwarding command:
+
+```shell
+kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
+
