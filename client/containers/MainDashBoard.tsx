@@ -31,13 +31,13 @@ const MainDashBoard: FC<Props> = ({ header }) => {
           title="CPU Usage"
           type="cpu"
           yAxisTitle='CPU Percentage Usage'
-          color='rgba(39, 170, 245, 0.3)'
+          color='rgba(39, 170, 245, .8)'
         />
         <LineGraph
           title="Memory Usage"
           type="mem"
           yAxisTitle='Memory Used (GB)'
-          color='rgba(0, 255, 66, 0.3)'
+          color='rgba(0, 255, 66, .8)'
         />
       </div>
       <div className='miniContainerGraph gaugeContainer'>
