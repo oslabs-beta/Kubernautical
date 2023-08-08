@@ -12,10 +12,11 @@ const serviceArr: globalServiceObj[] = [];
 const App = () => {
   const [globalNamespaces, setGlobalNamesapces] = useState(stringArr);
   const [globalServices, setGlobalServices] = useState(serviceArr);
+  const [globalTimer, setGlobalTimer] = useState(0);
   return (
     <>
       <div className='App'>
-        <GlobalContext.Provider value={{ globalNamespaces, setGlobalNamesapces, globalServices, setGlobalServices }}>
+        <GlobalContext.Provider value={{ globalNamespaces, setGlobalNamesapces, globalServices, setGlobalServices, globalTimer, setGlobalTimer }}>
           <Navbar />
           <MainContainer />
         </GlobalContext.Provider>

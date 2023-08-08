@@ -12,36 +12,29 @@ const InvisibleNavbar: FC<Props> = () => {
         setModalPos(e.currentTarget.getBoundingClientRect().bottom + 5);
         showModal ? setShowModal(false) : setShowModal(true);
     }
-    const loadtest = async () => {
-        try {
-            const response = await fetch('/api/k6/test')
-            const data = response.json()
-            setShowModal(false)
-            console.log('Load Testing')
-
-        } catch (error) {
-            console.log('error in running load test:', error)
-        }
-    }
 
     const Modal: FC<Props> = ({ style }) => {
-        const { globalServices } = useContext(GlobalContext);
-        const [vU, setVu] = useState('')
-        const [duration, setDuration] = useState('');
+        const { globalServices, globalTimer, setGlobalTimer } = useContext(GlobalContext);
+        const [vU, setVu] = useState(0)
+        const [duration, setDuration] = useState(0);
         const [service, setService] = useState('');
+
         const loadtest = async () => {
             //do we need both inputs
-            if (vU !== '' && duration === '' || vU === '' && duration !== '') return alert('Please fill out both fields');
+            if (vU < 0 || duration < 0) return alert('Please choose positive numbers');
+            if (vU === 0 && duration === 0 || vU !== 0 && duration === 0 || vU === 0 && duration !== 0) return alert('Please fill out both fields');
+            if (globalTimer && (globalTimer - Date.now()) > 0) return alert('Load test is currently running, please wait');
             try {
                 const response = await fetch(`/api/k6/test?vus=${vU}&duration=${duration}&ip=${service}`)
                 const data = response.json()
-                setShowModal(false)
+                setShowModal(false);
+                console.log(duration)
+                setGlobalTimer ? setGlobalTimer((Date.now() + (duration * 1000))) : '';
                 console.log('Load Testing')
             } catch (error) {
                 console.log('error in running load test:', error)
             }
         }
-
         const imgSrc = '../assets/images/network.png'
         return (
             <>
@@ -57,8 +50,8 @@ const InvisibleNavbar: FC<Props> = () => {
                             }) : <div></div>}
                         </select>
                     </div>
-                    <input className='InvisInput' type='number' placeholder='Number of VUs' onChange={(e) => setVu(e.target.value)} />
-                    <input className='InvisInput' type='number' placeholder='Test Duration' onChange={(e) => setDuration(e.target.value)} />
+                    <input className='InvisInput' type='number' placeholder='Number of VUs' onChange={(e) => setVu(Number(e.target.value))} />
+                    <input className='InvisInput' type='number' placeholder='Test Duration' onChange={(e) => setDuration(Number(e.target.value))} />
                     <button className='InvisSubmit' onClick={loadtest}>DDOS me</button>
                     <button className='closeInvisModal' onClick={() => setShowModal(false)} >X</button>
                 </div>
