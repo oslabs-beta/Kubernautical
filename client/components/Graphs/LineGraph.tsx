@@ -10,7 +10,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
 const stringArr: String[] = [];
 
-const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
+const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor }) => {
   const { globalNamespaces } = useContext(GlobalContext);
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
@@ -105,7 +105,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
     plugins: {
       legend: {
         labels:{
-          color:'rgba(255, 255, 255, 0.702)'
+          color:graphTextColor
         },
         display: true
         
@@ -115,7 +115,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
     scales: {
       y: {
         ticks:{
-          color:'rgba(255, 255, 255, 0.702)'
+          color:graphTextColor
         },
         grid: {
           display: true ,
@@ -125,12 +125,12 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
         title: {
           display: true,
           text: yAxisTitle,
-          color: 'rgba(255, 255, 255, 0.702)'
+          color: graphTextColor
         }
       },
       x: {
         ticks:{
-          color:'rgba(255, 255, 255, 0.702)'
+          color:graphTextColor
         },
         grid: {
           display: false ,

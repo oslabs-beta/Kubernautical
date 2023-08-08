@@ -101,8 +101,8 @@ const promController: prometheusController = {
             // totalMem
             return next();
         } catch (err) {
-        console.error('Error fetching metrics:', err);
-        
+            console.error('Error fetching metrics:', err);
+
         }
     }
 

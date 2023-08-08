@@ -175,8 +175,8 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //         }
                 //     })
             })
-            if (nsArr.length === 1) { setNsArr(namespaceArr); setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : '' }
-            if (globalServices?.length === 0) setGlobalServices ? setGlobalServices(serviceArrTemp) : '';
+            if (nsArr.length === 1) { setNsArr(namespaceArr); setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : null }
+            if (globalServices?.length === 0) setGlobalServices ? setGlobalServices(serviceArrTemp) : null;
             setGraph({
                 nodes: nodesArr,
                 edges: edgesArr

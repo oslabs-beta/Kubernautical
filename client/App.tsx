@@ -14,15 +14,22 @@ const App = () => {
   const [globalNamespaces, setGlobalNamesapces] = useState(stringArr);
   const [globalServices, setGlobalServices] = useState(serviceArr);
   const [globalTimer, setGlobalTimer] = useState(0);
+  const [globalServiceTest, setGlobalServiceTest] = useState('');
   return (
     <>
       <div className='App'>
-        <GlobalContext.Provider value={{ globalNamespaces, setGlobalNamesapces, globalServices, setGlobalServices, globalTimer, setGlobalTimer }}>
+        <GlobalContext.Provider
+          value={{
+            globalNamespaces, setGlobalNamesapces,
+            globalServices, setGlobalServices,
+            globalTimer, setGlobalTimer,
+            globalServiceTest, setGlobalServiceTest
+          }}>
           <Navbar />
           <MainContainer />
         </GlobalContext.Provider>
       </div>
-      <footer className = 'footer'>@2023 Kubernautical™ | All Rights Reserved </footer>
+      <footer className='footer'>@2023 Kubernautical™ | All Rights Reserved </footer>
     </>
   );
 };
