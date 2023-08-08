@@ -63,6 +63,7 @@ export interface Props {
   color?: string;
   hour?: string;
   style?: number
+  clusterData?: ClusterData
 }
 export interface CLusterObj {
   // [key: string]: number | string | CLusterObj | undefined
