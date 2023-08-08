@@ -62,7 +62,8 @@
 }
 
 .closeInvisModal:hover,
-.InvisSubmit:hover {
+.InvisSubmit:hover,
+.crudDelete:hover {
   cursor: pointer;
   transform: translate(1px, 1px);
   color: white;

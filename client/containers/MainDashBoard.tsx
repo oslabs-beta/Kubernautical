@@ -1,24 +1,13 @@
 import LineGraph from '../components/Graphs/LineGraph'
 import GaugeChart from '../components/Graphs/GaugeChart'
-// import BarGraph from '../components/BarGraph'
-import React, { FC, useState } from 'react'
+import EditModal from '../components/CRUDModal';
+import React, { FC } from 'react'
 import type { Props } from '../../types/types';
 import InvisibleNavbar from './InvisibleNavbar';
 
-// const LoadingBar: FC<Props> = ({ style }) => {
-//   return (
-//     <div className='outerProgress' style={{ position: 'absolute', top: 10 }}>
-//       <div>Load Test Running:</div>
-//       <div className="container">
-//         <div className="progress2 progress-moved">
-//           <div className="progress-bar2">
-//           </div>
-//         </div>
-//       </div >
-//     </div>
-//   )
-// }
+
 const MainDashBoard: FC<Props> = ({ header }) => {
+
   return (
     //age of cluster
     //stacked bar chart on how much usage each namespace is taking
@@ -57,7 +46,6 @@ const MainDashBoard: FC<Props> = ({ header }) => {
           title='Memory'
           graphTextColor='rgba(255, 255, 255, 0.702)'
         />
-
       </div>
     </>
 
