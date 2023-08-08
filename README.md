@@ -62,6 +62,10 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
     - [Helm Charts Prometheus](#helm-charts-prometheus)
     - [Custom YAML Configuration](#custom-yaml-configuration)
   - [Port Forwarding](#port-forwarding)
+  - [](#)
+- [Setting Up Google Kubernetes Engine (GKE)](#setting-up-google-kubernetes-engine-gke)
+  - [Prerequisites](#prerequisites-1)
+  - [GKE Setup](#gke-setup)
 
 ## Prerequisites
 
@@ -94,3 +98,33 @@ After setting up Prometheus, you'll likely want to access its user interface for
 
 ```shell
 kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
+```
+##
+# Setting Up Google Kubernetes Engine (GKE)
+
+This section outlines the steps required to set up Google Kubernetes Engine (GKE) for the open source project. GKE is a powerful platform that simplifies the management and orchestration of containerized applications.
+
+## Prerequisites
+
+Before setting up GKE for our open source project, ensure you have the following:
+
+- A Google Cloud account. If you don't have one, you can sign up [here](https://cloud.google.com/).
+- The Google Cloud SDK installed. Follow the installation instructions [here](https://cloud.google.com/sdk/docs/install).
+
+## GKE Setup
+
+Follow these steps to set up Google Kubernetes Engine (GKE) for our open source project:
+
+1. **Deploying Containerized Application:**
+
+   The following tutorial demonstrates how to deploy a containerized application on GKE. It provides step-by-step guidance on creating a GKE cluster, deploying a sample application, and exposing it to the internet.
+
+   [Deploying a Containerized Application on GKE Tutorial](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app)
+
+2. **Pushing Docker Image to Artifact Registry:**
+
+   After deploying the application, you may need to store Docker container images. This guide explains how to push Docker images to Google Cloud's Artifact Registry, enabling you to manage your application's container images effectively.
+
+   [Pushing Docker Images to Google Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images)
+
+Make sure to complete these steps to ensure a seamless setup of GKE for our project.
