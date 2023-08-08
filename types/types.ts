@@ -60,7 +60,10 @@ export interface Props {
   title?: string;
   header?: string;
   yAxisTitle?: string;
-  color?: string;
+  color?: string | string[];
+  graphTextColor?:string;
+  backgroundColor?: string | string[];
+  borderColor?: string | string[];
   hour?: string;
   style?: number
   clusterData?: ClusterData

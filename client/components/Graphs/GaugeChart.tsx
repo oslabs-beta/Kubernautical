@@ -5,7 +5,7 @@ ChartJS.register(ArcElement, Tooltip, Legend,);
 import type { Props } from '../../../types/types';
 import { totalmem } from 'os';
 
-const GaugeChart: FC<Props> = ({type}) => {
+const GaugeChart: FC<Props> = ({type,borderColor,backgroundColor,title,graphTextColor}) => {
   const [guageData, setGuageData] = useState(0);
   const [memValues, setMemValues] = useState([]);
 
@@ -45,7 +45,7 @@ const GaugeChart: FC<Props> = ({type}) => {
   useEffect(() => {
     getData();
   }, [type]);
-
+  // { cpuReq: Number, cpuUsed: Number, cpuAvailable:number}
   const allocatable: number = Math.round((100 - guageData) * 100) / 100
 
   // const memLabels = memValues.length > 0 ? memValues.map(val => val < 1 ? '<1%' : `${Math.round(val)}%`): [];
@@ -57,10 +57,10 @@ const GaugeChart: FC<Props> = ({type}) => {
     // labels: [`${guageData}%`, `${allocatable}%`], // this is Memory Used vs how much is left
     datasets: [{
       label: 'Percentage',
-      data: [guageData, allocatable], // data here Memory Percentage out of how much is left
-      backgroundColor: ['rgba(250, 0, 133, .05)', 'rgba(70, 0, 250, .05)'],
-      borderColor: ['rgba(250, 0, 133, .67)', 'rgba(70, 0, 250, .67)'],
-      borderWidth: 5,
+      data: memValues.length > 0 ? memValues : [guageData, allocatable],
+      // data: [guageData, allocatable], // data here Memory Percentage out of how much is left
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
       circumference: 180,
       rotation: 270,
       cutout: '60%',
@@ -74,14 +74,14 @@ const GaugeChart: FC<Props> = ({type}) => {
     plugins: {
       legend: {
         labels:{
-          color:'rgba(255, 255, 255, 0.702)'
+          color:graphTextColor
         },
         display: true
       },
       title: {
-        color:'rgba(255, 255, 255, 0.702)',
+        color:graphTextColor,
         display: true,
-        text: type === 'test' ? 'Memory' : 'Total Cores Requested   Total Cores Allocatable',
+        text: title
       }
     }
   }

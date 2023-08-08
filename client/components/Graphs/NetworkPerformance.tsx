@@ -16,12 +16,14 @@ const NetworkPerformance: FC<Props> = ({ header }) => {
           type = 'trans'
           yAxisTitle='KiloBytes Transmitted'
           color = 'rgba(255, 231, 0, 1)'
+          graphTextColor='rgba(255, 255, 255, 0.702)'
         />
         <LineGraph
           title = "KiloBytes Recieved"
           type = 'rec'
           yAxisTitle='KiloBytes Recieved'
-          color = 'rgba(226, 0, 255, 1)'        
+          color = 'rgba(226, 0, 255, 1)'
+          graphTextColor='rgba(255, 255, 255, 0.702)'        
         />
 
       </div>
