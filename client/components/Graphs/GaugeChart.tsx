@@ -4,7 +4,7 @@ import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend,);
 import type { Props } from '../../../types/types';
 
-const GaugeChart: FC<Props> = ({ type }) => {
+const GaugeChart: FC<Props> = ({type,borderColor,backgroundColor,title,graphTextColor}) => {
   const [guageData, setGuageData] = useState(0);
   const [memValues, setMemValues] = useState([]);
 
@@ -42,8 +42,8 @@ const GaugeChart: FC<Props> = ({ type }) => {
       label: 'Percentage',
       data: memValues.length > 0 ? memValues : [guageData, allocatable],
       // data: [guageData, allocatable], // data here Memory Percentage out of how much is left
-      backgroundColor: ['rgba(250, 0, 133, 0.3)', 'rgba(70, 0, 250, 0.3)'],
-      borderColor: ['rgba(250, 0, 133, 0.7)', 'rgba(70, 0, 250, 0.7)'],
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
       circumference: 180,
       rotation: 270,
       cutout: '60%',
@@ -56,15 +56,15 @@ const GaugeChart: FC<Props> = ({ type }) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        labels: {
-          color: 'rgba(255, 255, 255, 0.702)'
+        labels:{
+          color:graphTextColor
         },
         display: true
       },
       title: {
-        color: 'rgba(255, 255, 255, 0.702)',
+        color:graphTextColor,
         display: true,
-        text: type === 'test' ? 'Memory' : 'Total Cores Requested   Total Cores Allocatable',
+        text: title
       }
     }
   }
