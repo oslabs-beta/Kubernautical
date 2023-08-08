@@ -41,17 +41,10 @@ const promController: prometheusController = {
         if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})*${userCores}`; //requested divided by available
 
         query += `&start=${start}&end=${end}&step=${step}m`;
-
-        // console.log('query:', query);
         try {
-            // console.log(query)
             const response = await fetch(query);
             const data = await response.json();
-
-            // console.log('data:', data.data)
-            
             res.locals.data = data.data.result;
-
             return next();
         } catch (error) {
             return next(error);
@@ -96,27 +89,29 @@ const promController: prometheusController = {
         // console.log(reqQ)
 
         try {
+            console.log('REQQ: ', reqQ)
+            console.log('TOTALQ: ', totalQ)
             const totRes = await fetch(totalQ);
             const totData = await totRes.json();
             const lastTot = totData.data.result[0].values.slice(-1)[0][1];
             // console.log('test', lastTot)
-            
+
             const reqRes = await fetch(reqQ);
             const reqData = await reqRes.json();
             const lastReq = reqData.data.result[0].values.slice(-1)[0][1];
 
             const remMem = lastTot - lastUsed;
-            mem.push(lastUsed,lastReq,remMem);
-            const percents = mem.map((value) => (value/lastTot) *100);
+            mem.push(lastUsed, lastReq, remMem);
+            const percents = mem.map((value) => (value / lastTot) * 100);
             console.log(percents)
 
 
             res.locals.mem = percents;
-            
+
             return next();
         } catch (err) {
-        console.error('Error fetching metrics:', err);
-        
+            console.error('Error fetching metrics:', err);
+
         }
     }
 

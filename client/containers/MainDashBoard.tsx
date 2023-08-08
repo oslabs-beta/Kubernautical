@@ -45,7 +45,7 @@ const MainDashBoard: FC<Props> = ({ header }) => {
           type="req"
         />
         <GaugeChart
-          type="test"
+          type="mem"
         />
 
       </div>
