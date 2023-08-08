@@ -34,7 +34,7 @@ const promController: prometheusController = {
             step = Math.ceil((step / (24 / Number(hour))));
     
             //!<-------------------------------------------------------QUERIES (NOW MODULARIZED)---------------------------------------------------------------->
-            // const usedQuery = `http://localhost:9090/api/v1/query?query=sum(rate(container_cpu_usage_seconds_total{container!=""}[10m]))`;
+            
             // *${userCores}
             if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[10m]))`;
             if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
@@ -45,6 +45,7 @@ const promController: prometheusController = {
             if (!notTime) query += `&start=${start}&end=${end}&step=${step}m`;
     
             try {
+                console.log(`query:`, query);
                 
                 const response = await fetch(query);
                 // const data = response.json();
