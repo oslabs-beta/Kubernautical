@@ -16,14 +16,13 @@ import type { prometheusController } from '../../types/types';
 const promController: prometheusController = {
 
     getMetrics: async (req: Request, res: Response, next: NextFunction) => {
+        const { type, hour, scope, name, notTime } = req.query; //pods--->scope, podname---->name
 
         //? default start, stop, step, query string
         let start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
         let end = new Date(Date.now()).toISOString();
         let step = 10;
-        let query = 'http://localhost:9090/api/v1/query_range?query=';
-
-        const { type, hour, scope, name } = req.query; //pods--->scope, podname---->name
+        let query = `http://localhost:9090/api/v1/${notTime ? 'query' : 'query_range'}?query=`;
 
         //api/prom/metrics?type=cpu&hour=24&name=gmp-system
         //^hour is required
@@ -40,7 +39,7 @@ const promController: prometheusController = {
         if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
         if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})*${userCores}`; //requested divided by available
 
-        query += `&start=${start}&end=${end}&step=${step}m`;
+        if (!notTime) query += `&start=${start}&end=${end}&step=${step}m`;
         try {
             const response = await fetch(query);
             const data = await response.json();
@@ -90,6 +89,7 @@ const promController: prometheusController = {
 
         try {
             console.log('REQQ: ', reqQ)
+            reqQ = 'http://localhost:9090/api/v1/?query=sum(node_memory_MemTotal_bytes)';
             console.log('TOTALQ: ', totalQ)
             const totRes = await fetch(totalQ);
             const totData = await totRes.json();

@@ -10,13 +10,8 @@ interface GlobalContext {
     setGlobalTimer?: Dispatch<SetStateAction<number>>
     globalServiceTest?: string
     setGlobalServiceTest?: Dispatch<SetStateAction<string>>
+    showEditModal?: boolean
+    setShowEditModal?: Dispatch<SetStateAction<boolean>>
 }
 
 export const GlobalContext = createContext<GlobalContext>({})
-
-
-//const end = Date.now() + (duration * 1000);
-    //print end - Date.now() / 1000 
-
-    //all of global state is gone
-    

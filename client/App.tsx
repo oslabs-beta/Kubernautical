@@ -15,6 +15,7 @@ const App = () => {
   const [globalServices, setGlobalServices] = useState(serviceArr);
   const [globalTimer, setGlobalTimer] = useState(0);
   const [globalServiceTest, setGlobalServiceTest] = useState('');
+  const [showEditModal, setShowEditModal] = useState(false);
   return (
     <>
       <div className='App'>
@@ -23,7 +24,8 @@ const App = () => {
             globalNamespaces, setGlobalNamesapces,
             globalServices, setGlobalServices,
             globalTimer, setGlobalTimer,
-            globalServiceTest, setGlobalServiceTest
+            globalServiceTest, setGlobalServiceTest,
+            showEditModal, setShowEditModal
           }}>
           <Navbar />
           <MainContainer />
