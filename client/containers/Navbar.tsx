@@ -3,10 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import clusterpic from '../assets/images/clusterPic.png'
 import mainDashBoard from '../assets/images/mainDashBoard.png'
 import netWork from '../assets/images/network.png'
+import edit from '../assets/images/edit.png'
 import { GlobalContext } from '../components/Contexts';
 
 export default function Navbar() {
-  const { globalTimer, setGlobalTimer, globalServiceTest, setGlobalServiceTest } = useContext(GlobalContext);
+  const { globalTimer, setGlobalTimer,
+    globalServiceTest, setGlobalServiceTest,
+    showEditModal, setShowEditModal
+  } = useContext(GlobalContext);
   const [activeTimer, setActiveTimer] = useState(0); //this sucks but im an idiot
   const navigate = useNavigate();
   function MainDashBoard() { navigate('/dashboard') }
@@ -28,7 +32,8 @@ export default function Navbar() {
     <div className='navBar'>
       <div className='navBarTitle' >KUBERNAUTICAL</div>
       <hr className='hr' />
-      <button className='navButton' id = 'ClusterViewButton' onClick={GoHome}>
+
+      <button className='navButton' onClick={GoHome}>
         <img className="btn-icon" src={clusterpic} />
         <p className="btn-text">Cluster View</p>
       </button>
@@ -42,6 +47,12 @@ export default function Navbar() {
         <img className="btn-icon" src={netWork} />
         <p className="btn-text">Network Performance</p>
       </button>
+
+      <button className='navButton' onClick={() => { setShowEditModal ? showEditModal ? setShowEditModal(false) : setShowEditModal(true) : null }}>
+        <img className="btn-icon" src={edit} />
+        <p className="btn-text">Edit Cluster</p>
+      </button>
+
       <div className='loadingStatus'>
         {globalTimer ? `Load test time remaining: ${Math.floor((globalTimer - Date.now()) / 1000)}s, running on ${globalServiceTest}` : null}
       </div>
