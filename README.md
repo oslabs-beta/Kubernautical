@@ -78,7 +78,7 @@ Follow the steps provided in the [GKE Basic Prometheus Test tutorial](https://cl
 
 ### AWS Prometheus
 
-If you are using Amazon Web Services (AWS), refer to the [AWS Prometheus documentation](https://docs.aws.amazon.com/eks/latest/userguide/prometheus.html) for guidance on setting up Prometheus on Amazon EKS.
+If you are having trouble setup, refer to the [AWS Prometheus documentation](https://docs.aws.amazon.com/eks/latest/userguide/prometheus.html) for guidance on setting up Prometheus.
 
 ### Helm Charts Prometheus
 
@@ -94,4 +94,3 @@ After setting up Prometheus, you'll likely want to access its user interface for
 
 ```shell
 kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
-
