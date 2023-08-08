@@ -20,6 +20,7 @@ router.get('/cores',
 });
 
 router.get('/mem', 
+  promController.getMetrics,
   promController.getMem, 
   (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json(res.locals.mem);
