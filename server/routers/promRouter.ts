@@ -26,4 +26,12 @@ router.get('/mem',
   res.status(200).json(res.locals.memoryPercents);
 });
 
+router.get('/cpu', 
+  promController.getCores,
+  promController.getMetrics,
+  promController.getCpu, 
+  (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).json(res.locals.cpuPercents);
+});
+
 export default router;
