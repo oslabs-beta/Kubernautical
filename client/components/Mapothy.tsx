@@ -4,7 +4,6 @@ import Graph from 'react-graph-vis';
 import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj, ClusterData, globalServiceObj } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
 import { makeModal, windowHelper } from './helperFunctions';
-import EditModal from './EditModal';
 import nsImg from '../assets/ns-icon.png';
 import podImg from '../assets/pod-icon.png';
 import svcImg from '../assets/svc-icon.png';
@@ -58,20 +57,19 @@ const options = {
         // }
     }
 };
-const defaultObj: ClusterData = {};
 const defaultservArr: globalServiceObj[] = [];
 //?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
-    const { setGlobalNamesapces, setGlobalServices, globalServices } = useContext(GlobalContext);
+    const { setGlobalNamesapces,
+        setGlobalServices, globalServices,
+        globalClusterData, setGlobalClusterData
+    } = useContext(GlobalContext);
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
         edges: [],
     });
     const [ns, setNs] = useState('Cluster');
     const [nsArr, setNsArr] = useState(['']);
-    const [showEditModal, setShowEditModal] = useState(false);
-    // const [serviceArr, setServiceArr] = useState(defaultservArr);
-    const [clusterData, setclusterData] = useState(defaultObj);
     const events = {
         select: function (event: any) { //TODO fix typing 
             var { nodes, edges } = event;
@@ -85,12 +83,12 @@ export const Mapothy: FC<Props> = ({ header }) => {
             const serviceArrTemp: globalServiceObj[] = [];
             let filteredNsArr: CLusterObj[] = [];
             let data;
-            if (!clusterData.namespaces) {
+            if (!globalClusterData?.namespaces) {
                 const result = await fetch('api/map/elements');
                 data = await result.json();
-                setclusterData(data);
+                setGlobalClusterData ? setGlobalClusterData(data) : null;
             }
-            else { data = clusterData }
+            else { data = globalClusterData }
             const { pods, namespaces, deployments, services } = data;
             nodesArr.push({ id: '0', title: "KuberNautical", size: 100, image: logoImg, shape: 'image' });
             //?----------------------------------Namespace Search------------------------------------->
@@ -183,7 +181,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
             });
         } catch (error) {
             throw (error);
-            console.log(error);
         }
     }
     useEffect(() => {
@@ -196,7 +193,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
     return (
         <>
             <div className='mainHeader'>{header}</div>
-            {showEditModal ? <EditModal pods={clusterData.pods} namespaces={clusterData.namespaces} deployments={clusterData.deployments} services={clusterData.services} /> : <div></div>}
             <div className='miniContainerMap'>
                 <div style={{ position: 'absolute', zIndex: 3 }}>
                     <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
@@ -207,7 +203,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
                             )
                         }) : <div></div>}
                     </select>
-                    <button className='containerButton mapButton2' value={ns} onClick={() => showEditModal ? setShowEditModal(false) : setShowEditModal(true)}>Make Cluster Changes</button>
                 </div>
                 <Graph
                     graph={graph}

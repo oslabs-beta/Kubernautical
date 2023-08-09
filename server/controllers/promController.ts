@@ -136,7 +136,7 @@ const promController: prometheusController = {
 
             const memoryPercents = memArr.map((value) => (value/totalMem) * 100);
 
-            res.locals.memoryPercents = [{usedMemory: memoryPercents[0]}, {requestedMemory: memoryPercents[1]}, {allocatableMemory: memoryPercents[2]}];
+            res.locals.memoryPercents = [{ usedMemory: memoryPercents[0] }, { requestedMemory: memoryPercents[1] }, { allocatableMemory: memoryPercents[2] }];
             // totalMem
             return next();
         } catch (err) {

@@ -1,0 +1,40 @@
+.editModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin: 100% -100px 5px 50px;
+    height: 500px;
+}
+
+.centerModal {
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    margin: 10px 5px 5px 10px;
+    // border: 2px solid cyan;
+}
+
+.crudDelete {
+    height: 24px;
+    width: 24px;
+    border-radius: 8px;
+    border: none;
+    background-color: $red-button;
+}
+
+.crudSelector {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 95%;
+}
+
+.crudHeader {
+    color: lighten($font-color, 30%);
+    padding: 5px;
+    margin: 5px;
+    width: 80%;
+    height: 8%;
+    animation: loadin 1s ease-in;
+}
