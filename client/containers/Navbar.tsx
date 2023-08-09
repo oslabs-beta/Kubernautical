@@ -18,7 +18,7 @@ export default function Navbar() {
   function Network() { navigate('/network') }
 
   useEffect(() => {
-    console.log(globalTimer)
+    
     if (globalTimer && (globalTimer - Date.now()) < 0) {
       setGlobalTimer ? setGlobalTimer(0) : null;
       setGlobalServiceTest ? setGlobalServiceTest('') : null;
