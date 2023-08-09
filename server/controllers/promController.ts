@@ -32,7 +32,7 @@ const promController: prometheusController = {
         step = Math.ceil((step / (24 / Number(hour))));
 
         //!<-------------------------------------------------------QUERIES (NOW MODULARIZED)---------------------------------------------------------------->
-        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[10m]))*${userCores}`;
+        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[10m]))`; //${!notTime ? `*${userCores}` : ''}
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
         if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
         if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
@@ -41,7 +41,7 @@ const promController: prometheusController = {
         try {
             const response = await fetch(query);
             if (notTime && type === 'cpu') res.locals.usedCpu = Number((await response.json()).data.result[0].value[1]);
-            if (notTime && type === 'mem') res.locals.usedMem = Number((await response.json()).data.result[0].value[1]);
+            else if (notTime && type === 'mem') res.locals.usedMem = Number((await response.json()).data.result[0].value[1]);
             else res.locals.data = (await response.json()).data.result;
             return next();
         } catch (error) {
@@ -51,29 +51,24 @@ const promController: prometheusController = {
     getCores: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="cpu"})`);
-            res.locals.cores = (await response.json()).data.result[0].value[1]
+            res.locals.available = (await response.json()).data.result[0].value[1]
             return next();
         } catch (error) {
             return next(error);
         }
     },
     getCpu: async (req: Request, res: Response, next: NextFunction) => {
-
         const requestedQuery = `http://localhost:9090/api/v1/query?query=sum(kube_pod_container_resource_requests{resource="cpu"})`;
-
         try {
             const { usedCpu, available } = res.locals;
-
             const response = await fetch(requestedQuery);
             const requested = Number((await response.json()).data.result[0].value[1]);
-
             const remaining = available - (requested + usedCpu);
             const cpuArr = [usedCpu, requested, remaining];
             const cpuPercents = cpuArr.map((value) => (value / available) * 100);
-
             res.locals.cpuPercents = [{ usedCPU: cpuPercents[0] }, { requestedCPU: cpuPercents[1] }, { availableCPU: cpuPercents[2] }];
+            console.log(cpuPercents)
             return next();
-
         } catch (error) {
             next(error);
         }
@@ -93,7 +88,7 @@ const promController: prometheusController = {
             const reqMem = Number((await response2.json()).data.result[0].value[1]);
 
             const remaining = totalMem - (reqMem + usedMem);
-            const memArr = [reqMem, usedMem, remaining];
+            const memArr = [usedMem, reqMem, remaining];
             const memoryPercents = memArr.map((value) => (value / totalMem) * 100);
             res.locals.memoryPercents = [{ usedMemory: memoryPercents[0] }, { requestedMemory: memoryPercents[1] }, { availableMemory: memoryPercents[2] }];
             return next();
