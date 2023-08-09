@@ -27,17 +27,16 @@ const promController: prometheusController = {
 
         //api/prom/metrics?type=cpu&hour=24&name=gmp-system
         //^hour is required
-        const userCores = 100 / res.locals.cores;
+        const userCores = 100 / res.locals.available;
         start = new Date(Date.now() - Number(hour) * 3600000).toISOString();
         step = Math.ceil((step / (24 / Number(hour))));
 
         //!<-------------------------------------------------------QUERIES (NOW MODULARIZED)---------------------------------------------------------------->
-        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[10m]))`; //${!notTime ? `*${userCores}` : ''}
+        if (type === 'cpu') query += `sum(rate(container_cpu_usage_seconds_total{container!="",${scope ? `${scope}="${name}"` : ''}}[10m]))${!notTime ? `*${userCores}` : ''}`;
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
         if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
         if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
         if (!notTime) query += `&start=${start}&end=${end}&step=${step}m`;
-
         try {
             const response = await fetch(query);
             if (notTime && type === 'cpu') res.locals.usedCpu = Number((await response.json()).data.result[0].value[1]);
@@ -66,8 +65,7 @@ const promController: prometheusController = {
             const remaining = available - (requested + usedCpu);
             const cpuArr = [usedCpu, requested, remaining];
             const cpuPercents = cpuArr.map((value) => (value / available) * 100);
-            res.locals.cpuPercents = [{ usedCPU: cpuPercents[0] }, { requestedCPU: cpuPercents[1] }, { availableCPU: cpuPercents[2] }];
-            console.log(cpuPercents)
+            res.locals.cpuPercents = [{ usedCpu: cpuPercents[0] }, { requestedCpu: cpuPercents[1] }, { availableCpu: cpuPercents[2] }];
             return next();
         } catch (error) {
             next(error);

@@ -1,12 +1,13 @@
 import React, { FC, useState, useEffect } from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { humanReadable } from '../helperFunctions';
 ChartJS.register(ArcElement, Tooltip, Legend,);
 import type { Props } from '../../../types/types';
 
-const numberArr:Number[] = []
-const stringArr:String[] = []
-const GaugeChart: FC<Props> = ({type,borderColor,backgroundColor,title,graphTextColor}) => {
+const numberArr: Number[] = []
+const stringArr: String[] = []
+const GaugeChart: FC<Props> = ({ type, borderColor, backgroundColor, title, graphTextColor }) => {
   const [guageData, setGuageData] = useState(numberArr);
   const [guageName, setGuageName] = useState(stringArr);
 
@@ -18,18 +19,18 @@ const GaugeChart: FC<Props> = ({type,borderColor,backgroundColor,title,graphText
       const data = await response.json();
       console.log(data)
       if (!data[0]) { setGuageData([0]); return; }
-      let dataArr:Number[] = []
-      let dataNames:String[] = []
-      data.forEach((el:any)=>{
-        for(const key in el){
+      let dataArr: Number[] = []
+      let dataNames: String[] = []
+      data.forEach((el: any) => {
+        for (const key in el) {
           const value = el[key]
           dataArr.push(value)
-          dataNames.push(key)
+          dataNames.push(humanReadable(key))
         }
       })
       setGuageData(dataArr)
       setGuageName(dataNames)
-      
+
     } catch (error) {
       console.log('Error fetching data:', error);
     }
@@ -37,7 +38,7 @@ const GaugeChart: FC<Props> = ({type,borderColor,backgroundColor,title,graphText
   useEffect(() => {
     getData();
   }, []);
- 
+
   const data = {
     labels: guageName,
     datasets: [{
@@ -58,12 +59,12 @@ const GaugeChart: FC<Props> = ({type,borderColor,backgroundColor,title,graphText
     plugins: {
       legend: {
         labels: {
-          color: 'rgba(255, 255, 255, 0.702)'
+          color: graphTextColor
         },
         display: true
       },
       title: {
-        color: 'rgba(255, 255, 255, 0.702)',
+        color: graphTextColor,
         display: true,
         text: title
       }
