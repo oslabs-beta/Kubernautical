@@ -90,7 +90,7 @@ const promController: prometheusController = {
             const remaining = totalMem - (reqMem + usedMem);
             const memArr = [reqMem, usedMem, remaining];
             const memoryPercents = memArr.map((value) => (value / totalMem) * 100);
-            res.locals.memoryPercents = [{ usedMemory: memoryPercents[0] }, { requestedMemory: memoryPercents[1] }, { availableMemory: memoryPercents[2] }];
+            res.locals.memoryPercents = [{ usedMemory: memoryPercents[1] }, { requestedMemory: memoryPercents[0] }, { availableMemory: memoryPercents[2] }];
             return next();
         } catch (err) {
             console.error('Error fetching metrics:', err);
