@@ -42,6 +42,7 @@ const CRUDModal: FC<ClusterData> = () => {
         <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
           <option key={uuidv4()} value={''}>Select Namespace</option>
           {globalNamespaces ? globalNamespaces.map((el) => {
+            if (el === 'prometheus' || el === 'gmp-system') return;
             return (
               <option key={uuidv4()} value={el}>{el}</option>
             )
