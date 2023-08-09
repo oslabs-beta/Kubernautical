@@ -9,7 +9,8 @@ import { GlobalContext } from '../components/Contexts';
 export default function Navbar() {
   const { globalTimer, setGlobalTimer,
     globalServiceTest, setGlobalServiceTest,
-    showEditModal, setShowEditModal
+    showEditModal, setShowEditModal,
+    ongoingCrudChange
   } = useContext(GlobalContext);
   const [activeTimer, setActiveTimer] = useState(0); //!this sucks but im an idiot
   const navigate = useNavigate();
@@ -18,15 +19,14 @@ export default function Navbar() {
   function Network() { navigate('/network') }
 
   useEffect(() => {
-    
     if (globalTimer && (globalTimer - Date.now()) < 0) {
       setGlobalTimer ? setGlobalTimer(0) : null;
       setGlobalServiceTest ? setGlobalServiceTest('') : null;
     }
-    setTimeout(() => {
+    globalTimer ? setTimeout(() => {
       globalTimer ? setActiveTimer(Math.floor((globalTimer - Date.now()) / 1000)) : null;
-    }, 1000)
-  }, [globalTimer, activeTimer])
+    }, 1000) : null;
+  }, [globalTimer, activeTimer, ongoingCrudChange])
 
   return (
     <div className='navBar'>
@@ -55,6 +55,11 @@ export default function Navbar() {
       <div className='loadingStatus'>
         {globalTimer ? `Load test time remaining: ${Math.floor((globalTimer - Date.now()) / 1000)}s, running on ${globalServiceTest}` : null}
       </div>
+
+      <div className='loadingStatus'>
+        {ongoingCrudChange ? `WE WORKIN ON IT MAN CHILL` : null}
+      </div>
+
     </div>
   )
 }
