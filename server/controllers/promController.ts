@@ -88,7 +88,7 @@ const promController: prometheusController = {
             const reqMem = Number((await response2.json()).data.result[0].value[1]);
 
             const remaining = totalMem - (reqMem + usedMem);
-            const memArr = [reqMem, usedMem, remaining];
+            const memArr = [usedMem, reqMem, remaining];
             const memoryPercents = memArr.map((value) => (value / totalMem) * 100);
             res.locals.memoryPercents = [{ usedMemory: memoryPercents[1] }, { requestedMemory: memoryPercents[0] }, { availableMemory: memoryPercents[2] }];
             return next();
