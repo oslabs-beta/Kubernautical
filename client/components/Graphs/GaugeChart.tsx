@@ -4,26 +4,31 @@ import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend,);
 import type { Props } from '../../../types/types';
 
-const GaugeChart: FC<Props> = ({ type }) => {
-  const [guageData, setGuageData] = useState(0);
-  const [memValues, setMemValues] = useState([]);
+const numberArr:Number[] = []
+const stringArr:String[] = []
+const GaugeChart: FC<Props> = ({type,borderColor,backgroundColor,title,graphTextColor}) => {
+  const [guageData, setGuageData] = useState(numberArr);
+  const [guageName, setGuageName] = useState(stringArr);
 
   const getData = async () => {
     try {
-      console.log(type)
-      let URL = `/api/prom/${type === 'mem' ? 'mem' : 'metrics'}?type=${type}&hour=24`;
-      console.log(URL)
+      let URL = `/api/prom/${type === 'mem' ? 'mem' : 'metrics'}?type=${type}&hour=24&notTime=true`;
       const response = await fetch(URL);
       const data = await response.json();
-
-      if (!data[0]) { setGuageData(0); return; }
-
-      if (type === 'req') {
-        const cpuRequested = Math.round(data[0].values[0][1] * 100) / 100;
-        setGuageData(cpuRequested);
-      } else if (type === 'mem') {
-        setMemValues(data);
-      }
+      console.log(data)
+      if (!data[0]) { setGuageData([0]); return; }
+      let dataArr:Number[] = []
+      let dataNames:String[] = []
+      data.forEach((el:any)=>{
+        for(const key in el){
+          const value = el[key]
+          dataArr.push(value)
+          dataNames.push(key)
+        }
+      })
+      setGuageData(dataArr)
+      setGuageName(dataNames)
+      
     } catch (error) {
       console.log('Error fetching data:', error);
     }
@@ -31,17 +36,12 @@ const GaugeChart: FC<Props> = ({ type }) => {
   useEffect(() => {
     getData();
   }, []);
-  const allocatable: number = Math.round((100 - guageData) * 100) / 100
-  // const memLabels = memValues.length > 0 ? memValues.map(val => val < 1 ? '<1%' : `${Math.round(val)}%`): [];
-  const memLabels = memValues.length > 0 ? memValues.map(val => val < 1 ? '<1%' : `${Number(val).toFixed(2)}%`) : [];
-  // console.log('memLabels:', memLabels);
+ 
   const data = {
-    labels: memValues.length > 0 ? memLabels : [`${guageData}%`, `${allocatable}%`],
-    // labels: [`${guageData}%`, `${allocatable}%`], // this is Memory Used vs how much is left
+    labels: guageName,
     datasets: [{
       label: 'Percentage',
-      data: memValues.length > 0 ? memValues : [guageData, allocatable],
-      // data: [guageData, allocatable], // data here Memory Percentage out of how much is left
+      data: guageData,
       backgroundColor: backgroundColor,
       borderColor: borderColor,
       circumference: 180,
