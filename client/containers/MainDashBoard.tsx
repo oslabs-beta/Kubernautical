@@ -31,18 +31,18 @@ const MainDashBoard: FC<Props> = ({ header }) => {
           graphTextColor='rgba(255, 255, 255, 0.702)'
         />
       </div>
-      <div className='miniContainerGraph gaugeContainer'>
+      <div className='miniContainerGraph'>
         <GaugeChart
           type="cpu"
-          backgroundColor={['rgba(39, 245, 213, 0.3)', 'rgba(39, 245, 127, 0.3)','rgba(39, 97, 245, 0.3)']}
-          borderColor={['rgba(39, 245, 213, 0.7)', 'rgba(39, 245, 127, 0.7)','rgba(39, 97, 245, 0.7)']}
+          backgroundColor={['rgba(39, 245, 213, 0.3)', 'rgba(39, 245, 127, 0.3)', 'rgba(39, 97, 245, 0.3)']}
+          borderColor={['rgba(39, 245, 213, 0.7)', 'rgba(39, 245, 127, 0.7)', 'rgba(39, 97, 245, 0.7)']}
           title='Cpu'
           graphTextColor='rgba(255, 255, 255, 0.702)'
         />
         <GaugeChart
           type="mem"
-          backgroundColor={['rgba(144, 39, 245, 0.3)', 'rgba(245, 39, 178, 0.3)','rgba(245, 39, 41, 0.3)']}
-          borderColor={['rgba(144, 39, 245, 0.7)', 'rgba(245, 39, 178, 0.7)','rgba(245, 39, 41, 0.7)']}
+          backgroundColor={['rgba(144, 39, 245, 0.3)', 'rgba(245, 39, 178, 0.3)', 'rgba(245, 39, 41, 0.3)']}
+          borderColor={['rgba(144, 39, 245, 0.7)', 'rgba(245, 39, 178, 0.7)', 'rgba(245, 39, 41, 0.7)']}
           title='Memory'
           graphTextColor='rgba(255, 255, 255, 0.702)'
         />

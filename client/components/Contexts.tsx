@@ -14,6 +14,8 @@ interface GlobalContext {
     setShowEditModal?: Dispatch<SetStateAction<boolean>>
     globalClusterData?: ClusterData
     setGlobalClusterData?: Dispatch<SetStateAction<ClusterData>>
+    globalCrudChange?: boolean
+    setGlobalCrudChange?: Dispatch<SetStateAction<boolean>>
 }
 
 export const GlobalContext = createContext<GlobalContext>({})

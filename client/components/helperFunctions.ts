@@ -50,8 +50,8 @@ const recursiveList = (obj: nestedObj, key?: any) => {
     });
     return subList;
 }
-//?helper function to make keys human readable
-const humanReadable = (name: string) => {
+//?helper function to make keys human readable (camel case)
+export const humanReadable = (name: string) => {
     var words = name.match(/[A-Za-z][a-z]*/g) || [];
     return words.map(capitalize).join(" ");
 }
