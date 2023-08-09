@@ -15,7 +15,7 @@ const InvisibleNavbar: FC<Props> = () => {
 
     const Modal: FC<Props> = ({ style }) => {
         const { globalServices, globalTimer, setGlobalTimer, setGlobalServiceTest } = useContext(GlobalContext);
-        const [vU, setVu] = useState(0)
+        const [vU, setVu] = useState(0);
         const [duration, setDuration] = useState(0);
         const [service, setService] = useState('');
 

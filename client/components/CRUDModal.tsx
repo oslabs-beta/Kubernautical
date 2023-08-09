@@ -14,19 +14,18 @@ const CRUDModal: FC<ClusterData> = () => {
   } = useContext(GlobalContext);
   const [ns, setNs] = useState('');
   const [service, setService] = useState('');
+  const [deployment, setDeployment] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [crudSelection, setCrudSelection] = useState('');
   const [modalPos, setModalPos] = useState(0);
   const [modalType, setModalType] = useState('');
 
   //?-----------------------------------------------------Modal Component--------------------------------------------------------------->
   const Modal: FC<Props> = ({ style }) => {
-    //TODO yeah this doesnt work ver well i hate it
-    //TODO figure out global re renders for mapothy (global state)
     const [nsInner, setNsInner] = useState('');
     const name = modalType.slice(4) === 'service' ? service : ns ? ns : null;
-    const innerText = modalType.slice(0, 4) === 'add' ? 'Enter namespace here' : name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
-
-
+    const innerText = modalType.slice(0, 3) === 'add' ? `Enter ${modalType.slice(4)} here` : name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
+    console.log(modalType)
     const crudFunction = async (crud: string) => {
       try {
         if (crud === 'create' && nsInner === '') return alert('Please fill out field')
@@ -46,11 +45,16 @@ const CRUDModal: FC<ClusterData> = () => {
         throw error;
       }
     }
+
+
+    // modalType === 'service' || modalType === 'deployment' :
+
+
     return (
       <>
         <div className='page-mask'></div>
         <div className='invisModal' style={{ top: style, position: 'absolute' }}>
-          <div>{innerText}</div>
+          <div className='crudHeader'>{innerText}</div>
           {modalType.slice(0, 3) === 'add' ?
             <>
               <input className='InvisInput' type='text' placeholder='New Namespace' onChange={(e) => setNsInner(e.target.value)} />
@@ -89,17 +93,28 @@ const CRUDModal: FC<ClusterData> = () => {
       </div>
       {ns ?
         <>
-          <div className='crudHeader'>Edit Services</div><div className='crudSelector'>
-            <select className='containerButton mapButton' value={service} onChange={(e) => setService(e.target.value)}>
-              <option key={uuidv4()} value={''}>Select Service</option>
-              {globalClusterData ? globalClusterData.deployments?.map((el: CLusterObj) => {
+          <div className='crudHeader'>Select Scope</div>
+          <div className='crudSelector'>
+            <select className='containerButton mapButton' value={crudSelection} onChange={(e) => setCrudSelection(e.target.value)}>
+              <option key={uuidv4()} value={''}>Select Scope</option>
+              <option key={uuidv4()} value={'deployment'}>Deployments</option>
+              <option key={uuidv4()} value={'service'}>Services</option>
+            </select>
+          </div></> : null}
+      {crudSelection ?
+        <>
+          <div className='crudHeader'>Edit {crudSelection}s</div>
+          <div className='crudSelector'>
+            <select className='containerButton mapButton' value={crudSelection === 'service' ? service : deployment} onChange={(e) => { crudSelection === 'service' ? setService(e.target.value) : setDeployment(e.target.value) }}>
+              <option key={uuidv4()} value={''}>Select {crudSelection}</option>
+              {globalClusterData ? globalClusterData[`${crudSelection}s`]?.map((el: CLusterObj) => {
                 const { name, namespace } = el;
                 if (namespace === ns)
                   return (<option key={uuidv4()} value={name}>{name}</option>);
               }) : null}
             </select>
-            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('add-service'); }}>+</button>
-            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('service'); }}>X</button>
+            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType(`add-${crudSelection}`); }}>+</button>
+            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType(`${crudSelection}`); }}>X</button>
           </div></> : null}
     </div>
   )
