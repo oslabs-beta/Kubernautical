@@ -40,18 +40,20 @@ const promController: prometheusController = {
             if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
             if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
             if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
-            if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})*${userCores}`; //requested divided by available
+            // if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})*${userCores}`; //requested divided by available
     
             if (!notTime) query += `&start=${start}&end=${end}&step=${step}m`;
     
             try {
                 console.log(`query:`, query);
-                
+
                 const response = await fetch(query);
                 // const data = response.json();
                 
                 if (notTime && type === 'cpu') {
+       
                     const used = Number ((await response.json()).data.result[0].value[1]);
+                    
                     // http://localhost:3000/api/prom/metrics?type=cpu&hour=24&notTime=true
                     res.locals.usedCpu = used
                  } else if (notTime) {
@@ -112,7 +114,7 @@ const promController: prometheusController = {
     //TODO doesnt work
     getMem: async (req: Request, res: Response, next: NextFunction) => {
 
-        // http://localhost:3000/api/prom/mem?type=mem&hour=24
+        // http://localhost:3000/api/prom/mem?type=mem&hour=24&notTime=true
 
         let query = `http://localhost:9090/api/v1/query?query=`;
 
@@ -141,7 +143,37 @@ const promController: prometheusController = {
             console.error('Error fetching metrics:', err);
 
         }
-    }
+    },
+    doMathy: async (req: Request, res: Response, next: NextFunction) => {
+        console.log('hello from mathy!')
+        console.log('res.locals.data:', res.locals.data);
+        const { type } = req.query;
+
+        try {
+            if (type === 'cpu') {
+
+                const cores = res.locals.cores;
+                const cpuValues = res.locals.data[0].values;
+
+                const cpuPercents = cpuValues.map(([timestamp, value]: [any, any]) => {
+                    const percent = (Number(value) / cores) * 100;
+                    return [timestamp, percent];
+                });
+                // console.log('cpuPercents', cpuPercents)
+                res.locals.data = cpuPercents;
+            }
+            
+
+            // Update the original data with calculated percentages
+            
+            
+
+            return next();
+        } catch (error) {
+            return next(error);
+        }
+    },
+
 
 };
 

@@ -23,6 +23,7 @@ export interface prometheusController {
   getCores: RequestHandler
   getMem: RequestHandler
   getCpu: RequestHandler
+  doMathy: RequestHandler
 }
 export interface k6Controller {
   testing: RequestHandler
