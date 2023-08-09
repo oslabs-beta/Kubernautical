@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 const CRUDModal: FC<ClusterData> = () => {
   const { setGlobalNamesapces, globalNamespaces,
     setGlobalServices, globalServices,
-    globalClusterData, setGlobalClusterData
+    globalClusterData, setGlobalClusterData,
+    setShowEditModal
   } = useContext(GlobalContext);
   const [ns, setNs] = useState('');
   const [service, setService] = useState('');
@@ -15,15 +16,19 @@ const CRUDModal: FC<ClusterData> = () => {
   const [modalType, setModalType] = useState('');
 
   const Modal: FC<Props> = ({ style }) => {
-    //TODO yeah this doesnt work
-    const name = modalType === 'service' ? service : ns ? ns : '';
-    const innerText = name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
+    //TODO yeah this doesnt work ver well i hate it
+    //TODO figure out global re renders for mapothy (global state)
+    const [nsInner, setNsInner] = useState('');
+    const name = modalType.slice(3) === 'service' ? service : ns ? ns : null;
+    const innerText = modalType.slice(0, 3) === 'add' ? 'Enter namespace here' : name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
     return (
       <>
         <div className='page-mask'></div>
         <div className='invisModal' style={{ top: style, position: 'absolute' }}>
           <div>{innerText}</div>
-          <button className='InvisSubmit'>DDOS me</button>
+          {modalType.slice(0, 3) === 'add' ?
+            <input className='InvisInput' type='text' placeholder='New Namespace' onChange={(e) => setNsInner(e.target.value)} /> : null}
+          <button className='InvisSubmit' onClick={() => { setNs(nsInner); setShowModal(false); setShowEditModal ? setShowEditModal(false) : null }}>Finalize</button>
           <button className='closeInvisModal' onClick={() => setShowModal(false)} >X</button>
         </div>
       </>
@@ -48,6 +53,7 @@ const CRUDModal: FC<ClusterData> = () => {
             )
           }) : null}
         </select>
+        <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('add-namespace') }} >+</button>
         <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('namespace') }} >X</button>
       </div>
       {ns !== '' ?
@@ -60,6 +66,7 @@ const CRUDModal: FC<ClusterData> = () => {
               else return;
             }) : null}
           </select>
+          <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('add-service') }} >+</button>
           <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('service') }}>X</button>
         </div> : null}
     </div>
