@@ -96,6 +96,7 @@ export interface CLusterObj {
   // conditions?: string
 }
 export interface ClusterData {
+  [key: string]: any
   pods?: CLusterObj
   namespaces?: CLusterObj
   deployments?: CLusterObj
