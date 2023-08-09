@@ -8,22 +8,25 @@ const router = express.Router();
 router.get('/metrics', 
   promController.getCores, 
   promController.getMetrics, 
+  promController.doMathy,
   (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json(res.locals.data);
 });
 
-// need to connect routes to other paths before certain controllers
-router.get('/cores', 
-  promController.getCores, 
-  (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).json(res.locals.cores);
-});
 
 router.get('/mem', 
   promController.getMetrics,
   promController.getMem, 
   (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json(res.locals.memoryPercents);
+});
+
+router.get('/cpu', 
+  promController.getCores,
+  promController.getMetrics,
+  promController.getCpu, 
+  (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).json(res.locals.cpuPercents);
 });
 
 export default router;
