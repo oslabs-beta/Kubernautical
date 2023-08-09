@@ -32,18 +32,17 @@ export default function Navbar() {
     <div className='navBar'>
       <div className='navBarTitle' >KUBERNAUTICAL</div>
       <hr className='hr' />
-
-      <button className='navButton' onClick={GoHome}>
+      <button className='navButton' id='ClusterViewButton' onClick={GoHome}>
         <img className="btn-icon" src={clusterpic} />
         <p className="btn-text">Cluster View</p>
       </button>
 
-      <button className='navButton' id = 'MainDashButton' onClick={MainDashBoard}>
+      <button className='navButton' id='MainDashButton' onClick={MainDashBoard}>
         <img className="btn-icon" src={mainDashBoard} />
         <p className="btn-text">Main Dashboard</p>
       </button>
 
-      <button className='navButton' id = 'NetworkButton' onClick={Network}>
+      <button className='navButton' id='NetworkButton' onClick={Network}>
         <img className="btn-icon" src={netWork} />
         <p className="btn-text">Network Performance</p>
       </button>
