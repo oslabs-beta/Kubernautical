@@ -62,13 +62,15 @@ const defaultservArr: globalServiceObj[] = [];
 export const Mapothy: FC<Props> = ({ header }) => {
     const { setGlobalNamesapces,
         setGlobalServices, globalServices,
-        globalClusterData, setGlobalClusterData
+        globalClusterData, setGlobalClusterData,
+        globalCrudChange
     } = useContext(GlobalContext);
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
         edges: [],
     });
     const [ns, setNs] = useState('Cluster');
+    const [localCheck, setLocalCheck] = useState(false);
     const [nsArr, setNsArr] = useState(['']);
     const events = {
         select: function (event: any) { //TODO fix typing 
@@ -83,9 +85,10 @@ export const Mapothy: FC<Props> = ({ header }) => {
             const serviceArrTemp: globalServiceObj[] = [];
             let filteredNsArr: CLusterObj[] = [];
             let data;
-            if (!globalClusterData?.namespaces) {
+            if (!globalClusterData?.namespaces || localCheck === globalCrudChange) {
                 const result = await fetch('api/map/elements');
                 data = await result.json();
+                localCheck ? setLocalCheck(false) : setLocalCheck(true);
                 setGlobalClusterData ? setGlobalClusterData(data) : null;
             }
             else { data = globalClusterData }
@@ -173,7 +176,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //         }
                 //     })
             })
-            if (nsArr.length === 1) { setNsArr(namespaceArr); setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : null }
+            if (nsArr.length === 1 || localCheck === globalCrudChange) { setNsArr(namespaceArr); setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : null }
             if (globalServices?.length === 0) setGlobalServices ? setGlobalServices(serviceArrTemp) : null;
             setGraph({
                 nodes: nodesArr,
@@ -185,7 +188,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
     }
     useEffect(() => {
         getData();
-    }, [ns]);
+    }, [ns, globalCrudChange]);
     //TODO fix error so we dont have to ignore it // error is benign
     useEffect(() => {
         windowHelper();
