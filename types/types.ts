@@ -30,10 +30,7 @@ export interface k6Controller {
 }
 
 export interface execController {
-  crud: RequestHandler
-  // namespace: RequestHandler
-  // deployment: RequestHandler
-  // service: RequestHandler
+  add: RequestHandler
 }
 
 export interface mapController {

@@ -4,7 +4,7 @@ import execController from '../controllers/execController';
 const router = express.Router();
 
 
-router.get('/', execController.crud, (req: Request, res: Response, next: NextFunction) => {
+router.get('/ns', execController.add, (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json(res.locals.namespaces);
 });
 
