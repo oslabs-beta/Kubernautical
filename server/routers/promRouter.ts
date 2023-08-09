@@ -7,8 +7,7 @@ const router = express.Router();
 
 router.get('/metrics', 
   promController.getCores, 
-  promController.getMetrics, 
-  promController.doMathy,
+  promController.getMetrics,
   (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json(res.locals.data);
 });
