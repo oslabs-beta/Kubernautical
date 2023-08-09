@@ -47,7 +47,7 @@ export default function Navbar() {
         <p className="btn-text">Network Performance</p>
       </button>
 
-      <button className='navButton' onClick={() => { setShowEditModal ? showEditModal ? setShowEditModal(false) : setShowEditModal(true) : null }}>
+      <button className='navButton' id='EditClusterButton' onClick={() => { setShowEditModal ? showEditModal ? setShowEditModal(false) : setShowEditModal(true) : null }}>
         <img className="btn-icon" src={edit} />
         <p className="btn-text">Edit Cluster</p>
       </button>
