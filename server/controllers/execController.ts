@@ -4,34 +4,17 @@ import { exec, execFile, execSync } from 'child_process';
 
 const execController: execController = {
   add: async (req: Request, res: Response, next: NextFunction) => {
-    const { namespace } = req.query;
+    const { namespace, crud } = req.query;
     try {
-      const command = `kubectl create namespace ${namespace}`;
+      const command = `kubectl ${crud} namespace ${namespace}`;
       exec(command, (err, stdout, stderr) => {
         if (err) {
           console.log('Error executing command:', err);
           throw new Error();
         }
+        console.log(stdout);
         return next();
-
       });
-    } catch (err) {
-      return next(err);
-    }
-  },
-  delete: async (req: Request, res: Response, next: NextFunction) => {
-    const { namespace } = req.query;
-
-    try {
-      const command = `kubectl delete namespace ${namespace}`;
-      exec(command, (err, stdout, stderr) => {
-            if (err) {
-              console.log('Error executing command:', err);
-                throw new Error();
-            }
-            console.log('stdout:', stdout);
-            return next();
-        });
     } catch (err) {
       return next(err);
     }

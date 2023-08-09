@@ -31,7 +31,6 @@ export interface k6Controller {
 
 export interface execController {
   add: RequestHandler
-  delete: RequestHandler
 }
 
 export interface mapController {
