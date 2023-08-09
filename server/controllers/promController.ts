@@ -14,6 +14,7 @@ import type { prometheusController } from '../../types/types';
 
 
 const promController: prometheusController = {
+    //TODO refactor controllers
 
     getMetrics: async (req: Request, res: Response, next: NextFunction) => {
         const { type, hour, scope, name, notTime } = req.query; //pods--->scope, podname---->name
@@ -35,76 +36,72 @@ const promController: prometheusController = {
         if (type === 'mem') query += `sum(container_memory_usage_bytes{container!="",${scope ? `${scope}="${name}"` : ''}})`;
         if (type === 'trans') query += `sum(rate(container_network_transmit_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
         if (type === 'rec') query += `sum(rate(container_network_receive_bytes_total${scope ? `{${scope}="${name}"}` : ''}[10m]))`;
-        if (type === 'req') query += `sum(kube_pod_container_resource_requests{resource="cpu"}${scope ? `{${scope}="${name}"}` : ''})*${userCores}`; //requested divided by available
-
         if (!notTime) query += `&start=${start}&end=${end}&step=${step}m`;
 
         try {
-
             const response = await fetch(query);
-            // const data = response.json();
-
-            if (notTime) {
-                const usedMemory = Number((await response.json()).data.result[0].value[1]);
-                res.locals.usedMemory = usedMemory
-            }
-            else {
-                const data = await response.json();
-                res.locals.data = data.data.result;
-            }
-
+            if (notTime && type === 'cpu') res.locals.usedCpu = Number((await response.json()).data.result[0].value[1]);
+            if (notTime && type === 'mem') res.locals.usedMem = Number((await response.json()).data.result[0].value[1]);
+            else res.locals.data = (await response.json()).data.result;
             return next();
         } catch (error) {
             return next(error);
         }
     },
-
     getCores: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="cpu"})`);
-            const data = await response.json();
-            const cores = data.data.result[0].value[1]
-            res.locals.cores = cores
+            res.locals.cores = (await response.json()).data.result[0].value[1]
             return next();
         } catch (error) {
             return next(error);
         }
     },
-    //TODO doesnt work
+    getCpu: async (req: Request, res: Response, next: NextFunction) => {
+
+        const requestedQuery = `http://localhost:9090/api/v1/query?query=sum(kube_pod_container_resource_requests{resource="cpu"})`;
+
+        try {
+            const { usedCpu, available } = res.locals;
+
+            const response = await fetch(requestedQuery);
+            const requested = Number((await response.json()).data.result[0].value[1]);
+
+            const remaining = available - (requested + usedCpu);
+            const cpuArr = [usedCpu, requested, remaining];
+            const cpuPercents = cpuArr.map((value) => (value / available) * 100);
+
+            res.locals.cpuPercents = [{ usedCPU: cpuPercents[0] }, { requestedCPU: cpuPercents[1] }, { availableCPU: cpuPercents[2] }];
+            return next();
+
+        } catch (error) {
+            next(error);
+        }
+    },
     getMem: async (req: Request, res: Response, next: NextFunction) => {
 
-        // http://localhost:3000/api/prom/mem?type=mem&hour=24
-
-        let mem = [];
-
         let query = `http://localhost:9090/api/v1/query?query=`;
-
         let totalMemory = query + `sum(node_memory_MemTotal_bytes)`;
-
         let reqMemory = query + `sum(kube_pod_container_resource_requests{resource="memory"})`;
 
         try {
+            const { usedMem } = res.locals;
             const response = await fetch(totalMemory);
             const totalMem = Number((await response.json()).data.result[0].value[1]);
 
             const response2 = await fetch(reqMemory);
             const reqMem = Number((await response2.json()).data.result[0].value[1]);
 
-            const usedMem = res.locals.usedMemory;
-            const remMem = totalMem - (reqMem + usedMem);
-
-            mem.push(reqMem, usedMem, remMem);
-            const memoryPercents = mem.map((value) => (value / totalMem) * 100);
-
-            res.locals.memoryPercents = [{ usedMemory: memoryPercents[0] }, { requestedMemory: memoryPercents[1] }, { allocatableMemory: memoryPercents[2] }];
-            // totalMem
+            const remaining = totalMem - (reqMem + usedMem);
+            const memArr = [reqMem, usedMem, remaining];
+            const memoryPercents = memArr.map((value) => (value / totalMem) * 100);
+            res.locals.memoryPercents = [{ usedMemory: memoryPercents[0] }, { requestedMemory: memoryPercents[1] }, { availableMemory: memoryPercents[2] }];
             return next();
         } catch (err) {
             console.error('Error fetching metrics:', err);
 
         }
     }
-
 };
 
 export default promController;

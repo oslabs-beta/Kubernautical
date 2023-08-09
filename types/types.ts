@@ -22,6 +22,7 @@ export interface prometheusController {
   getMetrics: RequestHandler
   getCores: RequestHandler
   getMem: RequestHandler
+  getCpu: RequestHandler
 }
 export interface k6Controller {
   testing: RequestHandler
@@ -61,7 +62,7 @@ export interface Props {
   header?: string;
   yAxisTitle?: string;
   color?: string | string[];
-  graphTextColor?:string;
+  graphTextColor?: string;
   backgroundColor?: string | string[];
   borderColor?: string | string[];
   hour?: string;
