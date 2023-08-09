@@ -17,6 +17,7 @@ const App = () => {
   const [globalTimer, setGlobalTimer] = useState(0);
   const [globalServiceTest, setGlobalServiceTest] = useState('');
   const [showEditModal, setShowEditModal] = useState(false);
+  const [globalCrudChange, setGlobalCrudChange] = useState(false);
   const [globalClusterData, setGlobalClusterData] = useState(defaultClusterData);
   return (
     <>
@@ -28,7 +29,8 @@ const App = () => {
             globalTimer, setGlobalTimer,
             globalServiceTest, setGlobalServiceTest,
             showEditModal, setShowEditModal,
-            globalClusterData, setGlobalClusterData
+            globalClusterData, setGlobalClusterData,
+            globalCrudChange, setGlobalCrudChange
           }}>
           <Navbar />
           <MainContainer />
