@@ -19,8 +19,6 @@ const options = {
         // randomSeed: '0.26923438127640864:1691128645444'
         randomSeed: '0.00836184154624342:1691197042873' //current god seed
         // randomSeed: '0.19873095642451144:1691197919546' //current demi god seed
-        // hierarchical: true,
-        // improvedLayout: true
     },
     edges: {
         color: "#00FFFF"
@@ -31,15 +29,6 @@ const options = {
     autoResize: true,
     //TODO look into physics optinos
     physics: {
-        // stabilization: {
-        //     enabled: true,
-        //     iterations: 99999999999
-        // },
-        // configure: {
-        //     enabled: true,
-        //     // filter: 'physics, layout',
-        //     showButton: true
-        // },
         barnesHut: {
             gravitationalConstant: -1000,
             centralGravity: 0,
@@ -47,22 +36,15 @@ const options = {
             springConstant: 0.003,
             damping: 0.09,
             avoidOverlap: 0.2,
-        },
-        // repulsion: {
-        //     nodeDistance: 100,
-        //     centralGravity: 0.2,
-        //     springLength: 200,
-        //     springConstant: 0.05,
-        //     damping: 0.09
-        // }
+        }
     }
 };
 const defaultservArr: globalServiceObj[] = [];
 //?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
-    const { setGlobalNamesapces,
+    const { setGlobalNamesapces, globalNamespaces,
         setGlobalServices, globalServices,
-        globalClusterData, setGlobalClusterData,
+        setGlobalClusterData, globalClusterData,
         globalCrudChange
     } = useContext(GlobalContext);
     const [graph, setGraph] = useState<clusterGraphData>({
@@ -70,8 +52,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
         edges: [],
     });
     const [ns, setNs] = useState('Cluster');
-    const [localCheck, setLocalCheck] = useState(false);
-    const [nsArr, setNsArr] = useState(['']);
+    const [localCheck, setLocalCheck] = useState(false); //!lmao nothing to see here
     const events = {
         select: function (event: any) { //TODO fix typing 
             var { nodes, edges } = event;
@@ -176,7 +157,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //         }
                 //     })
             })
-            if (nsArr.length === 1 || localCheck === globalCrudChange) { setNsArr(namespaceArr); setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : null }
+            if (globalNamespaces?.length === 1 || localCheck === globalCrudChange) { setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : null }
             if (globalServices?.length === 0) setGlobalServices ? setGlobalServices(serviceArrTemp) : null;
             setGraph({
                 nodes: nodesArr,
@@ -200,7 +181,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 <div style={{ position: 'absolute', zIndex: 3 }}>
                     <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
                         <option value='Cluster'>Cluster</option>
-                        {nsArr ? nsArr.map((el) => {
+                        {globalNamespaces ? globalNamespaces.map((el) => {
                             return (
                                 <option key={uuidv4()} value={el}>{el}</option>
                             )

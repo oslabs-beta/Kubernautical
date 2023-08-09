@@ -5,28 +5,29 @@ import mainDashBoard from '../assets/images/mainDashBoard.png'
 import netWork from '../assets/images/network.png'
 import edit from '../assets/images/edit.png'
 import { GlobalContext } from '../components/Contexts';
+import gif2 from '../assets/gif3.gif'
 
 export default function Navbar() {
   const { globalTimer, setGlobalTimer,
     globalServiceTest, setGlobalServiceTest,
-    showEditModal, setShowEditModal
+    showEditModal, setShowEditModal,
+    ongoingCrudChange
   } = useContext(GlobalContext);
-  const [activeTimer, setActiveTimer] = useState(0); //!this sucks but im an idiot
+  const [activeTimer, setActiveTimer] = useState(0); //!smooth brain solution
   const navigate = useNavigate();
   function MainDashBoard() { navigate('/dashboard') }
   function GoHome() { navigate('/'); }
   function Network() { navigate('/network') }
 
   useEffect(() => {
-    
     if (globalTimer && (globalTimer - Date.now()) < 0) {
       setGlobalTimer ? setGlobalTimer(0) : null;
       setGlobalServiceTest ? setGlobalServiceTest('') : null;
     }
-    setTimeout(() => {
+    globalTimer ? setTimeout(() => {
       globalTimer ? setActiveTimer(Math.floor((globalTimer - Date.now()) / 1000)) : null;
-    }, 1000)
-  }, [globalTimer, activeTimer])
+    }, 1000) : null;
+  }, [globalTimer, activeTimer, ongoingCrudChange])
 
   return (
     <div className='navBar'>
@@ -55,6 +56,11 @@ export default function Navbar() {
       <div className='loadingStatus'>
         {globalTimer ? `Load test time remaining: ${Math.floor((globalTimer - Date.now()) / 1000)}s, running on ${globalServiceTest}` : null}
       </div>
+
+      <div className='loadingStatus'>
+        {ongoingCrudChange ? <img className='loadingGif' src={gif2} /> : null}
+      </div>
+
     </div>
   )
 }
