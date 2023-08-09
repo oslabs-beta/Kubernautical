@@ -12,7 +12,8 @@ const GaugeChart: FC<Props> = ({type,borderColor,backgroundColor,title,graphText
 
   const getData = async () => {
     try {
-      let URL = `/api/prom/${type === 'mem' ? 'mem' : 'metrics'}?type=${type}&hour=24&notTime=true`;
+      let URL = `/api/prom/${type === 'mem' ? 'mem' : 'cpu'}?type=${type}&hour=24&notTime=true`;
+      console.log(URL)
       const response = await fetch(URL);
       const data = await response.json();
       console.log(data)
