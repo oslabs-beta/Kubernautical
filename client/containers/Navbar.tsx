@@ -5,6 +5,7 @@ import mainDashBoard from '../assets/images/mainDashBoard.png'
 import netWork from '../assets/images/network.png'
 import edit from '../assets/images/edit.png'
 import { GlobalContext } from '../components/Contexts';
+import gif2 from '../assets/gif3.gif'
 
 export default function Navbar() {
   const { globalTimer, setGlobalTimer,
@@ -12,7 +13,7 @@ export default function Navbar() {
     showEditModal, setShowEditModal,
     ongoingCrudChange
   } = useContext(GlobalContext);
-  const [activeTimer, setActiveTimer] = useState(0); //!this sucks but im an idiot
+  const [activeTimer, setActiveTimer] = useState(0); //!smooth brain solution
   const navigate = useNavigate();
   function MainDashBoard() { navigate('/dashboard') }
   function GoHome() { navigate('/'); }
@@ -57,7 +58,7 @@ export default function Navbar() {
       </div>
 
       <div className='loadingStatus'>
-        {ongoingCrudChange ? `WE WORKIN ON IT MAN CHILL` : null}
+        {ongoingCrudChange ? <img className='loadingGif' src={gif2} /> : null}
       </div>
 
     </div>

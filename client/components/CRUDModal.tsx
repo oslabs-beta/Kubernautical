@@ -72,7 +72,7 @@ const CRUDModal: FC<ClusterData> = () => {
     <div className='invisModal editModal'>
       {showModal ? <Modal style={modalPos} type='service' /> : null}
       <div className='crudHeader'>Cluster Editor</div>
-
+      <hr className='hrCrud' />
       <div className='crudHeader'>Edit Namespaces</div>
       <div className='crudSelector'>
         <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
