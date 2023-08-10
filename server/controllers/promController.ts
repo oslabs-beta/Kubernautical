@@ -102,12 +102,8 @@ const promController: prometheusController = {
             const memoryPercents = memArr.map((value) => (value / totalMem) * 100);
             res.locals.memoryPercents = [{ usedMemory: memoryPercents[1] }, { requestedMemory: memoryPercents[0] }, { availableMemory: memoryPercents[2] }];
             return next();
-        } catch (error) {
-           return next({
-                log: 'Error happened at promController.getMem' + error,
-                status: 400,
-                message: { error: 'Error getting Data' },
-              })
+        } catch (err) {
+            return next(err)
         }
     }
 };

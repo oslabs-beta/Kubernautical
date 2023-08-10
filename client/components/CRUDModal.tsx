@@ -36,7 +36,8 @@ const CRUDModal: FC<ClusterData> = () => {
     const crudFunction = async () => {
       try {
         let query = `api/exec/`;
-        // if (modalType === 'create' && nsInner === '') return alert('Please fill out field')
+        if (modalType === 'create' && form === '') return alert('Please fill out field')
+        // if (modalType === 'scale' && form === '') return alert('Please fill out field')
         switch (crudSelection) {
           case 'namespace':
             query += `ns?namespace=${modalType === 'create' ? form : ns}&crud=${modalType}`;
