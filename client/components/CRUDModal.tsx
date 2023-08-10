@@ -2,8 +2,9 @@ import React, { useEffect, useState, useContext, FC, SyntheticEvent } from 'reac
 import { ClusterData, CLusterObj, Props } from '../../types/types';
 import { GlobalContext } from './Contexts';
 import { v4 as uuidv4 } from 'uuid';
-import { error } from 'console';
 
+const defaultArr: string[] = []
+// const defaultObj: CLusterObj = []
 const CRUDModal: FC<ClusterData> = () => {
   const { setGlobalNamesapces, globalNamespaces,
     setGlobalServices, globalServices,
@@ -16,28 +17,38 @@ const CRUDModal: FC<ClusterData> = () => {
   const [service, setService] = useState('');
   const [deployment, setDeployment] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [crudSelection, setCrudSelection] = useState('');
+  const [crudSelection, setCrudSelection] = useState('namespace');
   const [modalPos, setModalPos] = useState(0);
   const [modalType, setModalType] = useState('');
 
   //?-----------------------------------------------------Modal Component--------------------------------------------------------------->
   const Modal: FC<Props> = ({ style }) => {
     const [nsInner, setNsInner] = useState('');
-    const name = modalType.slice(4) === 'service' ? service : ns ? ns : null;
-    const innerText = modalType.slice(0, 3) === 'add' ? `Enter ${modalType.slice(4)} here` : name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
-    console.log(modalType)
-    const crudFunction = async (crud: string) => {
+    //TODO fix the inner text its not great (its actually haunting)
+    const name = crudSelection === 'service' ? service : crudSelection === 'deployment' ? deployment : crudSelection === 'namespace' ? ns : null;
+    let innerText = modalType === 'create' ? `Enter ${crudSelection} here` : name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
+    crudSelection === 'deployment' && modalType === 'create' ? innerText = 'Scale Deployment' : null;
+    const obj = globalClusterData ? globalClusterData[`${crudSelection}s`].find(({ name }: any) => name === (crudSelection === 'service' ? service : deployment)) : null;
+    const [scale, setScale] = useState(obj.availableReplicas); //!this is also smooth brain
+    const crudFunction = async () => {
       try {
-        if (crud === 'create' && nsInner === '') return alert('Please fill out field')
-        // switch (modalType.slice(4)) {
-        //   case value:
+        let query = `api/exec/`;
+        if (modalType === 'create' && nsInner === '') return alert('Please fill out field')
+        switch (crudSelection) {
+          case 'namespace':
+            query += `ns?namespace=${modalType === 'create' ? nsInner : ns}&crud=${modalType}`;
+            break;
+          case 'deployment':
+            query += `dep?namespace=${ns}&crud=scale&replicas=${scale}`;
+            break;
+          case 'service':
 
-        //     break;
+            break;
 
-        //   default:
-        //     break;
-        // }
-        const response = await fetch(`api/exec/ns?namespace=${crud === 'create' ? nsInner : ns}&crud=${crud}`)
+          default:
+            break;
+        }
+        const response = await fetch(query)
         setGlobalCrudChange ? globalCrudChange ? setGlobalCrudChange(false) : setGlobalCrudChange(true) : null;
         setOngoingCrudChange ? setOngoingCrudChange(false) : null;
         if (!response.ok) throw new Error();
@@ -48,19 +59,32 @@ const CRUDModal: FC<ClusterData> = () => {
 
 
     // modalType === 'service' || modalType === 'deployment' :
+    //TODO make a helper function to search global state
 
-
-    return (
+    return ( //TODO please refactor this it hurts my soul 
       <>
         <div className='page-mask'></div>
         <div className='invisModal' style={{ top: style, position: 'absolute' }}>
           <div className='crudHeader'>{innerText}</div>
-          {modalType.slice(0, 3) === 'add' ?
-            <>
-              <input className='InvisInput' type='text' placeholder='New Namespace' onChange={(e) => setNsInner(e.target.value)} />
-              <button className='InvisSubmit' onClick={() => { crudFunction('create'); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
-            </>
-            : <button className='InvisSubmit' onClick={() => { crudFunction('delete'); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>}
+          {modalType === 'delete' ?
+            <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
+            : crudSelection === 'namespace' ?
+              <>
+                <input className='InvisInput' type='text' placeholder='New Namespace' onChange={(e) => setNsInner(e.target.value)} />
+                <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
+              </>
+              : crudSelection === 'deployment' ?
+                <>
+                  <input className='InvisInput' type='number' placeholder='Scale Deployment' value={scale} onChange={(e) => setScale(Number(e.target.value))} />
+                  <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
+                </>
+                : crudSelection === 'service' ?
+                  <>
+                    <input className='InvisInput' type='text' placeholder='New Service' onChange={(e) => setNsInner(e.target.value)} />
+                    <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
+                  </>
+                  : null
+          }
           <button className='closeInvisModal' onClick={() => setShowModal(false)} >X</button>
         </div>
       </>
@@ -88,8 +112,8 @@ const CRUDModal: FC<ClusterData> = () => {
             )
           }) : null}
         </select>
-        <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('add-namespace') }} >+</button>
-        <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('namespace') }} >X</button>
+        <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('create') }} >+</button>
+        <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('delete') }} >X</button>
       </div>
       {ns ?
         <>
@@ -101,7 +125,7 @@ const CRUDModal: FC<ClusterData> = () => {
               <option key={uuidv4()} value={'service'}>Services</option>
             </select>
           </div></> : null}
-      {crudSelection ?
+      {crudSelection !== 'namespace' ?
         <>
           <div className='crudHeader'>Edit {crudSelection}s</div>
           <div className='crudSelector'>
@@ -113,8 +137,8 @@ const CRUDModal: FC<ClusterData> = () => {
                   return (<option key={uuidv4()} value={name}>{name}</option>);
               }) : null}
             </select>
-            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType(`add-${crudSelection}`); }}>+</button>
-            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType(`${crudSelection}`); }}>X</button>
+            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('create'); }}>+</button>
+            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('delete'); }}>X</button>
           </div></> : null}
     </div>
   )
