@@ -107,6 +107,19 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
   - [VIS Physics Docs - Visualizations](#vis-physics-docs---visualizations)
   - [Easing Algorithms Explained](#easing-algorithms-explained)
   - [k6 Load Testing Script](#k6-load-testing-script)
+- [Kubernetes Command Instruction Guide](#kubernetes-command-instruction-guide)
+  - [Exposing Deployments](#exposing-deployments)
+    - [ClusterIP](#clusterip)
+    - [NodePort](#nodeport)
+    - [LoadBalancer](#loadbalancer)
+  - [Scaling Deployments](#scaling-deployments)
+  - [Creating Deployments](#creating-deployments)
+  - [Autoscaling Deployments](#autoscaling-deployments)
+  - [Setting Default Namespace](#setting-default-namespace)
+  - [Managing Contexts](#managing-contexts)
+  - [Describing Resources](#describing-resources)
+  - [Listing Resources](#listing-resources)
+  - [Exporting YAML Configuration](#exporting-yaml-configuration)
 
 ## Prerequisites
 
@@ -243,4 +256,115 @@ Utilize the following command to execute a k6 load testing script:
 
 ```shell
 k6 run --vus 30 --duration 30s scripts/loadtest.js
+```
+
+# Kubernetes Command Instruction Guide
+
+This guide provides essential Kubernetes command instructions to effectively manage your deployments, services, and namespaces. These commands can be directly used within your project's README.md file to facilitate collaboration and understanding among your project contributors.
+
+## Exposing Deployments
+
+Expose a deployment to make it accessible within and outside the cluster using different service types.
+
+### ClusterIP
+
+ClusterIP provides an internal IP for accessing pods within the cluster.
+
+```shell
+kubectl expose deployment <deployment-name> --port=<port> --target-port=<target-port> --type=ClusterIP
+```
+
+
+### NodePort
+
+NodePort exposes pods on a specific port on each node, allowing external access via that port.
+```shell
+kubectl expose deployment <deployment-name> --port=<port> --target-port=<target-port> --type=NodePort
+```
+
+### LoadBalancer
+
+LoadBalancer creates an external load balancer (if supported) to distribute traffic to the pods, enabling external access.
+```shell
+kubectl expose deployment <deployment-name> --port=<port> --target-port=<target-port> --type=LoadBalancer
+```
+
+Think of an IP address as your house address (unique identifier for a location).
+Think of the port as the door number (specific entrance) of your house where someone knocks to enter.
+Think of the targetPort as the room (inside your house) where you want your visitors to go after they've entered.
+
+## Scaling Deployments
+
+Scale the number of replicas for a deployment.
+
+```shell
+kubectl scale deployment <deployment-name> --replicas=<desired-replica-count>
+```
+
+
+## Creating Deployments
+
+Create a deployment with a specific container image.
+
+```shell
+kubectl create deployment <deployment-name> --image=<image-name>
+```
+
+
+## Autoscaling Deployments
+
+Automatically scale a deployment based on CPU utilization.
+
+```shell
+kubectl autoscale deployment <deployment-name> --cpu-percent=<target-cpu-percent> --min=<min-replicas> --max=<max-replicas>
+```
+
+
+## Setting Default Namespace
+
+Set the default namespace for commands to avoid repetition.
+
+```shell
+kubectl config set-context --current --namespace=<namespace>
+```
+
+## Managing Contexts
+
+Get and manage contexts to switch between different clusters and namespaces.
+```shell
+kubectl config get-contexts # List available contexts
+```
+```shell
+kubectl config use-context <context> # Switch to a specific context
+```
+
+
+## Describing Resources
+
+Describe pods and deployments to get detailed information about their current status.
+```shell
+kubectl describe pods -n <namespace>
+```
+```shell
+kubectl describe deployment <deployment-name>
+```
+
+## Listing Resources
+
+List pods, services, and deployments within a specific namespace.
+```shell
+kubectl get all -n <namespace>
+```
+```shell
+kubectl get service -n <namespace>
+```
+```shell
+kubectl get deployment -n <namespace>
+```
+
+## Exporting YAML Configuration
+
+Retrieve and export resource configurations in YAML format for further documentation or version control.
+```shell
+kubectl get <resource-type> -n <namespace> <resource-name> -o yaml > <new-file-name>.yaml
 ```
