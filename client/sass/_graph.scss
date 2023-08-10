@@ -1,8 +1,19 @@
 .lineGraph {
     width: 95%;
-    height: 45%;
+    height: 95%;
     margin: 8px;
+    padding: 5px 5px 0 5px;
     border-radius: 5px;
-    background-color: rgb(39, 41, 61);
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: $container-background;
+    box-shadow: $container-shadow;
+}
+
+.guageGraph {
+    width: 95%;
+    height: 95%;
+    margin: 8px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: $container-background;
+    box-shadow: $container-shadow;
 }

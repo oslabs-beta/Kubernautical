@@ -1,0 +1,74 @@
+.editModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin: 100% -100px 5px 50px;
+    padding: 0px 3px 3px 3px;
+    height: 500px;
+}
+
+.centerModal {
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    margin: 10px 5px 5px 10px;
+    // border: 2px solid cyan;
+}
+
+.crudDelete {
+    height: 24px;
+    width: 24px;
+    border-radius: 8px;
+    margin: 5px;
+    border: none;
+    background-color: $red-button;
+}
+
+.crudSelector {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    height: 30px;
+    width: 95%;
+}
+
+.crudHeader {
+    color: lighten($font-color, 30%);
+    display: flex;
+    align-items: end;
+    // border: 2px solid cyan;
+    padding: 0px;
+    margin: 0px 5px 5px 5px;
+    width: 80%;
+    height: 8%;
+    animation: loadin 1s ease-in;
+}
+
+.hrCrud {
+    border: 1px solid lighten($font-color, 30%);
+    width: 90%;
+}
+
+// .invisModal {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     width: 200px;
+//     height: 200px;
+//     margin: 8px;
+//     padding: 5px 5px 0 5px;
+//     border-radius: 5px;
+//     background-color: lighten($container-background, 10%);
+//     box-shadow: $container-shadow;
+//     z-index: 10;
+//   }
+//   .editModal {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: start;
+//     align-items: start;
+//     margin: 100% -100px 5px 50px;
+//     height: 500px;
+// }

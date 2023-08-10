@@ -1,49 +1,29 @@
-import React from 'react'
-import { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, useContext, FC } from 'react';
+import { GlobalContext } from '../Contexts';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import type { Props } from '../../types/types';
+import type { Props } from '../../../types/types';
+import { v4 as uuidv4 } from 'uuid';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
 const stringArr: String[] = [];
 
-const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
+const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor }) => {
+  const { globalNamespaces } = useContext(GlobalContext);
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
   const [hourSelection, setHourSelection] = useState('24');
   const [scope, setScope] = useState('');
   const [scopeType, setScopeType] = useState('');
-  const [nameSpaces, setNameSpaces] = useState(stringArr);
-
-
-  const getNameSpaces = async () => {
-    try {
-      const response = await fetch('/api/cluster/namespaces', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json()
-      const names: String[] = []
-      data.forEach((el: any) => {
-        if (el === null) return
-        if (el.name)
-          names.push(el.name)
-      })
-      setNameSpaces(names)
-    } catch (error) {
-      console.log('Error fetching NameSpaces:', error);
-    }
-  };
 
   const getData = async () => {
 
     const time: Number[] = [];
     const specificData: Number[] = [];
     const gigaBytes: Number[] = []
+    const kiloBytes: Number[] = []
 
     try {
       const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
@@ -68,6 +48,12 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
           gigaBytes.push(newEl)
           setData(gigaBytes)
         })
+      } else if (type === 'trans' || type === 'rec') { // convert bytes into kilobytes if asking for trans or rec
+        specificData.forEach((el: any) => {
+          const newEl = el / 1000
+          kiloBytes.push(newEl)
+          setData(kiloBytes)
+        })
       } else {
         setData(specificData)
       }
@@ -87,12 +73,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   //? add needed watchers to useEffect
   useEffect(() => {
     getData();
-    getNameSpaces();
   }, [hourSelection, scope]);
-  //*only need to get namespaces once
-  useEffect(() => {
-    getNameSpaces();
-  }, []);
 
   const dataSet = { // Data for tables
     labels: label, //set data for X Axis
@@ -104,6 +85,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
       borderColor: color,
       pointBorderColor: color,
       tension: .5,
+      pointBackgroundColor:'white',
       pointBorderWidth: 1,
       pointHoverRadius: 4,
       pointRadius: 1,
@@ -122,23 +104,43 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
     },
     plugins: {
       legend: {
+        labels:{
+          color:graphTextColor
+        },
         display: true
+        
       },
     },
     responsive: true,
     scales: {
       y: {
+        ticks:{
+          color:graphTextColor
+        },
+        grid: {
+          display: true ,
+          color: `rgba(128, 128, 128, 0.1)`
+        },
         display: true,
         title: {
           display: true,
-          text: yAxisTitle
+          text: yAxisTitle,
+          color: graphTextColor
         }
       },
       x: {
+        ticks:{
+          color:graphTextColor
+        },
+        grid: {
+          display: false ,
+          color: `rgba(128, 128, 128, 0.1)`
+        },
         display: true,
         title: {
           display: true,
-          text: `Time(${hourSelection}hrs)`
+          text: `Time(${hourSelection}hrs)`,
+          color: 'rgba(255, 255, 255, 0.702)'
         }
       }
     }
@@ -146,7 +148,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
   return (
     <div className='lineGraph'>
       <div>
-        <select className='containerButton' value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
+        <select className='containerButton' id ='hourDropDown' value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
           <option value='1'>1 hour</option>
           <option value='6'>6 hours</option>
           <option value='12'>12 hours</option>
@@ -154,11 +156,11 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color }) => {
         </select>
         <select className='containerButton' value={scope} onChange={(e) => { setScope(e.target.value); setScopeType('namespace') }}>
           <option value=''>Cluster</option>
-          {nameSpaces.map((el) => {
+          {globalNamespaces ? globalNamespaces.map((el) => {
             return (
-              <option value={`${el}`}>{el}</option>
+              <option key={uuidv4()} value={`${el}`}>{el}</option>
             )
-          })}
+          }) : <div></div>}
         </select>
       </div>
       <Line data={dataSet} options={options} />

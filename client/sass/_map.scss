@@ -21,14 +21,36 @@ div.vis-tooltip {
     white-space: normal;
     font-family: verdana;
     font-size: 14px;
-    color: white;
-    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: lighten($font-color, 20%);
+    background-color: $container-background;
+    box-shadow: $container-shadow;
+    margin: 5px 5px 0 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(24, 25, 35);
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    // border: 1px solid #808074;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     pointer-events: none;
     z-index: 5;
+}
+
+.mapButton {
+    // position: absolute;
+    z-index: 3;
+}
+
+.mapButton2 {
+    // position: absolute;
+    top: 23%;
+    height: 15px;
+    width: 200px;
+    padding: 0;
+    z-index: 3;
+}
+
+.mapButton:hover,
+.mapButton2:hover {
+    cursor: pointer;
+    transform: translate(1px, 1px);
+    color: lighten($font-color, 20%);
 }

@@ -8,10 +8,12 @@
     padding: 5px;
     margin: 10px;
     height: 90vh;
+
 }
 
 .mainHeader {
     // border:2px solid pink;
+    color: lighten($font-color, 30%);
     padding: 5px;
     margin: 5px;
     width: 80%;
@@ -21,6 +23,7 @@
     align-items: center;
     justify-content: center;
     font-size: 50px;
+    animation: loadin 1s ease-in;
 }
 
 .miniContainerMap {
@@ -32,9 +35,10 @@
     display: flex;
     margin: 8px;
     border-radius: 5px;
-    background-color: rgb(39, 41, 61);
+    background-color: $container-background;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     // flex-direction: column;
+    animation: loadin 1s ease-in;
 }
 
 .miniContainerGraph {
@@ -42,18 +46,32 @@
     border-radius: 5px;
     padding: 5px;
     width: 80%;
-    height: 80%;
+    height: 40%;
     display: flex;
     // flex-direction: column;
+    animation: loadin 1s lienar;
 }
+
 
 .containerButton {
     // width: 95%;
     // height: 45%;
-    color: rgb(162, 161, 161);
+    color: $font-color;
     margin: 5px 5px 0 5px;
     border-radius: 5px;
     border: none;
-    background-color: rgb(39, 41, 61);
-    box-shadow: rgba(0, 0, 0, 0.24) 3px 3px 3px 3px;
+    background-color: $body-background;
+    box-shadow: $container-shadow;
+}
+
+@keyframes loadin {
+    from {
+        opacity: 0;
+        transform: translateX(-10px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0)
+    }
 }

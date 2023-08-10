@@ -6,9 +6,25 @@
     width: 12vw;
     padding: 5px;
     margin: 10px 5px 5px 10px;
-    background: linear-gradient(rgb(253, 93, 146), rgb(197, 47, 30));
+    background: linear-gradient(-45deg, rgb(253, 93, 146), rgb(197, 47, 30), rgb(253, 93, 146), rgb(197, 47, 30));
+    background-size: 400% 400%;
     color: #EEEEEE;
     border-radius: 5px;
+    animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 // title
@@ -47,4 +63,17 @@
 
 .btn-text {
     text-align: left;
+}
+
+.loadingStatus {
+    position: relative;
+    top: 40%;
+    justify-self: end;
+    align-self: center;
+    font-size: small;
+}
+
+.loadingGif {
+    height: 50px;
+    width: 50px;
 }
