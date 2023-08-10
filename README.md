@@ -62,7 +62,7 @@ Contributions play a vital role in the open-source community. Any contributions 
 - Create a pull request with detailed description of your changes from your feature branch to dev branch.
 - Inform us upon PR submission. Once the changes are reviewed and approved, we will merge your code into the main repository.
 
-# Kubernautical - Prometheus Setup Guide
+# Kubernautical - Setup Guide
 
 Welcome to the Kubernautical open source project's guide on setting up Prometheus for monitoring Kubernetes clusters. Prometheus is a powerful monitoring and alerting tool that helps you gain insights into your cluster's performance metrics. This guide will walk you through the process of setting up Prometheus using various resources and links.
 
@@ -74,10 +74,10 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
   - [Introducing Kubernautical: Empowering Comprehensive Kubernetes Cluster Health Visualization](#introducing-kubernautical-empowering-comprehensive-kubernetes-cluster-health-visualization)
   - [Terminal Commands](#terminal-commands)
   - [Contributing](#contributing)
-- [Kubernautical - Prometheus Setup Guide](#kubernautical---prometheus-setup-guide)
+- [Kubernautical - Setup Guide](#kubernautical---setup-guide)
   - [Table of Contents](#table-of-contents)
-  - [Prerequisites](#prerequisites)
-  - [Setup Steps](#setup-steps)
+  - [Prometheus Setup Steps](#prometheus-setup-steps)
+    - [Prerequisites](#prerequisites)
     - [GKE Basic Prometheus Test](#gke-basic-prometheus-test)
     - [AWS Prometheus](#aws-prometheus)
     - [Helm Charts Prometheus](#helm-charts-prometheus)
@@ -116,14 +116,13 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
   - [Listing Resources](#listing-resources)
   - [Exporting YAML Configuration](#exporting-yaml-configuration)
 
-## Prerequisites
+## Prometheus Setup Steps
+### Prerequisites
 
 Before you begin, ensure that you have the following prerequisites in place:
 
 - A Kubernetes cluster is set up and accessible. If you don't have a cluster, you can use tools like Docker Desktop or Minikube to create a local cluster.
 - Helm is installed. You can install it using Homebrew on macOS: `brew install helm`.
-
-## Setup Steps
 
 ### GKE Basic Prometheus Test
 
