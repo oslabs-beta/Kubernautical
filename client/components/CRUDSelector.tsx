@@ -57,3 +57,51 @@ export default CrudSelector;
   </select>
 </div> */}
 
+
+
+
+// const Modal: FC<Props> = ({ style }) => {
+//   const [nsInner, setNsInner] = useState('');
+//   const name = modalType[1] === 'service' ? service : ns ? ns : null;
+//   const innerText = modalType[0] === 'create' ? `Enter ${modalType[1]} here` : name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
+//   console.log(modalType)
+//   const crudFunction = async (crud: string) => {
+//     try {
+//       if (crud === 'create' && nsInner === '') return alert('Please fill out field')
+//       // switch (modalType.slice(4)) {
+//       //   case value:
+
+//       //     break;
+
+//       //   default:
+//       //     break;
+//       // }
+//       const response = await fetch(`api/exec/ns?namespace=${crud === 'create' ? nsInner : ns}&crud=${crud}`)
+//       setGlobalCrudChange ? globalCrudChange ? setGlobalCrudChange(false) : setGlobalCrudChange(true) : null;
+//       setOngoingCrudChange ? setOngoingCrudChange(false) : null;
+//       if (!response.ok) throw new Error();
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+
+
+//   // modalType === 'service' || modalType === 'deployment' :
+
+
+//   return ( //TODO please refactor this it hurts my soul 
+//     <>
+//       <div className='page-mask'></div>
+//       <div className='invisModal' style={{ top: style, position: 'absolute' }}>
+//         <div className='crudHeader'>{innerText}</div>
+//         {modalType[0] === 'create' ?
+//           <>
+//             <input className='InvisInput' type='text' placeholder='New Namespace' onChange={(e) => setNsInner(e.target.value)} />
+//             <button className='InvisSubmit' onClick={() => { crudFunction('create'); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
+//           </>
+//           : <button className='InvisSubmit' onClick={() => { crudFunction('delete'); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>}
+//         <button className='closeInvisModal' onClick={() => setShowModal(false)} >X</button>
+//       </div>
+//     </>
+//   )
+// }
