@@ -1,6 +1,5 @@
-// math.test.js
-const math = require('./math'); // The module you want to test
+// const request = require('supertest');
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(math.add(1, 2)).toBe(3);
-});
+// const server = 'http://localhost:3000';
+
+// const app = require('../server/server');
