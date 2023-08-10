@@ -21,3 +21,6 @@ gke-setup
 #yaml files
 prometheus.yaml
 kubeconfig.yaml
+
+#jeremiahs garbage
+CRUDSelector.tsx
