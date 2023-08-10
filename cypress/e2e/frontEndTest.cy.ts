@@ -83,7 +83,7 @@ describe('LineGraph Test',()=>{
       expect(data.response.statusCode).to.eq(200);
     })
   }
-  const time = 1691535753.776
+  const time = Date.now()
   it('Loads Cpu Line Graph Data', () => {
     const expectedCpuData: any = [{
       metric:{},
