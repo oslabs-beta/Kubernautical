@@ -30,7 +30,8 @@ export interface k6Controller {
 }
 
 export interface execController {
-  add: RequestHandler
+  namespace: RequestHandler
+  deployment: RequestHandler
 }
 
 export interface mapController {

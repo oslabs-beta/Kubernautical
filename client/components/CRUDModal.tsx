@@ -29,17 +29,19 @@ const CRUDModal: FC<ClusterData> = () => {
     let innerText = modalType === 'create' ? `Enter ${crudSelection} here` : name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
     crudSelection === 'deployment' && modalType === 'create' ? innerText = 'Scale Deployment' : null;
     const obj = globalClusterData ? globalClusterData[`${crudSelection}s`].find(({ name }: any) => name === (crudSelection === 'service' ? service : deployment)) : null;
-    const [scale, setScale] = useState(obj.availableReplicas); //!this is also smooth brain
+    const [scale, setScale] = useState(obj?.availableReplicas ? obj?.availableReplicas : 0); //!this is also smooth brain
+    const oldReplicas = obj?.availableReplicas ? obj?.availableReplicas : 0;
+    console.log(obj?.availableReplicas)
     const crudFunction = async () => {
       try {
         let query = `api/exec/`;
-        if (modalType === 'create' && nsInner === '') return alert('Please fill out field')
+        // if (modalType === 'create' && nsInner === '') return alert('Please fill out field')
         switch (crudSelection) {
           case 'namespace':
             query += `ns?namespace=${modalType === 'create' ? nsInner : ns}&crud=${modalType}`;
             break;
           case 'deployment':
-            query += `dep?namespace=${ns}&crud=scale&replicas=${scale}`;
+            query += `dep?namespace=${ns}&crud=scale&replicas=${scale}&deployment=${deployment}&old=${oldReplicas}`;
             break;
           case 'service':
 
@@ -48,7 +50,7 @@ const CRUDModal: FC<ClusterData> = () => {
           default:
             break;
         }
-        const response = await fetch(query)
+        const response = await fetch(query);
         setGlobalCrudChange ? globalCrudChange ? setGlobalCrudChange(false) : setGlobalCrudChange(true) : null;
         setOngoingCrudChange ? setOngoingCrudChange(false) : null;
         if (!response.ok) throw new Error();
@@ -105,10 +107,11 @@ const CRUDModal: FC<ClusterData> = () => {
       <div className='crudSelector'>
         <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
           <option key={uuidv4()} value={''}>Select Namespace</option>
-          {globalNamespaces ? globalNamespaces.map((el) => {
-            if (el === 'prometheus' || el === 'gmp-system') return;
+          {globalClusterData ? globalClusterData.namespaces?.map((el: CLusterObj) => {
+            const { name } = el
+            if (name === 'prometheus' || name === 'gmp-system') return;
             return (
-              <option key={uuidv4()} value={el}>{el}</option>
+              <option key={uuidv4()} value={name}>{name}</option>
             )
           }) : null}
         </select>
