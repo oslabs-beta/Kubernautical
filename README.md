@@ -20,10 +20,9 @@
 | ------------- | ------------- |------------- | ------------- |
 | Jeremiah Hogue [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/NotHogue)  [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/jeremiah-hogue/)| Anthony Vuong [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/AnthonyKTVuong) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/anthony-v-9772351b7/) | Stephen Acosta  [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/STAC98) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/sacosta756/)  | Michael Van [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/michaelvan996) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/michael-van-901533222/) |
 
-#
 
-**Introducing Kubernautical: Empowering Comprehensive Kubernetes Cluster Health Visualization**
-#
+
+## Introducing Kubernautical: Empowering Comprehensive Kubernetes Cluster Health Visualization
 
 Hey there,
 
@@ -72,8 +71,7 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
 - [Kubernautical README:](#kubernautical-readme)
   - [Implemented Technologies:](#implemented-technologies)
   - [Meet the Team](#meet-the-team)
-- [](#)
-- [](#-1)
+  - [Introducing Kubernautical: Empowering Comprehensive Kubernetes Cluster Health Visualization](#introducing-kubernautical-empowering-comprehensive-kubernetes-cluster-health-visualization)
   - [Terminal Commands](#terminal-commands)
   - [Contributing](#contributing)
 - [Kubernautical - Prometheus Setup Guide](#kubernautical---prometheus-setup-guide)
@@ -85,11 +83,9 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
     - [Helm Charts Prometheus](#helm-charts-prometheus)
     - [Custom YAML Configuration](#custom-yaml-configuration)
   - [Port Forwarding](#port-forwarding)
-  - [](#-2)
 - [Setting Up Google Kubernetes Engine (GKE)](#setting-up-google-kubernetes-engine-gke)
   - [Prerequisites](#prerequisites-1)
   - [GKE Setup](#gke-setup)
-- [](#-3)
 - [General Kubernetes Setup Guide](#general-kubernetes-setup-guide)
   - [Managing Kubernetes Clusters](#managing-kubernetes-clusters)
     - [Deleting Clusters from Kube Config](#deleting-clusters-from-kube-config)
@@ -97,7 +93,6 @@ Welcome to the Kubernautical open source project's guide on setting up Prometheu
   - [Exposing Applications as Services](#exposing-applications-as-services)
   - [Load Testing with K6](#load-testing-with-k6)
   - [Removing Deployments](#removing-deployments)
-- [](#-4)
 - [Helpful Resources](#helpful-resources)
   - [TypeScript - Why Use TypeScript?](#typescript---why-use-typescript)
   - [Design Assets - Canva Folder](#design-assets---canva-folder)
@@ -153,7 +148,6 @@ After setting up Prometheus, you'll likely want to access its user interface for
 ```shell
 kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
 ```
-##
 # Setting Up Google Kubernetes Engine (GKE)
 
 This section outlines the steps required to set up Google Kubernetes Engine (GKE) for the open source project. GKE is a powerful platform that simplifies the management and orchestration of containerized applications.
@@ -183,7 +177,6 @@ Follow these steps to set up Google Kubernetes Engine (GKE) for our open source 
 
 Make sure to complete these steps to ensure a seamless setup of GKE for our project.
 
-#
 # General Kubernetes Setup Guide
 
 Welcome to the Kubernautical open source project! This guide will help you set up and manage a Kubernetes environment for using Kubernautical effectively. Below are essential steps and resources to assist you in various aspects of Kubernetes management.
@@ -215,7 +208,6 @@ For load testing your applications within the Kubernetes environment, you can us
 When it's necessary to remove deployments from your Kubernetes cluster, refer to the following documentation for guidance:
 - [Removing Deployments from Kubernetes](https://www.ibm.com/docs/en/control-desk/7.6.1.x?topic=containers-stop-existing-deployments)
 
-#
 # Helpful Resources
 
 Welcome to the Kubernautical open source project! This README is designed to provide you with an array of helpful links and code snippets to streamline your journey in understanding and contributing to our project.
