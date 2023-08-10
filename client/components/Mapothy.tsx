@@ -67,6 +67,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
             let filteredNsArr: CLusterObj[] = [];
             let data;
             if (!globalClusterData?.namespaces || localCheck === globalCrudChange) {
+                console.log('FETCHING')
                 const result = await fetch('api/map/elements');
                 data = await result.json();
                 localCheck ? setLocalCheck(false) : setLocalCheck(true);
