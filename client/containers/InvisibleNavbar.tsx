@@ -29,7 +29,6 @@ const InvisibleNavbar: FC<Props> = () => {
                 const filtered = globalServices?.find((gService) => gService?.ip === service)
                 setGlobalServiceTest ? setGlobalServiceTest(filtered ? filtered.name : '') : null;
                 setGlobalTimer ? setGlobalTimer((Date.now() + (duration * 1000))) : null;
-                console.log('Load Testing')
             } catch (error) {
                 console.log('error in running load test:', error)
             }
