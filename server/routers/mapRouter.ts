@@ -6,6 +6,8 @@ const router = express.Router();
 
 
 router.get('/elements',
+    clusterController.setContext,
+    clusterController.getAllContexts,
     clusterController.getAllPods,
     // clusterController.getAllNodes, 
     clusterController.getAllNamespaces,
