@@ -60,7 +60,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
         }
     };
     const getData = async () => {
-        console.log(clusterContext)
+        // console.log(clusterContext)
         try {
             const nodesArr: ClusterNode[] = [];
             const edgesArr: ClusterEdge[] = [];
