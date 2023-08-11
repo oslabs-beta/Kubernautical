@@ -70,7 +70,11 @@ const clusterController: clusterController = {
             res.locals.pods = pods;
             return next();
         } catch (error) {
-            return next(error);
+            return next({
+                log: 'Error happened at clusterController.getAllPods' + error,
+                status: 400,
+                message: { error: 'Error getting data' },
+              });
         }
     },
     getAllNodes: async (req: Request, res: Response, next: NextFunction) => {
@@ -93,7 +97,11 @@ const clusterController: clusterController = {
             res.locals.nodes = nodes;
             return next();
         } catch (error) {
-            return next(error);
+            return next({
+                log: 'Error happened at clusterController.getAllNodes' + error,
+                status: 400,
+                message: { error: 'Error getting data' },
+              });
         }
     },
     getAllNamespaces: async (req: Request, res: Response, next: NextFunction) => {
@@ -117,7 +125,11 @@ const clusterController: clusterController = {
             // console.log('out of namesapce controller')
             return next();
         } catch (error) {
-            return next(error);
+            return next({
+                log: 'Error happened at clusterController.getAllNameSpaces' + error,
+                status: 400,
+                message: { error: 'Error getting data' },
+              });
         }
     },
     getAllServices: async (req: Request, res: Response, next: NextFunction) => {
@@ -145,7 +157,11 @@ const clusterController: clusterController = {
             // console.log('out of services controller')
             return next();
         } catch (error) {
-            return next(error);
+            return next({
+                log: 'Error happened at clusterController.getAllServices' + error,
+                status: 400,
+                message: { error: 'Error getting data' },
+              });
         }
     },
     getAllDeployments: async (req: Request, res: Response, next: NextFunction) => {
@@ -171,7 +187,11 @@ const clusterController: clusterController = {
             // console.log('out of deployments controller')
             return next();
         } catch (error) {
-            return next(error);
+            return next({
+                log: 'Error happened at clusterController.getAllDeployments' + error,
+                status: 400,
+                message: { error: 'Error getting data' },
+              });
         }
     },
     //! We dont have any ingresses yet
@@ -181,7 +201,11 @@ const clusterController: clusterController = {
             res.locals.ingresses = result;
             return next();
         } catch (error) {
-            return next(error)
+            return next({
+                log: 'Error happened at clusterController.getAllIngresses' + error,
+                status: 400,
+                message: { error: 'Error getting data' },
+              })
         }
     }
 }

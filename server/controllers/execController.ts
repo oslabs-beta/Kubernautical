@@ -15,8 +15,12 @@ const execController: execController = {
         console.log(`stdout:`, stdout);
         return next();
       });
-    } catch (err) {
-      return next(err);
+    } catch (error) {
+      return next({
+        log: 'Error happened at execController.namespace' + error,
+        status: 400,
+        message: { error: 'Error getting data' },
+      });
     }
   },
   deployment: async (req: Request, res: Response, next: NextFunction) => {
@@ -42,8 +46,12 @@ const execController: execController = {
 
         return setTimeout(() => next(), old && replicas ? old < replicas ? 5000 : 45000 : 2000); //45 works
       });
-    } catch (err) {
-      return next(err);
+    } catch (error) {
+      return next({
+        log: 'Error happened at execController.deployment' + error,
+        status: 400,
+        message: { error: 'Error getting data' },
+      });
     }
   },
 };
