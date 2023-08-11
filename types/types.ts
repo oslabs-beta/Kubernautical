@@ -15,6 +15,8 @@ export interface clusterController {
   getAllServices: RequestHandler
   getAllDeployments: RequestHandler
   getAllIngresses: RequestHandler
+  getAllContexts: RequestHandler
+  setContext: RequestHandler
   // getAllPodLogs: RequestHandler
 }
 
@@ -100,6 +102,14 @@ export interface ClusterData {
   namespaces?: CLusterObj
   deployments?: CLusterObj
   services?: CLusterObj
+  contexts?: ContextObj
+}
+export interface ContextObj {
+  [key: string]: any
+  cluster: string,
+  name?: string,
+  user?: string,
+  namespace?: string
 }
 // export interface strategyObj {
 //   [key: string]: any

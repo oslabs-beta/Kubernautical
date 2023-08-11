@@ -44,7 +44,11 @@ const promController: prometheusController = {
             else res.locals.data = (await response.json()).data.result;
             return next();
         } catch (error) {
-            return next(error);
+            return next({
+                log: 'Error happened at promController.getMetrics' + error,
+                status: 400,
+                message: { error: 'Error getting Data' },
+              });
         }
     },
     getCores: async (req: Request, res: Response, next: NextFunction) => {
@@ -53,7 +57,11 @@ const promController: prometheusController = {
             res.locals.available = (await response.json()).data.result[0].value[1]
             return next();
         } catch (error) {
-            return next(error);
+            return next({
+                log: 'Error happened at promController.getCores' + error,
+                status: 400,
+                message: { error: 'Error getting Data' },
+              });
         }
     },
     getCpu: async (req: Request, res: Response, next: NextFunction) => {
@@ -68,7 +76,11 @@ const promController: prometheusController = {
             res.locals.cpuPercents = [{ usedCpu: cpuPercents[0] }, { requestedCpu: cpuPercents[1] }, { availableCpu: cpuPercents[2] }];
             return next();
         } catch (error) {
-            next(error);
+           return next({
+                log: 'Error happened at promController.getCpu' + error,
+                status: 400,
+                message: { error: 'Error getting Data' },
+              });
         }
     },
     getMem: async (req: Request, res: Response, next: NextFunction) => {
@@ -90,9 +102,12 @@ const promController: prometheusController = {
             const memoryPercents = memArr.map((value) => (value / totalMem) * 100);
             res.locals.memoryPercents = [{ usedMemory: memoryPercents[1] }, { requestedMemory: memoryPercents[0] }, { availableMemory: memoryPercents[2] }];
             return next();
-        } catch (err) {
-            console.error('Error fetching metrics:', err);
-
+        } catch (error) {
+           return next({
+                log: 'Error happened at promController.getMem' + error,
+                status: 400,
+                message: { error: 'Error getting Data' },
+              })
         }
     }
 };

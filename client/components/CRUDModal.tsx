@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, FC, SyntheticEvent } from 'reac
 import { ClusterData, CLusterObj, Props } from '../../types/types';
 import { GlobalContext } from './Contexts';
 import { v4 as uuidv4 } from 'uuid';
+import edit from '../assets/images/edit.png'
 
 const defaultArr: string[] = []
 // const defaultObj: CLusterObj = []
@@ -23,25 +24,26 @@ const CRUDModal: FC<ClusterData> = () => {
 
   //?-----------------------------------------------------Modal Component--------------------------------------------------------------->
   const Modal: FC<Props> = ({ style }) => {
-    const [nsInner, setNsInner] = useState('');
+    const [form, setForm] = useState('');
+    const [form2, setForm2] = useState('');
     //TODO fix the inner text its not great (its actually haunting)
     const name = crudSelection === 'service' ? service : crudSelection === 'deployment' ? deployment : crudSelection === 'namespace' ? ns : null;
     let innerText = modalType === 'create' ? `Enter ${crudSelection} here` : name ? `Are you sure you want to remove ${name}?` : 'Please make a selection';
-    crudSelection === 'deployment' && modalType === 'create' ? innerText = 'Scale Deployment' : null;
+    crudSelection === 'deployment' && modalType === 'scale' ? innerText = 'Scale Deployment' : null;
     const obj = globalClusterData ? globalClusterData[`${crudSelection}s`].find(({ name }: any) => name === (crudSelection === 'service' ? service : deployment)) : null;
     const [scale, setScale] = useState(obj?.availableReplicas ? obj?.availableReplicas : 0); //!this is also smooth brain
     const oldReplicas = obj?.availableReplicas ? obj?.availableReplicas : 0;
-    console.log(obj?.availableReplicas)
     const crudFunction = async () => {
       try {
         let query = `api/exec/`;
-        // if (modalType === 'create' && nsInner === '') return alert('Please fill out field')
+        if (modalType === 'create' && form === '') return alert('Please fill out field')
+        // if (modalType === 'scale' && form === '') return alert('Please fill out field')
         switch (crudSelection) {
           case 'namespace':
-            query += `ns?namespace=${modalType === 'create' ? nsInner : ns}&crud=${modalType}`;
+            query += `ns?namespace=${modalType === 'create' ? form : ns}&crud=${modalType}`;
             break;
           case 'deployment':
-            query += `dep?namespace=${ns}&crud=scale&replicas=${scale}&deployment=${deployment}&old=${oldReplicas}`;
+            query += `dep?namespace=${ns}&crud=${modalType}&image=${form2}&replicas=${modalType === 'scale' ? scale : ''}&deployment=${form ? form : deployment}&old=${modalType === 'scale' ? oldReplicas : ''}`;
             break;
           case 'service':
 
@@ -72,17 +74,22 @@ const CRUDModal: FC<ClusterData> = () => {
             <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
             : crudSelection === 'namespace' ?
               <>
-                <input className='InvisInput' type='text' placeholder='New Namespace' onChange={(e) => setNsInner(e.target.value)} />
+                <input className='InvisInput' type='text' placeholder='New Namespace' onChange={(e) => setForm(e.target.value)} />
                 <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
               </>
-              : crudSelection === 'deployment' ?
+              : crudSelection === 'deployment' ? modalType === 'create' ?
+                <>
+                  <input className='InvisInput' type='text' placeholder='New Deployment' value={form} onChange={(e) => setForm(e.target.value)} />
+                  <input className='InvisInput' type='text' placeholder='Docker Image' value={form2} onChange={(e) => setForm2(e.target.value)} />
+                  <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
+                </> :
                 <>
                   <input className='InvisInput' type='number' placeholder='Scale Deployment' value={scale} onChange={(e) => setScale(Number(e.target.value))} />
                   <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
                 </>
                 : crudSelection === 'service' ?
                   <>
-                    <input className='InvisInput' type='text' placeholder='New Service' onChange={(e) => setNsInner(e.target.value)} />
+                    <input className='InvisInput' type='text' placeholder='New Service' onChange={(e) => setForm(e.target.value)} />
                     <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
                   </>
                   : null
@@ -123,12 +130,12 @@ const CRUDModal: FC<ClusterData> = () => {
           <div className='crudHeader'>Select Scope</div>
           <div className='crudSelector'>
             <select className='containerButton mapButton' value={crudSelection} onChange={(e) => setCrudSelection(e.target.value)}>
-              <option key={uuidv4()} value={''}>Select Scope</option>
+              <option key={uuidv4()} value={'namespace'}>Select Scope</option>
               <option key={uuidv4()} value={'deployment'}>Deployments</option>
               <option key={uuidv4()} value={'service'}>Services</option>
             </select>
           </div></> : null}
-      {crudSelection !== 'namespace' ?
+      {crudSelection !== 'namespace' && ns ?
         <>
           <div className='crudHeader'>Edit {crudSelection}s</div>
           <div className='crudSelector'>
@@ -140,6 +147,7 @@ const CRUDModal: FC<ClusterData> = () => {
                   return (<option key={uuidv4()} value={name}>{name}</option>);
               }) : null}
             </select>
+            <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('scale'); }}><img className='smallEdit' src={edit} /></button>
             <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('create'); }}>+</button>
             <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('delete'); }}>X</button>
           </div></> : null}

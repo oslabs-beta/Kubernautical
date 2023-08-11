@@ -6,16 +6,21 @@ const mapController: mapController = {
 
   getElements: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { pods, namespaces, deployments, services } = res.locals;
+      const { pods, namespaces, deployments, services, contexts } = res.locals;
       res.locals.elements = {
         pods,
         namespaces,
         deployments,
-        services
+        services,
+        contexts
       }
       return next();
-    } catch (err) {
-      return next(err);
+    } catch (error) {
+      return next({
+        log: 'Error happened at mapController.getElements' + error,
+        status: 400,
+        message: { error: 'Error getting data' },
+      });
     }
   }
 };

@@ -3,14 +3,17 @@
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    margin: 100% -100px 5px 50px;
+    margin: 100% -100px 5px 40px;
     padding: 0px 3px 3px 3px;
     height: 500px;
+    width: 125%;
+    // border: 2px solid magenta;
 }
 
 .centerModal {
     display: flex;
     flex-direction: column;
+    // border: 2px solid cyan;
     // justify-content: center;
     margin: 10px 5px 5px 10px;
     // border: 2px solid cyan;
@@ -48,6 +51,11 @@
 .hrCrud {
     border: 1px solid lighten($font-color, 30%);
     width: 90%;
+}
+
+.smallEdit {
+    height: 15px;
+    width: 15px;
 }
 
 // .invisModal {
