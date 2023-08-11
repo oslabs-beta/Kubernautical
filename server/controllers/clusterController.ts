@@ -2,21 +2,50 @@ import * as k8s from '@kubernetes/client-node';
 import os from 'os';
 import type { Request, Response, NextFunction } from 'express';
 import type { clusterController, Pod, log } from '../../types/types';
+import { exec, execFile, execSync } from 'child_process';
 
 // declare kube file path
 const KUBE_FILE_PATH = `${os.homedir()}/.kube/config`;
 // create new kubeconfig class
 const kc = new k8s.KubeConfig();
-
 // load from kube config file
 kc.loadFromFile(KUBE_FILE_PATH);
-
+console.log(kc.getContexts());
 // make apis needed to intereact with client
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api);  //used for nodes, pods, namespaces
 const k8sApi2 = kc.makeApiClient(k8s.AppsV1Api); //used for deployments and services
 const k8sApi3 = kc.makeApiClient(k8s.NetworkingV1Api);  //used for ingress
 
 const clusterController: clusterController = {
+    setContext: async (req: Request, res: Response, next: NextFunction) => {
+        const { context } = req.query;
+        try {
+            console.log('CONTEXT:', context)
+            if (context) {
+                const command = `kubectl config use-context ${context}`;
+                exec(command, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log('Error executing command:', err);
+                        throw new Error();
+                    }
+                    console.log(`stdout:`, stdout);
+                    return next();
+                });
+            }
+            else return next();
+        } catch (error) {
+            return next(error)
+        }
+    },
+    getAllContexts: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const result = kc.getContexts();
+            res.locals.contexts = result;
+            return next();
+        } catch (error) {
+            return next(error)
+        }
+    },
     getAllPods: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await k8sApi.listPodForAllNamespaces();
@@ -165,7 +194,6 @@ const clusterController: clusterController = {
               });
         }
     },
-
     //! We dont have any ingresses yet
     getAllIngresses: async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -179,38 +207,7 @@ const clusterController: clusterController = {
                 message: { error: 'Error getting data' },
               })
         }
-    },
-    // getAllPodLogs: async (req: Request, res: Response, next: NextFunction) => {
-    //     const { pods } = res.locals;
-    //     console.log('in loggy')
-    //     // const logs = await k8sApi.readNamespacedPodLog(pods[0].name, pods[0].namespace);
-    //     try {
-    //         const logs: log[] = [];
-    //         // pods.forEach(async (pod: Pod) => {
-    //         //     let log: log;
-    //         //     if (pod.containerNames.length === 1) {
-    //         //         log = await k8sApi.readNamespacedPodLog(pod.name, pod.namespace);
-    //         //         console.log(log.body)
-    //         //         logs.push(log.body);
-    //         //     }
-    //         //     else {
-    //         //         pod.containerNames.forEach(async (container) => {
-    //         //             log = await k8sApi.readNamespacedPodLog(pod.name, pod.namespace, container);
-    //         //             logs.push(log.body);
-    //         //         })
-    //         //     }
-    //         // })
-    //         const pod = pods[0];
-    //         const log = await k8sApi.readNamespacedPodLog(pod.name, pod.namespace, pod.containerNames[0]);
-    //         logs.push(log)
-    //         res.locals.logs = logs;
-    //         console.log('out loggy')
-    //         return next()
-    //     } catch (error) {
-    //         return next(error)
-    //     }
-    // }
-
+    }
 }
 
 export default clusterController;
