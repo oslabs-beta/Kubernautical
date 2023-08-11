@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, FC } from 'react';
 import { GlobalContext } from './Contexts';
 import Graph from 'react-graph-vis';
-import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj, ClusterData, globalServiceObj } from '../../types/types';
+import { ClusterNode, ClusterEdge, clusterGraphData, Props, CLusterObj, ContextObj, globalServiceObj } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
 import { makeModal, windowHelper } from './helperFunctions';
 import nsImg from '../assets/ns-icon.png';
@@ -52,6 +52,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
         edges: [],
     });
     const [ns, setNs] = useState('Cluster');
+    const [clusterContext, setClusterContext] = useState('');
     const [localCheck, setLocalCheck] = useState(false); //!lmao nothing to see here
     const events = {
         select: function (event: any) { //TODO fix typing 
@@ -59,6 +60,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
         }
     };
     const getData = async () => {
+        // console.log(clusterContext)
         try {
             const nodesArr: ClusterNode[] = [];
             const edgesArr: ClusterEdge[] = [];
@@ -66,14 +68,14 @@ export const Mapothy: FC<Props> = ({ header }) => {
             const serviceArrTemp: globalServiceObj[] = [];
             let filteredNsArr: CLusterObj[] = [];
             let data;
-            if (!globalClusterData?.namespaces || localCheck === globalCrudChange) {
-                const result = await fetch('api/map/elements');
+            if (!globalClusterData?.namespaces || localCheck === globalCrudChange || clusterContext !== '') {
+                const result = await fetch(`api/map/elements?context=${clusterContext}`);
                 data = await result.json();
                 localCheck ? setLocalCheck(false) : setLocalCheck(true);
                 setGlobalClusterData ? setGlobalClusterData(data) : null;
             }
             else { data = globalClusterData }
-            const { pods, namespaces, deployments, services } = data;
+            const { pods, namespaces, deployments, services, contexts } = data;
             nodesArr.push({ id: '0', title: "KuberNautical", size: 100, image: logoImg, shape: 'image' });
             //?----------------------------------Namespace Search------------------------------------->
             if (ns === 'Cluster') filteredNsArr = namespaces;
@@ -169,25 +171,35 @@ export const Mapothy: FC<Props> = ({ header }) => {
     }
     useEffect(() => {
         getData();
-    }, [ns, globalCrudChange]);
+    }, [ns, clusterContext, globalCrudChange]);
     //TODO fix error so we dont have to ignore it // error is benign
     useEffect(() => {
         windowHelper();
     }, [])
     return (
         <>
-            <div className='mainHeader'>{header}</div>
+            <div className='mainHeader'>
+                {header}
+            </div>
+            <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
+                <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
+                    <option value='Cluster'>Cluster</option>
+                    {globalNamespaces ? globalNamespaces.map((el) => {
+                        return (
+                            <option key={uuidv4()} value={el}>{el}</option>
+                        )
+                    }) : <div></div>}
+                </select>
+                <select className='containerButton mapButton' value={clusterContext} onChange={(e) => setClusterContext(e.target.value)}>
+                    {globalClusterData ? globalClusterData.contexts?.map((context: ContextObj) => {
+                        const { name } = context
+                        return (
+                            <option key={uuidv4()} value={name}>{name}</option>
+                        )
+                    }) : <div></div>}
+                </select>
+            </div>
             <div className='miniContainerMap'>
-                <div style={{ position: 'absolute', zIndex: 3 }}>
-                    <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
-                        <option value='Cluster'>Cluster</option>
-                        {globalNamespaces ? globalNamespaces.map((el) => {
-                            return (
-                                <option key={uuidv4()} value={el}>{el}</option>
-                            )
-                        }) : <div></div>}
-                    </select>
-                </div>
                 <Graph
                     graph={graph}
                     options={options}

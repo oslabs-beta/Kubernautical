@@ -91,8 +91,7 @@ const promController: prometheusController = {
             res.locals.memoryPercents = [{ usedMemory: memoryPercents[1] }, { requestedMemory: memoryPercents[0] }, { availableMemory: memoryPercents[2] }];
             return next();
         } catch (err) {
-            console.error('Error fetching metrics:', err);
-
+            return next(err)
         }
     }
 };
