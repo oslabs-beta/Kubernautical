@@ -34,22 +34,8 @@ app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 });
 
+export default app
 
 
 
 
-
-// total mem cluster
-    //`http://localhost:9090/api/v1/query_range?query=sum(container_memory_usage_bytes)&start=${start}&end=${end}&step=10m`
-// total cpu cluster
-    //`http://localhost:9090/api/v1/query_range?query=sum(rate(container_cpu_usage_seconds_total[10m]))*100&start=${start}&end=${end}&step=10m`
-
-
-//node transmit cluster level
-    //`http://localhost:9090/api/v1/query_range?query=sum(rate(node_network_transmit_bytes_total[10m]))&start=${start}&end=${end}&step=10m`
-//node recieve cluster level
-    //`http://localhost:9090/api/v1/query_range?query=sum(rate(node_network_receive_bytes_total[10m]))&start=${start}&end=${end}&step=10m`
-
-
-// export const start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
-// export const end = new Date(Date.now()).toISOString();
