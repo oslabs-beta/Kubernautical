@@ -53,6 +53,7 @@ const promController: prometheusController = {
     },
     getCores: async (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log('hi from getCores')
             const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="cpu"})`);
             res.locals.available = (await response.json()).data.result[0].value[1]
             return next();

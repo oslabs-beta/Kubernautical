@@ -4,7 +4,9 @@ import type { ServerError } from '../types/types';
 // import path from 'path';
 import apiRouter from './routers/apiRouter';
 
+
 const PORT = 3000;
+
 
 const app = express();
 app.use(express.json());
