@@ -10,7 +10,7 @@ const CRUDModal: FC<ClusterData> = () => {
   const { setGlobalNamesapces, globalNamespaces,
     setGlobalServices, globalServices,
     setGlobalClusterData, globalClusterData,
-    setShowEditModal,
+    setShowEditModal, globalClusterContext,
     setGlobalCrudChange, globalCrudChange,
     setOngoingCrudChange, ongoingCrudChange
   } = useContext(GlobalContext);
@@ -40,10 +40,10 @@ const CRUDModal: FC<ClusterData> = () => {
         // if (modalType === 'scale' && form === '') return alert('Please fill out field')
         switch (crudSelection) {
           case 'namespace':
-            query += `ns?namespace=${modalType === 'create' ? form : ns}&crud=${modalType}`;
+            query += `ns?namespace=${modalType === 'create' ? form : ns}&crud=${modalType}&context=${globalClusterContext}`;
             break;
           case 'deployment':
-            query += `dep?namespace=${ns}&crud=${modalType}&image=${form2}&replicas=${modalType === 'scale' ? scale : ''}&deployment=${form ? form : deployment}&old=${modalType === 'scale' ? oldReplicas : ''}`;
+            query += `dep?namespace=${ns}&crud=${modalType}&image=${form2}&replicas=${modalType === 'scale' ? scale : ''}&deployment=${form ? form : deployment}&old=${modalType === 'scale' ? oldReplicas : ''}&context=${globalClusterContext}`;
             break;
           case 'service':
 

@@ -13,17 +13,18 @@ import type { prometheusController } from '../../types/types';
 //how to find available cores dynamically ---- Steves next task
 
 
+// const ep = 'http://34.31.68.44:9091/api/v1/';
+// const ep = 'http://localhost:9090/api/v1/';
 const promController: prometheusController = {
     //TODO refactor controllers
 
     getMetrics: async (req: Request, res: Response, next: NextFunction) => {
-        const { type, hour, scope, name, notTime } = req.query; //pods--->scope, podname---->name
+        const { type, hour, scope, name, notTime, ep } = req.query; //pods--->scope, podname---->name
         //? default start, stop, step, query string
         let start = new Date(Date.now() - 1440 * 60000).toISOString(); //24 hours
         let end = new Date(Date.now()).toISOString();
         let step = 10;
-
-        let query = `http://localhost:9090/api/v1/${notTime ? 'query' : 'query_range'}?query=`;
+        let query = `http://${ep}/api/v1/${notTime ? 'query' : 'query_range'}?query=`;
 
         //api/prom/metrics?type=cpu&hour=24&name=gmp-system
         //^hour is required
@@ -45,27 +46,29 @@ const promController: prometheusController = {
             return next();
         } catch (error) {
             return next({
-                log: 'Error happened at promController.getMetrics' + error,
+                log: 'Error in promController.getMetrics' + error,
                 status: 400,
                 message: { error: 'Error getting Data' },
-              });
+            });
         }
     },
     getCores: async (req: Request, res: Response, next: NextFunction) => {
+        const { ep } = req.query;
         try {
-            const response = await fetch(`http://localhost:9090/api/v1/query?query=sum(kube_node_status_allocatable{resource="cpu"})`);
+            const response = await fetch(`http://${ep}/api/v1/query?query=sum(kube_node_status_allocatable{resource="cpu"})`);
             res.locals.available = (await response.json()).data.result[0].value[1]
             return next();
         } catch (error) {
             return next({
-                log: 'Error happened at promController.getCores' + error,
+                log: 'Error in promController.getCores' + error,
                 status: 400,
                 message: { error: 'Error getting Data' },
-              });
+            });
         }
     },
     getCpu: async (req: Request, res: Response, next: NextFunction) => {
-        const requestedQuery = `http://localhost:9090/api/v1/query?query=sum(kube_pod_container_resource_requests{resource="cpu"})`;
+        const { ep } = req.query;
+        const requestedQuery = `http://${ep}/api/v1/query?query=sum(kube_pod_container_resource_requests{resource="cpu"})`;
         try {
             const { usedCpu, available } = res.locals;
             const response = await fetch(requestedQuery);
@@ -76,16 +79,16 @@ const promController: prometheusController = {
             res.locals.cpuPercents = [{ usedCpu: cpuPercents[0] }, { requestedCpu: cpuPercents[1] }, { availableCpu: cpuPercents[2] }];
             return next();
         } catch (error) {
-           return next({
-                log: 'Error happened at promController.getCpu' + error,
+            return next({
+                log: 'Error in promController.getCpu' + error,
                 status: 400,
                 message: { error: 'Error getting Data' },
-              });
+            });
         }
     },
     getMem: async (req: Request, res: Response, next: NextFunction) => {
-
-        let query = `http://localhost:9090/api/v1/query?query=`;
+        const { ep } = req.query;
+        let query = `http://${ep}/api/v1/query?query=`;
         let totalMemory = query + `sum(node_memory_MemTotal_bytes)`;
         let reqMemory = query + `sum(kube_pod_container_resource_requests{resource="memory"})`;
 
@@ -103,11 +106,11 @@ const promController: prometheusController = {
             res.locals.memoryPercents = [{ usedMemory: memoryPercents[1] }, { requestedMemory: memoryPercents[0] }, { availableMemory: memoryPercents[2] }];
             return next();
         } catch (error) {
-           return next({
-                log: 'Error happened at promController.getMem' + error,
+            return next({
+                log: 'Error in promController.getMem' + error,
                 status: 400,
                 message: { error: 'Error getting Data' },
-              })
+            })
         }
     }
 };
