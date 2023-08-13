@@ -7,7 +7,7 @@ import InvisibleNavbar from './InvisibleNavbar';
 
 
 const MainDashBoard: FC<Props> = ({ header }) => {
-
+  const textColor = 'rgba(255, 255, 255, 0.702)';
   return (
     //age of cluster
     //stacked bar chart on how much usage each namespace is taking
@@ -20,15 +20,15 @@ const MainDashBoard: FC<Props> = ({ header }) => {
           title="CPU Usage"
           type="cpu"
           yAxisTitle='CPU Percentage Usage'
-          color='rgba(39, 170, 245, .8)'
-          graphTextColor='rgba(255, 255, 255, 0.702)'
+          color='rgba(39, 170, 245, 0.8)'
+          graphTextColor={textColor}
         />
         <LineGraph
           title="Memory Usage"
           type="mem"
           yAxisTitle='Memory Used (GB)'
           color='rgba(245, 39, 39, 0.8)'
-          graphTextColor='rgba(255, 255, 255, 0.702)'
+          graphTextColor={textColor}
         />
       </div>
       <div className='miniContainerGraph'>
@@ -37,14 +37,14 @@ const MainDashBoard: FC<Props> = ({ header }) => {
           backgroundColor={['rgba(39, 245, 213, 0.3)', 'rgba(39, 245, 127, 0.3)', 'rgba(39, 97, 245, 0.3)']}
           borderColor={['rgba(39, 245, 213, 0.7)', 'rgba(39, 245, 127, 0.7)', 'rgba(39, 97, 245, 0.7)']}
           title='Cpu'
-          graphTextColor='rgba(255, 255, 255, 0.702)'
+          graphTextColor={textColor}
         />
         <GaugeChart
           type="mem"
           backgroundColor={['rgba(144, 39, 245, 0.3)', 'rgba(245, 39, 178, 0.3)', 'rgba(245, 39, 41, 0.3)']}
           borderColor={['rgba(144, 39, 245, 0.7)', 'rgba(245, 39, 178, 0.7)', 'rgba(245, 39, 41, 0.7)']}
           title='Memory'
-          graphTextColor='rgba(255, 255, 255, 0.702)'
+          graphTextColor={textColor}
         />
       </div>
     </>
