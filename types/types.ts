@@ -31,6 +31,10 @@ export interface k6Controller {
   testing: RequestHandler
 }
 
+export interface lokiController {
+  testing: RequestHandler
+}
+
 export interface execController {
   namespace: RequestHandler
   deployment: RequestHandler
