@@ -77,8 +77,9 @@ export interface Props {
   backgroundColor?: string | string[];
   borderColor?: string | string[];
   hour?: string;
-  style?: number
-  clusterData?: ClusterData
+  style?: number;
+  clusterData?: ClusterData;
+  namespace?: string;
 }
 export interface SelectorProps {
   type: string;
@@ -164,4 +165,14 @@ export interface ClientObj {
 }
 export interface container {
   name: string
+}
+
+export interface LogEntry {
+  timestamp: string
+  message: string
+  namespace: string
+  container: string
+  pod: string
+  job: string
+  // values?: [string, string][];
 }
