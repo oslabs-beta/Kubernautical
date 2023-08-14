@@ -8,6 +8,7 @@ import { IncomingMessage } from 'http';
 export interface ServerError {
   err: '400'
 }
+
 export interface clusterController {
   getAllPods: RequestHandler
   getAllNodes: RequestHandler
@@ -15,7 +16,7 @@ export interface clusterController {
   getAllServices: RequestHandler
   getAllDeployments: RequestHandler
   getAllIngresses: RequestHandler
-  getAllContexts: RequestHandler
+  // getAllContexts: RequestHandler
   setContext: RequestHandler
   // getAllPodLogs: RequestHandler
 }
@@ -115,10 +116,6 @@ export interface ContextObj {
   user?: string,
   namespace?: string
 }
-// export interface strategyObj {
-//   [key: string]: any
-//   type: string
-// }
 export interface portObj {
   [key: string]: any
   name: string
@@ -129,30 +126,6 @@ export interface portObj {
 export interface nestedObj {
   [key: string | number]: any
 }
-// export interface CLusterObj {
-//   [key: string]: number | string | CLusterObj | undefined
-//   // [key: string]: any
-//   name: string
-//   namespace?: string
-//   uid: string
-//   containersInfo: string
-//   nodeName: string
-//   serviceAccount: string
-//   subdomain: string
-//   containersStatuses: string
-//   phase: string
-// }
-
-// interface Node  {
-//     name: string;
-//     namespace: string;
-//     uid: string;
-//     creationTimeStamp?: any;
-//     labels: any;
-//     configSource: any;
-//     providerID: string;
-//     status: any;
-//   };
 export interface Pod {
   name: string;
   namespace: string;
@@ -172,4 +145,12 @@ export interface globalServiceObj {
   name: string
   ip: string
   ports?: portObj[]
+}
+export interface ClientObj {
+  metadata: CLusterObj
+  spec: CLusterObj
+  status: CLusterObj
+}
+export interface container {
+  name: string
 }
