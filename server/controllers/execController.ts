@@ -53,7 +53,7 @@ const execController: execController = {
         message: { error: 'Error getting data' },
       });
     }
-  },
+  }
 };
 
 export default execController;
