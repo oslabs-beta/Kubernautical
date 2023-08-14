@@ -8,14 +8,14 @@ import { GlobalContext } from './components/Contexts';
 
 
 
-const stringArr: string[] = [];
+const stringArr: string[] = [''];
 const serviceArr: globalServiceObj[] = [];
 const defaultClusterData: ClusterData = {};
 const App = () => {
-  const [globalNamespaces, setGlobalNamesapces] = useState(stringArr);
   const [globalServices, setGlobalServices] = useState(serviceArr);
   const [globalTimer, setGlobalTimer] = useState(0);
   const [globalServiceTest, setGlobalServiceTest] = useState('');
+  const [globalClusterContext, setGlobalClusterContext] = useState('');
   const [showEditModal, setShowEditModal] = useState(false);
   const [globalCrudChange, setGlobalCrudChange] = useState(false);
   const [ongoingCrudChange, setOngoingCrudChange] = useState(false);
@@ -25,14 +25,14 @@ const App = () => {
       <div className='App'>
         <GlobalContext.Provider
           value={{
-            globalNamespaces, setGlobalNamesapces,
             globalServices, setGlobalServices,
             globalTimer, setGlobalTimer,
             globalServiceTest, setGlobalServiceTest,
             showEditModal, setShowEditModal,
             globalClusterData, setGlobalClusterData,
             globalCrudChange, setGlobalCrudChange,
-            ongoingCrudChange, setOngoingCrudChange
+            ongoingCrudChange, setOngoingCrudChange,
+            globalClusterContext, setGlobalClusterContext
           }}>
           <Navbar />
           <MainContainer />

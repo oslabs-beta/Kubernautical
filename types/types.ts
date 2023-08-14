@@ -1,13 +1,12 @@
 // import type { V1Container, V1ContainerImage, V1PodIP } from '@kubernetes/client-node';
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
-// import { type } from 'os';
-// import { CSSProperties } from 'react';
-// import { JsxElement } from 'typescript';
+import { Dispatch, SetStateAction } from 'react';
 import { IncomingMessage } from 'http';
 
 export interface ServerError {
   err: '400'
 }
+
 export interface clusterController {
   getAllPods: RequestHandler
   getAllNodes: RequestHandler
@@ -15,7 +14,7 @@ export interface clusterController {
   getAllServices: RequestHandler
   getAllDeployments: RequestHandler
   getAllIngresses: RequestHandler
-  getAllContexts: RequestHandler
+  // getAllContexts: RequestHandler
   setContext: RequestHandler
   // getAllPodLogs: RequestHandler
 }
@@ -28,6 +27,10 @@ export interface prometheusController {
 }
 
 export interface k6Controller {
+  testing: RequestHandler
+}
+
+export interface lokiController {
   testing: RequestHandler
 }
 
@@ -74,8 +77,23 @@ export interface Props {
   backgroundColor?: string | string[];
   borderColor?: string | string[];
   hour?: string;
-  style?: number
-  clusterData?: ClusterData
+  style?: number;
+  clusterData?: ClusterData;
+  namespace?: string;
+}
+export interface SelectorProps {
+  type: string;
+  state: any
+  stateSetter: Dispatch<SetStateAction<any>>
+  modalPos: number
+  setModalPos: Dispatch<SetStateAction<number>>
+  modalType: string
+  setModalType: Dispatch<SetStateAction<string>>
+  showModal: boolean
+  setShowModal: Dispatch<SetStateAction<boolean>>
+  crudSelection?: string
+  setCrudSelection: Dispatch<SetStateAction<string>>
+  ns?: string
 }
 export interface CLusterObj {
   // [key: string]: number | string | CLusterObj | undefined
@@ -110,10 +128,6 @@ export interface ContextObj {
   user?: string,
   namespace?: string
 }
-// export interface strategyObj {
-//   [key: string]: any
-//   type: string
-// }
 export interface portObj {
   [key: string]: any
   name: string
@@ -124,30 +138,6 @@ export interface portObj {
 export interface nestedObj {
   [key: string | number]: any
 }
-// export interface CLusterObj {
-//   [key: string]: number | string | CLusterObj | undefined
-//   // [key: string]: any
-//   name: string
-//   namespace?: string
-//   uid: string
-//   containersInfo: string
-//   nodeName: string
-//   serviceAccount: string
-//   subdomain: string
-//   containersStatuses: string
-//   phase: string
-// }
-
-// interface Node  {
-//     name: string;
-//     namespace: string;
-//     uid: string;
-//     creationTimeStamp?: any;
-//     labels: any;
-//     configSource: any;
-//     providerID: string;
-//     status: any;
-//   };
 export interface Pod {
   name: string;
   namespace: string;
@@ -167,4 +157,22 @@ export interface globalServiceObj {
   name: string
   ip: string
   ports?: portObj[]
+}
+export interface ClientObj {
+  metadata: CLusterObj
+  spec: CLusterObj
+  status: CLusterObj
+}
+export interface container {
+  name: string
+}
+
+export interface LogEntry {
+  timestamp: string
+  message: string
+  namespace: string
+  container: string
+  pod: string
+  job: string
+  // values?: [string, string][];
 }

@@ -1,10 +1,7 @@
-import { createContext, Dispatch, SetStateAction } from 'react'
+import { createContext, Dispatch, SetStateAction, useState } from 'react'
 import { globalServiceObj, ClusterData } from '../../types/types'
 
 interface GlobalContext {
-    globalNamespaces?: string[]
-    setGlobalNamesapces?: Dispatch<SetStateAction<string[]>>
-
     globalServices?: globalServiceObj[]
     setGlobalServices?: Dispatch<SetStateAction<globalServiceObj[]>>
 
@@ -25,6 +22,9 @@ interface GlobalContext {
 
     ongoingCrudChange?: boolean
     setOngoingCrudChange?: Dispatch<SetStateAction<boolean>>
+
+    globalClusterContext?: string
+    setGlobalClusterContext?: Dispatch<SetStateAction<string>>
 }
 
 export const GlobalContext = createContext<GlobalContext>({})

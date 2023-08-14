@@ -1,16 +1,12 @@
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import type { ServerError } from '../types/types';
-import path from 'path';
 import apiRouter from './routers/apiRouter';
 
 const PORT = 3000;
 
 const app = express();
 app.use(express.json());
-// app.use(express.static(path.resolve(__dirname, '../client')));
-
-//add routes
 
 app.use('/api', apiRouter);
 

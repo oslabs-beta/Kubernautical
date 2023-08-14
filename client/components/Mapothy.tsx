@@ -8,11 +8,10 @@ import nsImg from '../assets/ns-icon.png';
 import podImg from '../assets/pod-icon.png';
 import svcImg from '../assets/svc-icon.png';
 import depImg from '../assets/dep-icon.png';
-import logoImg from '../assets/logo.png';
+import logoImg from '../assets/images/ourlogo.png';
 
 //?-----------------------------------------Physics Testing------------------------------------------------>
 const options = {
-    //TODO look into layout options
     layout: {
         // randomSeed: '0.07224874827053274:1691128352960',
         // randomSeed: '0.13999053405779072:1691128555260'
@@ -27,7 +26,6 @@ const options = {
         hover: true,
     },
     autoResize: true,
-    //TODO look into physics optinos
     physics: {
         barnesHut: {
             gravitationalConstant: -1000,
@@ -42,46 +40,59 @@ const options = {
 const defaultservArr: globalServiceObj[] = [];
 //?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
-    const { setGlobalNamesapces, globalNamespaces,
+    const {
         setGlobalServices, globalServices,
         setGlobalClusterData, globalClusterData,
-        globalCrudChange
+        setGlobalCrudChange, globalCrudChange,
+        globalClusterContext, setGlobalClusterContext
     } = useContext(GlobalContext);
     const [graph, setGraph] = useState<clusterGraphData>({
         nodes: [],
         edges: [],
     });
     const [ns, setNs] = useState('Cluster');
-    const [clusterContext, setClusterContext] = useState('');
-    const [localCheck, setLocalCheck] = useState(false); //!lmao nothing to see here
+    const [clusterContext, setClusterContext] = useState(globalClusterContext);
     const events = {
         select: function (event: any) { //TODO fix typing 
             var { nodes, edges } = event;
         }
     };
     const getData = async () => {
-        // console.log(clusterContext)
         try {
+            //arrays used to store nodes and edges for use in react-graph-vis
             const nodesArr: ClusterNode[] = [];
             const edgesArr: ClusterEdge[] = [];
+            //storage of temporary arrays to be used for global arrays (soon to be deprecated)
             const namespaceArr: string[] = [];
             const serviceArrTemp: globalServiceObj[] = [];
+            //temporary arrray used for filtering cluster view by namespace
             let filteredNsArr: CLusterObj[] = [];
+            //check to see if namespace array needs to be updated
+            let newContext = false;
             let data;
-            if (!globalClusterData?.namespaces || localCheck === globalCrudChange || clusterContext !== '') {
-                const result = await fetch(`api/map/elements?context=${clusterContext}`);
+            //conditionals to prevent an unnecessary fetching
+            if (!globalClusterData?.namespaces || globalCrudChange || globalClusterContext !== clusterContext) {
+                //fetch made using the current context, checks used for base case and persistent context
+                const result = await fetch(`api/map/elements?context=${globalClusterContext ? clusterContext ? clusterContext : globalClusterContext : ''}`);
                 data = await result.json();
-                localCheck ? setLocalCheck(false) : setLocalCheck(true);
-                setGlobalClusterData ? setGlobalClusterData(data) : null;
+                //swithces flipped and state assigned
+                if (setGlobalCrudChange) setGlobalCrudChange(false);
+                if (setGlobalClusterData) setGlobalClusterData(data);
+                if (setGlobalClusterContext && clusterContext) setGlobalClusterContext(clusterContext);
+                newContext = true;
             }
             else { data = globalClusterData }
-            const { pods, namespaces, deployments, services, contexts } = data;
-            nodesArr.push({ id: '0', title: "KuberNautical", size: 100, image: logoImg, shape: 'image' });
-            //?----------------------------------Namespace Search------------------------------------->
+            const { pods, namespaces, deployments, services, contexts, currentContext } = data;
+            //base case for context
+            if (!globalClusterContext && setGlobalClusterContext) setGlobalClusterContext(currentContext)
+            if (!clusterContext) setClusterContext(currentContext)
+            //center node assigned to current context, all namespaces will be connected to this node
+            nodesArr.push({ id: '0', title: `${currentContext}`, size: 100, image: logoImg, shape: 'image' });
+            //checks to filter cluste view if a namespace has been selected
             if (ns === 'Cluster') filteredNsArr = namespaces;
-            else {
-                filteredNsArr = [namespaces.find(({ name }: any) => name === ns)];
-            }
+            else { filteredNsArr = [namespaces.find(({ name }: any) => name === ns)] }
+            //?----------------------------------Namespace Search------------------------------------->
+            //namespace array iterated over, with all other resources being attached accordingly
             filteredNsArr.forEach((ns: CLusterObj) => {
                 if (ns === null) return;
                 namespaceArr.push(ns.name);
@@ -89,12 +100,14 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 const nsObj = {
                     id: uid,
                     name: name,
-                    title: makeModal(ns, 'Namespace'),
+                    title: makeModal(ns, 'Namespace'), //modals created using helper function
                     size: 70,
                     image: nsImg,
                     shape: 'image',
                 }
+                //each node object is pushed to nodes array
                 nodesArr.push(nsObj);
+                //edges drawn from namespace to center (context) node
                 edgesArr.push({ from: '0', to: uid, length: 400 });
                 //?------------------------------Pod Search------------------------------------------>
                 pods.forEach((pod: CLusterObj) => {
@@ -107,6 +120,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                             image: podImg,
                             shape: 'image',
                         }
+                        //same as above but edges are drawn from current node to corresponding namespace node
                         nodesArr.push(pObj);
                         edgesArr.push({ from: nsObj.id, to: uid, length: 200 });
                     }
@@ -122,6 +136,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                             image: svcImg,
                             shape: 'image',
                         }
+                        //pertinent data regarding exposed ingress ports is extracted and later assigned to global state
                         if (ingressIP) serviceArrTemp.push({ name: name, ip: `${ingressIP}:${ports ? ports[0].port : ''}` });
                         nodesArr.push(sObj);
                         edgesArr.push({ from: nsObj.id, to: uid, length: 300 });
@@ -142,7 +157,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                         edgesArr.push({ from: nsObj.id, to: uid, length: 150 });
                     }
                 })
-                //TODO------------------------------Ingress Search------------------------------------------>
+                //?------------------------------Ingress Search------------------------------------------>
                 //!currently no ingresses
                 //     ingresses.forEach((ingress: ClusterObj) => { 
                 //         const { name, namespace, uid } = ingress;
@@ -159,8 +174,8 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //         }
                 //     })
             })
-            if (globalNamespaces?.length === 1 || localCheck === globalCrudChange) { setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : null }
-            if (globalServices?.length === 0) setGlobalServices ? setGlobalServices(serviceArrTemp) : null;
+            if (globalServices?.length === 0 || newContext) setGlobalServices ? setGlobalServices(serviceArrTemp) : null;
+            //graph created using node and edges array created above
             setGraph({
                 nodes: nodesArr,
                 edges: edgesArr
@@ -169,6 +184,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
             throw (error);
         }
     }
+    //use effect controlling data fetch and map creation set to watch pertinent data changes
     useEffect(() => {
         getData();
     }, [ns, clusterContext, globalCrudChange]);
@@ -184,13 +200,14 @@ export const Mapothy: FC<Props> = ({ header }) => {
             <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
                 <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
                     <option value='Cluster'>Cluster</option>
-                    {globalNamespaces ? globalNamespaces.map((el) => {
+                    {globalClusterData?.namespaces?.map((el: CLusterObj) => {
+                        const { name } = el;
                         return (
-                            <option key={uuidv4()} value={el}>{el}</option>
+                            <option key={uuidv4()} value={name}>{name}</option>
                         )
-                    }) : <div></div>}
+                    })}
                 </select>
-                <select className='containerButton mapButton' value={clusterContext} onChange={(e) => setClusterContext(e.target.value)}>
+                <select className='containerButton mapButton' value={clusterContext} onChange={(e) => { setClusterContext(e.target.value) }}>
                     {globalClusterData ? globalClusterData.contexts?.map((context: ContextObj) => {
                         const { name } = context
                         return (
