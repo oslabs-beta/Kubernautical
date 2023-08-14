@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, FC } from 'react';
 import { GlobalContext } from '../Contexts';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import type { Props } from '../../../types/types';
+import type { CLusterObj, Props } from '../../../types/types';
 import { v4 as uuidv4 } from 'uuid';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -11,7 +11,7 @@ const defaultArr: Number[] = []; //typescript set up for UseState make this in t
 const stringArr: String[] = [];
 
 const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor }) => {
-  const { globalNamespaces, globalServices } = useContext(GlobalContext);
+  const { globalClusterData, globalServices } = useContext(GlobalContext);
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
   const [hourSelection, setHourSelection] = useState('24');
@@ -156,11 +156,12 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor }
         </select>
         <select className='containerButton' value={scope} onChange={(e) => { setScope(e.target.value); setScopeType('namespace') }}>
           <option value=''>Cluster</option>
-          {globalNamespaces ? globalNamespaces.map((el) => {
+          {globalClusterData?.namespaces?.map((el: CLusterObj) => {
+            const { name } = el;
             return (
-              <option key={uuidv4()} value={`${el}`}>{el}</option>
+              <option key={uuidv4()} value={`${name}`}>{name}</option>
             )
-          }) : <div></div>}
+          })}
         </select>
       </div>
       <Line data={dataSet} options={options} />

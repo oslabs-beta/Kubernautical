@@ -2,9 +2,6 @@ import { createContext, Dispatch, SetStateAction, useState } from 'react'
 import { globalServiceObj, ClusterData } from '../../types/types'
 
 interface GlobalContext {
-    globalNamespaces?: string[]
-    setGlobalNamesapces?: Dispatch<SetStateAction<string[]>>
-
     globalServices?: globalServiceObj[]
     setGlobalServices?: Dispatch<SetStateAction<globalServiceObj[]>>
 

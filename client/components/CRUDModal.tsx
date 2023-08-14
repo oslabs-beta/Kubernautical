@@ -7,7 +7,7 @@ import edit from '../assets/images/edit.png'
 const defaultArr: string[] = []
 // const defaultObj: CLusterObj = []
 const CRUDModal: FC<ClusterData> = () => {
-  const { setGlobalNamesapces, globalNamespaces,
+  const {
     setGlobalServices, globalServices,
     setGlobalClusterData, globalClusterData,
     setShowEditModal, globalClusterContext,
@@ -33,7 +33,8 @@ const CRUDModal: FC<ClusterData> = () => {
     const obj = globalClusterData ? globalClusterData[`${crudSelection}s`].find(({ name }: any) => name === (crudSelection === 'service' ? service : deployment)) : null;
     const [scale, setScale] = useState(obj?.availableReplicas ? obj?.availableReplicas : 0); //!this is also smooth brain
     const oldReplicas = obj?.availableReplicas ? obj?.availableReplicas : 0;
-    const crudFunction = async () => {
+
+    const crudFunction = async () => { //needs (parent) ns, modalType, (child) form, form1, scale, oldReplicas
       try {
         let query = `api/exec/`;
         if (modalType === 'create' && form === '') return alert('Please fill out field')
@@ -110,6 +111,9 @@ const CRUDModal: FC<ClusterData> = () => {
       {showModal ? <Modal style={modalPos} type='service' /> : null}
       <div className='crudHeader'>Cluster Editor</div>
       <hr className='hrCrud' />
+
+
+
       <div className='crudHeader'>Edit Namespaces</div>
       <div className='crudSelector'>
         <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
@@ -125,6 +129,8 @@ const CRUDModal: FC<ClusterData> = () => {
         <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('create') }} >+</button>
         <button className='crudDelete' onClick={(e) => { openModal(e); setModalType('delete') }} >X</button>
       </div>
+
+
       {ns ?
         <>
           <div className='crudHeader'>Select Scope</div>
