@@ -5,6 +5,8 @@ import { Mapothy } from '../components/Mapothy'
 import { GlobalContext } from '../components/Contexts';
 import NetworkPerformance from './NetworkPerformance'
 import CRUDModal from '../components/CRUDModal';
+import LogsContainer from './LogsContainer'
+
 
 const MainContainer: FC = () => {
   const {
@@ -18,6 +20,7 @@ const MainContainer: FC = () => {
           <Route path="/" element={<Mapothy header='Cluster View' />} />
           <Route path="/dashboard" element={<MainDashBoard header="Cluster Health Monitor" />} />
           <Route path="/network" element={<NetworkPerformance header="Network Performance Monitor" />} />
+          <Route path="/logs" element={<LogsContainer header="Logs header" />} />
         </Routes>
       </div></>
   )

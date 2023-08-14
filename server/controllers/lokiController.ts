@@ -37,32 +37,33 @@ const lokiController: lokiController = {
       const response = await fetch(query);
       const data = await response.json();
 
-      let result = data.data.result;
+      // let result = data.data.result;
 
-      const logs: any[] = [];
+      // const logs: any[] = [];
 
-      result.forEach((object: any) => {
-        const stream = object.stream;
-        const values = object.values;
+      // result.forEach((object: any) => {
+      //   const stream = object.stream;
+      //   const values = object.values;
 
 
-        values.forEach((value: any) => {
-          const log = {
-            timestamp: value[0],
-            message: value[1],
-            namespace: stream.namespace,
-            container: stream.container,
-            pod: stream.pod,
-            job: stream.job,
-          };
+      //   values.forEach((value: any) => {
+      //     const log = {
+      //       timestamp: value[0],
+      //       message: value[1],
+      //       namespace: stream.namespace,
+      //       container: stream.container,
+      //       pod: stream.pod,
+      //       job: stream.job,
+      //     };
 
-          logs.push(log);
-        });
-      });
+      //     logs.push(log);
+      //   });
+      // });
 
       // console.log('logs:', logs);
 
-      res.locals.data = logs;
+      // res.locals.data = logs;
+      res.locals.data = data
 
       return next();
     } catch (error) {
