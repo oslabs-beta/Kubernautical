@@ -4,7 +4,7 @@ import MainDashBoard from "./MainDashBoard"
 import { Mapothy } from '../components/Mapothy'
 import { GlobalContext } from '../components/Contexts';
 import NetworkPerformance from './NetworkPerformance'
-import CRUDModal from '../components/CRUDModal';
+import CRUDModal from '../components/CRUD/CRUDModal';
 
 const MainContainer: FC = () => {
   const {
