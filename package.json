@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "supertest": "NODE_ENV=test concurrently \"jest --watchAll --updateSnapshot --detectOpenHandles\" \"server/server.ts\" \"kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090\"",
+    "supertest": "NODE_ENV=test concurrently \"jest --watchAll --updateSnapshot --detectOpenHandles --coverage\" \"server/server.ts\" \"kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090\"",
     "cypress:open": "cypress open",
     "start": "NODE_ENV=production nodemon server/server.ts",
     "build": "NODE_ENV=production webpack",
