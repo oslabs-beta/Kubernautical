@@ -21,6 +21,7 @@ gke-setup
 #yaml files
 prometheus.yaml
 kubeconfig.yaml
+lokiYaml
 
 #jeremiahs garbage
 CRUDSelector.tsx
