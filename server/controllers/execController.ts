@@ -33,7 +33,7 @@ const execController: execController = {
       if (crud === `scale`) action = `--replicas=${replicas}`;
       if (crud === `delete`) action = ``;
       if (crud === `expose`) action = `--port=${port} --target-port=${targetPort} --type=${type}`;
-
+      //TODO handle errors/edge cases from front end
       console.log('action:', action)
       const command = `kubectl config use-context ${context} && kubectl ${crud} deployment ${deployment} ${action ? `${action}` : ''} -n ${namespace}`;
       console.log('command:', command)

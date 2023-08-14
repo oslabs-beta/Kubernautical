@@ -12,7 +12,6 @@ import logoImg from '../assets/images/ourlogo.png';
 
 //?-----------------------------------------Physics Testing------------------------------------------------>
 const options = {
-    //TODO look into layout options
     layout: {
         // randomSeed: '0.07224874827053274:1691128352960',
         // randomSeed: '0.13999053405779072:1691128555260'
@@ -27,7 +26,6 @@ const options = {
         hover: true,
     },
     autoResize: true,
-    //TODO look into physics optinos
     physics: {
         barnesHut: {
             gravitationalConstant: -1000,
@@ -42,7 +40,7 @@ const options = {
 const defaultservArr: globalServiceObj[] = [];
 //?-----------------------------------------Map Component------------------------------------------------>
 export const Mapothy: FC<Props> = ({ header }) => {
-    const { setGlobalNamesapces, globalNamespaces,
+    const {
         setGlobalServices, globalServices,
         setGlobalClusterData, globalClusterData,
         setGlobalCrudChange, globalCrudChange,
@@ -81,7 +79,7 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 if (setGlobalCrudChange) setGlobalCrudChange(false);
                 if (setGlobalClusterData) setGlobalClusterData(data);
                 if (setGlobalClusterContext && clusterContext) setGlobalClusterContext(clusterContext);
-                newContext = true; //TODO please god delete the global namespace array and fix this
+                newContext = true;
             }
             else { data = globalClusterData }
             const { pods, namespaces, deployments, services, contexts, currentContext } = data;
@@ -176,8 +174,6 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //         }
                 //     })
             })
-            //TODO need to delete global namespaces this sucks
-            if (newContext || globalNamespaces?.length === 1 || globalCrudChange) { setGlobalNamesapces ? setGlobalNamesapces(namespaceArr) : null }
             if (globalServices?.length === 0 || newContext) setGlobalServices ? setGlobalServices(serviceArrTemp) : null;
             //graph created using node and edges array created above
             setGraph({
@@ -204,11 +200,12 @@ export const Mapothy: FC<Props> = ({ header }) => {
             <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
                 <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
                     <option value='Cluster'>Cluster</option>
-                    {globalNamespaces ? globalNamespaces.map((el) => {
+                    {globalClusterData?.namespaces?.map((el: CLusterObj) => {
+                        const { name } = el;
                         return (
-                            <option key={uuidv4()} value={el}>{el}</option>
+                            <option key={uuidv4()} value={name}>{name}</option>
                         )
-                    }) : <div></div>}
+                    })}
                 </select>
                 <select className='containerButton mapButton' value={clusterContext} onChange={(e) => { setClusterContext(e.target.value) }}>
                     {globalClusterData ? globalClusterData.contexts?.map((context: ContextObj) => {

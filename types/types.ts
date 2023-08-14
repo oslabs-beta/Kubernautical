@@ -1,8 +1,6 @@
 // import type { V1Container, V1ContainerImage, V1PodIP } from '@kubernetes/client-node';
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
-// import { type } from 'os';
-// import { CSSProperties } from 'react';
-// import { JsxElement } from 'typescript';
+import { Dispatch, SetStateAction } from 'react';
 import { IncomingMessage } from 'http';
 
 export interface ServerError {
@@ -82,6 +80,20 @@ export interface Props {
   style?: number;
   clusterData?: ClusterData;
   namespace?: string;
+}
+export interface SelectorProps {
+  type: string;
+  state: any
+  stateSetter: Dispatch<SetStateAction<any>>
+  modalPos: number
+  setModalPos: Dispatch<SetStateAction<number>>
+  modalType: string
+  setModalType: Dispatch<SetStateAction<string>>
+  showModal: boolean
+  setShowModal: Dispatch<SetStateAction<boolean>>
+  crudSelection?: string
+  setCrudSelection: Dispatch<SetStateAction<string>>
+  ns?: string
 }
 export interface CLusterObj {
   // [key: string]: number | string | CLusterObj | undefined

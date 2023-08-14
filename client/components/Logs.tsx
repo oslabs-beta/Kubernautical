@@ -38,25 +38,6 @@ const Logs: FC<Props> = ({ namespace }) => {
     <div className='log-container Logs'>
       {data.map((object: any, log) => {
         const {stream, values} = object;
-        // const{container, pod, job, namespace} = stream;
-
-        // return (
-        //   <div key={uuidv4()} className='log-item'>
-        //     {values.map((value: any) => (
-        //       <div key={uuidv4()} className='log-entry'>
-        //         <div>Time: {value[0]}</div>
-        //         <div>Log: {value[1]}</div>
-        //         <div>
-        //         <select>
-        //           <option>
-        //             Namespace: {stream.namespace}, Container: {stream.container}, Job: {stream.job}
-        //           </option>
-        //         </select>
-        //       </div>
-        //       </div>
-        //     ))}
-        //   </div>
-        // );
         return (
           <div key={uuidv4()} className='log-entry'>
               {values.map((value: any) => (
