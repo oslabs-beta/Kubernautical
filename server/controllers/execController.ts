@@ -53,30 +53,7 @@ const execController: execController = {
         message: { error: 'Error getting data' },
       });
     }
-  },
-  test: async (req: Request, res: Response, next: NextFunction) => {
-
-    // const {  } = req.query;
-    
-    try {
-      const command = `kubectl get namespaces`;
-      console.log('command:', command)
-      exec(command, (err, stdout, stderr) => {
-        if (err) {
-          console.log('Error executing command:', err);
-          throw new Error();
-        }
-        const test = stdout;
-        console.log(`stdout:`, stdout);
-        console.log(`test:`, test);
-
-        return next()
-      });
-    } catch (err) {
-      return next(err);
-    }
-  },
-
+  }
 };
 
 export default execController;
