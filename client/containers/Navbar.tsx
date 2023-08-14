@@ -19,6 +19,7 @@ export default function Navbar() {
   function MainDashBoard() { navigate('/dashboard') }
   function GoHome() { navigate('/'); }
   function Network() { navigate('/network') }
+  function Logs() { navigate('/logs') }
 
   useEffect(() => {
     if (globalTimer && (globalTimer - Date.now()) < 0) {
@@ -47,6 +48,12 @@ export default function Navbar() {
       <button className='navButton' id='NetworkButton' onClick={Network}>
         <img className="btn-icon" src={netWork} />
         <p className="btn-text">Network Performance</p>
+      </button>
+
+      {/* get an image for logs */}
+      <button className='navButton' id='LogsButton' onClick={Logs}>
+        <img className="btn-icon" src={netWork} />
+        <p className="btn-text">Logs</p>
       </button>
 
       <button className='navButton' id='EditClusterButton' onClick={() => { setShowEditModal ? showEditModal ? setShowEditModal(false) : setShowEditModal(true) : null }}>
