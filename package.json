@@ -23,6 +23,8 @@
   "author": "Jeremiah Hogue",
   "license": "ISC",
   "dependencies": {
+    "@babel/preset-typescript": "^7.22.5",
+    "@babel/register": "^7.22.5",
     "@kubernetes/client-node": "^0.18.1",
     "@types/k6": "^0.45.1",
     "@types/uuid": "^9.0.2",
