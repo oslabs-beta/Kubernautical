@@ -13,8 +13,7 @@ import type { prometheusController } from '../../types/types';
 //how to find available cores dynamically ---- Steves next task
 
 
-// const ep = 'http://34.31.68.44:9091/api/v1/';
-// const ep = 'http://localhost:9090/api/v1/';
+
 const promController: prometheusController = {
     //TODO refactor controllers
 
