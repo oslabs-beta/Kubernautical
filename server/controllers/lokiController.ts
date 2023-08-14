@@ -1,41 +1,39 @@
 import type { Request, Response, NextFunction } from 'express';
 import type { lokiController } from '../../types/types';
-import { result } from 'cypress/types/lodash';
-import { any } from 'cypress/types/bluebird';
+require('dotenv').config();
 
 
+const GATE = process.env.LOKI_GATE;
 
 const lokiController: lokiController = {
-
-
   testing: async (req: Request, res: Response, next: NextFunction) => {
-    
+
     try {
-      const {namespace, limit, start, end, log} = req.query
+      const { namespace, limit, start, end, log } = req.query
       // {namespace="loki"} |= "error" != "info"
       // console.log('hi from loki controller');
 
       // Stephen's Loki gateway ip, can also use domain name here instead? havent tested
-      const lokiEndpoint = 'http://34.30.165.202/loki/api/v1/query_range?query=';
+      const lokiEndpoint = `http://${GATE}/loki/api/v1/query_range?query=`;
       let logQuery = ``
-      
+
       if (namespace) logQuery = `{namespace="${namespace}"}`;
       // havent tested  start and end yet
       if (start && end) logQuery += `{time >= ${start} and time <= ${end}}`;
 
       // need to modularize logQuery string still
-      if (log === 'error') { 
+      if (log === 'error') {
         logQuery += ` |= "${log}" != "info"`
       }
-      if (log === 'info') { 
+      if (log === 'info') {
         logQuery += ` |= "${log}" != "error"`
       }
       if (limit) logQuery += `&limit=${limit}`;
-    
- 
+
+
       const query = lokiEndpoint + logQuery;
       // console.log('query:', query);
-      
+
       const response = await fetch(query);
       const data = await response.json();
 
@@ -47,12 +45,12 @@ const lokiController: lokiController = {
         const stream = object.stream;
         const values = object.values;
 
-  
+
         values.forEach((value: any) => {
           const log = {
             timestamp: value[0],
             message: value[1],
-            namespace: stream.namespace, 
+            namespace: stream.namespace,
             container: stream.container,
             pod: stream.pod,
             job: stream.job,
@@ -65,7 +63,7 @@ const lokiController: lokiController = {
       // console.log('logs:', logs);
 
       res.locals.data = logs;
-  
+
       return next();
     } catch (error) {
       return next({
