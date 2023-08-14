@@ -29,18 +29,13 @@ const lokiController: lokiController = {
         logQuery += ` |= "${log}" != "error"`
       }
       if (limit) logQuery += `&limit=${limit}`;
-
-
       const query = lokiEndpoint + logQuery;
       // console.log('query:', query);
-
       const response = await fetch(query);
       const data = await response.json();
 
       // let result = data.data.result;
-
       // const logs: any[] = [];
-
       // result.forEach((object: any) => {
       //   const stream = object.stream;
       //   const values = object.values;
@@ -55,15 +50,12 @@ const lokiController: lokiController = {
       //       pod: stream.pod,
       //       job: stream.job,
       //     };
-
       //     logs.push(log);
       //   });
       // });
-
       // console.log('logs:', logs);
 
-      // res.locals.data = logs;
-      res.locals.data = data
+      res.locals.data = data;
 
       return next();
     } catch (error) {
