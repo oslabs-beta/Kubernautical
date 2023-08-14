@@ -39,7 +39,6 @@ export interface lokiController {
 export interface execController {
   namespace: RequestHandler
   deployment: RequestHandler
-  test: RequestHandler
 }
 
 export interface mapController {
