@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import MainDashBoard from "./MainDashBoard"
 import { Mapothy } from '../components/Mapothy'
 import { GlobalContext } from '../components/Contexts';
-import NetworkPerformance from '../components/Graphs/NetworkPerformance'
+import NetworkPerformance from './NetworkPerformance'
 import CRUDModal from '../components/CRUDModal';
 
 const MainContainer: FC = () => {

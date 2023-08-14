@@ -1,8 +1,8 @@
 import React from 'react'
-import LineGraph from './LineGraph'
+import LineGraph from '../components/Graphs/LineGraph'
 import { FC } from 'react'
-import type { Props } from '../../../types/types';
-import InvisibleNavbar from '../../containers/InvisibleNavbar';
+import type { Props } from '../../types/types';
+import InvisibleNavbar from './InvisibleNavbar';
 
 const NetworkPerformance: FC<Props> = ({ header }) => {
   return (

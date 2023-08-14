@@ -4,6 +4,7 @@ import clusterpic from '../assets/images/clusterPic.png'
 import mainDashBoard from '../assets/images/mainDashBoard.png'
 import netWork from '../assets/images/network.png'
 import edit from '../assets/images/edit.png'
+import logo from '../assets/images/ourlogo.png'
 import { GlobalContext } from '../components/Contexts';
 import gif2 from '../assets/gif3.gif'
 
@@ -31,7 +32,7 @@ export default function Navbar() {
 
   return (
     <div className='navBar'>
-      <div className='navBarTitle' >KUBERNAUTICAL</div>
+      <div className='navBarTitle'>KUBERNAUTICAL</div>
       <hr className='hr' />
       <button className='navButton' id='ClusterViewButton' onClick={GoHome}>
         <img className="btn-icon" src={clusterpic} />

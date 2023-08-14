@@ -15,10 +15,10 @@ const k6Controller: k6Controller = {
             return next();
         } catch (error) {
             return next({
-                log: 'Error happened at k6Controller.testing' + error,
+                log: 'Error in k6Controller.testing' + error,
                 status: 400,
                 message: { error: 'Error getting data' },
-              });
+            });
         }
     }
 };

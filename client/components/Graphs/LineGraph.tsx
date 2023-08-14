@@ -10,8 +10,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
 const stringArr: String[] = [];
 
-const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor }) => {
-  const { globalNamespaces } = useContext(GlobalContext);
+const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor }) => {
+  const { globalNamespaces, globalServices } = useContext(GlobalContext);
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
   const [hourSelection, setHourSelection] = useState('24');
@@ -19,14 +19,14 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
   const [scopeType, setScopeType] = useState('');
 
   const getData = async () => {
-
     const time: Number[] = [];
     const specificData: Number[] = [];
     const gigaBytes: Number[] = []
     const kiloBytes: Number[] = []
 
     try {
-      const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
+      const ep = globalServices?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
+      const response = await fetch(`/api/prom/metrics?ep=${ep}&type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
       borderColor: color,
       pointBorderColor: color,
       tension: .5,
-      pointBackgroundColor:'white',
+      pointBackgroundColor: 'white',
       pointBorderWidth: 1,
       pointHoverRadius: 4,
       pointRadius: 1,
@@ -104,21 +104,21 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
     },
     plugins: {
       legend: {
-        labels:{
-          color:graphTextColor
+        labels: {
+          color: graphTextColor
         },
         display: true
-        
+
       },
     },
     responsive: true,
     scales: {
       y: {
-        ticks:{
-          color:graphTextColor
+        ticks: {
+          color: graphTextColor
         },
         grid: {
-          display: true ,
+          display: true,
           color: `rgba(128, 128, 128, 0.1)`
         },
         display: true,
@@ -129,11 +129,11 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
         }
       },
       x: {
-        ticks:{
-          color:graphTextColor
+        ticks: {
+          color: graphTextColor
         },
         grid: {
-          display: false ,
+          display: false,
           color: `rgba(128, 128, 128, 0.1)`
         },
         display: true,
@@ -148,7 +148,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
   return (
     <div className='lineGraph'>
       <div>
-        <select className='containerButton' id ='hourDropDown' value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
+        <select className='containerButton' id='hourDropDown' value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
           <option value='1'>1 hour</option>
           <option value='6'>6 hours</option>
           <option value='12'>12 hours</option>
