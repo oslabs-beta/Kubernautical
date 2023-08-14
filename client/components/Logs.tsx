@@ -8,7 +8,7 @@ import { AnySrvRecord } from 'dns';
 
 const Logs: FC<Props> = ({ namespace }) => {
   const [data, setData] = useState<LogEntry[]>([]);
-  const [expandedLog, setExpandedLog] = useState<LogEntry | null>(null);;
+  const [expandedLog, setExpandedLog] = useState<LogEntry | null>(null);
 
   const getLogs = async () => {
     try {
@@ -23,39 +23,39 @@ const Logs: FC<Props> = ({ namespace }) => {
       console.log('Error fetching logs:', error);
     }
   };
-
+  const handleLogClick = (log: LogEntry) => {
+    expandedLog === log ? setExpandedLog(null) : setExpandedLog(log);
+  };
   useEffect(() => {
     getLogs();
-  },[namespace]);
-
-
-  const handleLogClick = (log: LogEntry) => {
-    setExpandedLog(prevLog => (prevLog === log ? null : log));
-  };
-
-
+  }, [namespace]);
   return (
-    <div className='log-container Logs'>
+    <div>
       {data.map((object: any, log) => {
-        const {stream, values} = object;
+        const { stream, values } = object;
+        const { namespace, container, node_name, pod, job } = stream;
         return (
           <div key={uuidv4()} className='log-entry'>
-              {values.map((value: any) => (
-                <div key={uuidv4()} className='value-entry'>
-                  <div className='clickable' onClick={() => handleLogClick(object)}>
-                    <div>Time: {value[0]}</div>
+            {values.map((value: any) => {
+              const i = value[1].indexOf('ts=');
+              const t = value[1].substring(i + 3, i + 24)
+              return (
+                <div key={value[0]} className='value-entry'>
+                  <div className='clickable' onClick={() => handleLogClick(value[0])}>
+                    <div>Container: {container}</div>
                     <div>Log: {value[1]}</div>
                   </div>
-              
-            {expandedLog === object && (
-              <div className='log-details'>
-                <p>Namespace: {stream.namespace}</p>
-                <p>Container: {stream.container}</p>
-                <p>Job: {stream.job}</p>
+                  {expandedLog === value[0] && (
+                    <div className='log-details'>
+                      <p>Time: {t}</p>
+                      <p>Namespace: {namespace}</p>
+                      <p>Container: {container}</p>
+                      <p>Job: {job}</p>
+                    </div>
+                  )}
                 </div>
-                )}
-              </div>
-            ))}
+              )
+            })}
           </div>
         );
       })}
@@ -63,26 +63,9 @@ const Logs: FC<Props> = ({ namespace }) => {
   );
 };
 
+export default Logs;
 
 
-export default Logs
+//if ts=
 
-
-
-  // result.map((container) => {
-  //   const {stream, values} = container;
-  //   const{container, filename, job, namespace} = stream;
-  //   return (
-  //     <div>
-  //       {values.map((log) => {
-  //         return (
-  //           <>
-  //           <div>{namespace}</div>
-  //           <div>{log[0], log[1]}</div>
-  //           </>
-  //         )
-  
-  //       })}
-  //     </div>
-  //   )
-  // })
+//return substring(index, index+24)

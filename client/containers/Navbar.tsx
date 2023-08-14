@@ -50,7 +50,6 @@ export default function Navbar() {
         <p className="btn-text">Network Performance</p>
       </button>
 
-      {/* get an image for logs */}
       <button className='navButton' id='LogsButton' onClick={Logs}>
         <img className="btn-icon" src={netWork} />
         <p className="btn-text">Logs</p>
