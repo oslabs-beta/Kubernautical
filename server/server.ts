@@ -30,10 +30,11 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
     return res.status(errorObj.status).json(errorObj.message);
 });
 
+if(process.env.NODE_ENV !== 'test'){
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 });
-
+}
 export default app
 
 
