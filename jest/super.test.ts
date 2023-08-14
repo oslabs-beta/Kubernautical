@@ -7,6 +7,7 @@ import clusterController from '../server/controllers/clusterController';
 import execController from '../server/controllers/execController';
 import k6Controller from '../server/controllers/k6Controller';
 import mapController from '../server/controllers/mapController';
+require('dotenv').config()
 
 let server: any
 beforeEach(() => {
@@ -39,7 +40,7 @@ describe('Prometheus Controller', () => {
   ]
   getMetricsTestData.forEach((entry) => {
     test(`/GET ${entry.type} for Line Chart returns data`, async () => {
-      const res = await request(app).get(`/api/prom/metrics?type=${entry.type}&hour=${entry.hour}`);
+      const res = await request(app).get(`/api/prom/metrics?type=${entry.type}&hour=${entry.hour}&ep=${process.env.PROMETHEUS_EP}`);
       expect(res.status).toEqual(200);
       expect(Array.isArray(res.body)).toEqual(true)
       // expect(res.body).toMatchSnapshot() 
@@ -48,7 +49,7 @@ describe('Prometheus Controller', () => {
 
   getMemOrCpuTestData.forEach((entry) => {
     test(`/Get ${entry.type} for Guage Chart returns data`, async () => {
-      const res = await request(app).get(`/api/prom/${entry.type}?type=${entry.type}&hour=24&notTime=true`)
+      const res = await request(app).get(`/api/prom/${entry.type}?type=${entry.type}&hour=24&notTime=true&ep=${process.env.PROMETHEUS_EP}`)
       expect(res.status).toEqual(200)
       expect(typeof res.body === 'object').toEqual(true)
       //expect(res.body).toMatchSnapshot()
