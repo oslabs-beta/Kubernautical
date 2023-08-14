@@ -11,32 +11,30 @@ const lokiController: lokiController = {
   testing: async (req: Request, res: Response, next: NextFunction) => {
     
     try {
-      // {namespace="loki"} |= "error" != "info"
       const {namespace, limit, start, end, log} = req.query
-      console.log('hi from loki controller');
+      // {namespace="loki"} |= "error" != "info"
+      // console.log('hi from loki controller');
 
+      // Stephen's Loki gateway ip, can also use domain name here instead? havent tested
       const lokiEndpoint = 'http://34.30.165.202/loki/api/v1/query_range?query=';
       let logQuery = ``
       
       if (namespace) logQuery = `{namespace="${namespace}"}`;
+      // havent tested  start and end yet
       if (start && end) logQuery += `{time >= ${start} and time <= ${end}}`;
+
+      // need to modularize logQuery string still
       if (log === 'error') { 
-        // if (logQuery) logQuery += ', ';
-        // logQuery += `{level=~"${log}"}`;
-        // // logQuery += `{level="level=${log}"}`;
         logQuery += ` |= "${log}" != "info"`
       }
       if (log === 'info') { 
-        // if (logQuery) logQuery += ', ';
-        // logQuery += `{level=~"${log}"}`;
-        // // logQuery += `{level="level=${log}"}`;
         logQuery += ` |= "${log}" != "error"`
       }
       if (limit) logQuery += `&limit=${limit}`;
     
  
       const query = lokiEndpoint + logQuery;
-      console.log('query:', query);
+      // console.log('query:', query);
       
       const response = await fetch(query);
       const data = await response.json();
@@ -64,7 +62,7 @@ const lokiController: lokiController = {
         });
       });
 
-      console.log('logs:', logs);
+      // console.log('logs:', logs);
 
       res.locals.data = logs;
   
