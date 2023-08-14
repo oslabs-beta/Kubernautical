@@ -19,7 +19,6 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor }
   const [scopeType, setScopeType] = useState('');
 
   const getData = async () => {
-    console.log(globalServices)
     const time: Number[] = [];
     const specificData: Number[] = [];
     const gigaBytes: Number[] = []

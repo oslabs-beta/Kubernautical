@@ -15,7 +15,7 @@ const GaugeChart: FC<Props> = ({ type, borderColor, backgroundColor, title, grap
 
   const getData = async () => {
     try {
-      const ep =globalServices?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
+      const ep = globalServices?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
       let URL = `/api/prom/${type === 'mem' ? 'mem' : 'cpu'}?type=${type}&hour=24&notTime=true&ep=${ep}`;
       const response = await fetch(URL);
       const data = await response.json();

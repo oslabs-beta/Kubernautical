@@ -19,7 +19,7 @@ const clusterController: clusterController = {
             //expose all necessary apis for further use in middleware using given context
             if (context) kc.setCurrentContext(context);
             res.locals.currentContext = kc.getCurrentContext();
-            res.locals.contexts = kc.getContexts;
+            res.locals.contexts = kc.getContexts();
             res.locals.k8sApi = kc.makeApiClient(k8s.CoreV1Api);  //used for nodes, pods, namespaces
             res.locals.k8sApi2 = kc.makeApiClient(k8s.AppsV1Api); //used for deployments and services
             res.locals.k8sApi3 = kc.makeApiClient(k8s.NetworkingV1Api);  //used for ingress
