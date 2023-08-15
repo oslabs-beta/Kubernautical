@@ -80,6 +80,7 @@ export interface Props {
   style?: number;
   clusterData?: ClusterData;
   namespace?: string;
+  logType?: string;
 }
 export interface SelectorProps {
   type: string;

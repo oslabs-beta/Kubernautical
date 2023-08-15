@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, useContext } from 'react';
 import { GlobalContext } from './Contexts';
 import type { Props, LogEntry } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
-import { AnySrvRecord } from 'dns';
+
 
 
 
