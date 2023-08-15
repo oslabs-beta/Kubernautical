@@ -43,32 +43,35 @@ const CRUDModal: FC<ClusterData> = () => {
     const crudFunction = async () => {
       try {
         let query = `api/exec/`;
-        if ((modalType === 'create' && form === '')) return alert('Please fill out all fields')
+        if (modalType === 'create' && form === '') return alert('Please fill out all fields')
+        // if (modalType === 'edit' && form === '') return alert('Please fill out all fields')
         switch (crudSelection) {
           case 'namespace':
             query += `ns?namespace=${modalType === 'create' ? form : ns}&crud=${modalType}&context=${globalClusterContext}`;
             break;
           case 'deployment':
             let type = '';
-            console.log(modalType)
             if (modalType === 'edit') {
               if (scale !== oldReplicas) type = 'scale';
               if (form2 && exposeType) type = 'expose';
             }
             else { type = modalType }
-            console.log(type);
-            query += `dep?namespace=${ns}&crud=${type}&image=${form2}&replicas=${type === 'scale' ? scale : ''}&deployment=${form ? form : deployment}&old=${type === 'scale' ? oldReplicas : ''}&context=${globalClusterContext}&port=${port}&targetPort=${targetPort}&type=${exposeType}`;
+            query += `dep?namespace=${ns}&crud=${type}&image=${form2}&replicas=${scale}
+            &deployment=${form ? form : deployment}&old=${oldReplicas}
+            &context=${globalClusterContext}&port=${port}&targetPort=${targetPort}&type=${exposeType}`;
             break;
-          case 'service':
-
-            break;
+          // case 'service':
+          //   query += `svc?namespace=${ns}&crud=${type}&image=${form2}&replicas=${scale}
+          //   &deployment=${form ? form : deployment}&old=${oldReplicas}
+          //   &context=${globalClusterContext}&port=${port}&targetPort=${targetPort}&type=${exposeType}`;
+          //   break;
 
           default:
             break;
         }
         const response = await fetch(query);
-        setGlobalCrudChange ? globalCrudChange ? setGlobalCrudChange(false) : setGlobalCrudChange(true) : null;
-        setOngoingCrudChange ? setOngoingCrudChange(false) : null;
+        if (setGlobalCrudChange) globalCrudChange ? setGlobalCrudChange(false) : setGlobalCrudChange(true);
+        if (setOngoingCrudChange) setOngoingCrudChange(false);
         if (!response.ok) throw new Error();
       } catch (error) {
         throw error;
@@ -82,11 +85,11 @@ const CRUDModal: FC<ClusterData> = () => {
           <div className='crudHeader'>{innerText}</div>
           {modalType === 'create' ?
             <>
-              <input className='InvisInput' type='text' placeholder={`New ${crudSelection}`} onChange={(e) => setForm(e.target.value)} />
+              <input className='InvisInput' type='text' placeholder={`New ${crudSelection}`} onChange={(e) => setForm(e.target.value)} required />
             </>
             : null}
           {modalType === 'create' && crudSelection !== 'namespace' ?
-            <input className='InvisInput' type='text' placeholder={crudSelection === 'service' ? 'Service Test' : 'Docker Image'} value={form2} onChange={(e) => setForm2(e.target.value)} />
+            <input className='InvisInput' type='text' placeholder={crudSelection === 'service' ? 'Service Test' : 'Docker Image'} value={form2} onChange={(e) => setForm2(e.target.value)} required />
             : null}
           {modalType === 'edit' && crudSelection === 'deployment' ?
             <>
