@@ -10,6 +10,9 @@ router.get('/ns', execController.namespace, (req: Request, res: Response, next: 
 router.get('/dep', execController.deployment, (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json({ message: `success` });
 });
+router.get('/svc', execController.service, (req: Request, res: Response, next: NextFunction) => {
+    res.status(200).json({ message: `success` });
+});
 
 
 export default router;
