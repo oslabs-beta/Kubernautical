@@ -16,20 +16,23 @@
 
 .clickable {
   cursor: pointer;
-  background-color: lighten($container-background, 15%);
+  background-color: lighten($container-background, 10%);
   padding: 8px;
   border-radius: 4px;
-  
+
 }
 
 .clickable:hover {
-  background-color: rgb(27, 27, 27);
+  background-color: lighten($container-background, 5%);
 }
 
 .log-details {
   margin-top: 5px;
   padding: 5px;
-  background-color: #858383;
+  background-color: lighten($container-background, 20%);
   border: 1px solid #555555;
-  border-radius: 4px;
+}
+
+.dropdown-container {
+  display: flex;
 }

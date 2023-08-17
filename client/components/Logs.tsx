@@ -9,7 +9,7 @@ const Logs: FC<Props> = ({ namespace, logType }) => {
 
   const getLogs = async () => {
     try {
-      
+      if (!namespace) namespace = 'default';
       const url = `/api/loki/logs?namespace=${namespace}&log=${logType}`;
       const response = await fetch(url);
       const data = (await response.json()).data.result;
