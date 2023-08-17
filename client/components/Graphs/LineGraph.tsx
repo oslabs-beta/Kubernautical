@@ -10,7 +10,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
 const stringArr: String[] = [];
 
-const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor, ep }) => {
+const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor }) => {
   const { globalClusterData, globalServices } = useContext(GlobalContext);
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
@@ -21,11 +21,15 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor, 
   const getData = async () => {
     const time: Number[] = [];
     const specificData: Number[] = [];
-    const gigaBytes: Number[] = []
-    const kiloBytes: Number[] = []
+    const gigaBytes: Number[] = [];
+    const kiloBytes: Number[] = [];
+    let svcArr: globalServiceObj[] | undefined;
 
     try {
-      console.log(ep)
+      const localSvc = localStorage.getItem('serviceArr');
+      if (localSvc) svcArr = await JSON.parse(localSvc);
+      else svcArr = globalServices;
+      const ep = svcArr?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
       const response = await fetch(`/api/prom/metrics?ep=${ep}&type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
         method: 'GET',
         headers: {
