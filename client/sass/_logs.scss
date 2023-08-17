@@ -1,6 +1,38 @@
+.log-container {
+  margin: 10px;
+}
 
-.log-item {
+.log-entry {
   margin: 10px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #d1d0d0;
+  background-color: #252525;
 }
+
+.value-entry {
+  margin-bottom: 5px;
+}
+
+.clickable {
+  cursor: pointer;
+  background-color: #202020;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.clickable:hover {
+  background-color: rgb(27, 27, 27);
+}
+
+.log-details {
+  margin-top: 5px;
+  padding: 5px;
+  background-color: #777777;
+  border: 1px solid #555555;
+  border-radius: 4px;
+}
+
+.dropdown-container {
+  display: flex;
+}
+
