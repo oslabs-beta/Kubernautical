@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, FC } from 'react';
 import { GlobalContext } from '../Contexts';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import type { CLusterObj, Props } from '../../../types/types';
+import type { CLusterObj, Props, globalServiceObj } from '../../../types/types';
 import { v4 as uuidv4 } from 'uuid';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -10,7 +10,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
 const stringArr: String[] = [];
 
-const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor }) => {
+const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor, ep }) => {
   const { globalClusterData, globalServices } = useContext(GlobalContext);
   const [data, setData] = useState(defaultArr);
   const [label, setLabel] = useState(stringArr);
@@ -25,7 +25,7 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor }
     const kiloBytes: Number[] = []
 
     try {
-      const ep = globalServices?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
+      console.log(ep)
       const response = await fetch(`/api/prom/metrics?ep=${ep}&type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
         method: 'GET',
         headers: {

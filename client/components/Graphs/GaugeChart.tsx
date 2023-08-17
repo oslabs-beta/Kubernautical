@@ -8,14 +8,13 @@ import { GlobalContext } from '../Contexts';
 
 const numberArr: Number[] = []
 const stringArr: String[] = []
-const GaugeChart: FC<Props> = ({ type, borderColor, backgroundColor, title, graphTextColor }) => {
+const GaugeChart: FC<Props> = ({ type, borderColor, backgroundColor, title, graphTextColor, ep }) => {
   const { globalServices } = useContext(GlobalContext);
   const [guageData, setGuageData] = useState(numberArr);
   const [guageName, setGuageName] = useState(stringArr);
 
   const getData = async () => {
     try {
-      const ep = globalServices?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
       let URL = `/api/prom/${type === 'mem' ? 'mem' : 'cpu'}?type=${type}&hour=24&notTime=true&ep=${ep}`;
       const response = await fetch(URL);
       const data = await response.json();

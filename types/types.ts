@@ -81,6 +81,7 @@ export interface Props {
   style?: number;
   clusterData?: ClusterData;
   namespace?: string;
+  ep?: string
 }
 export interface SelectorProps {
   type: string;

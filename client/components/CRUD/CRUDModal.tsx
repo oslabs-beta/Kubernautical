@@ -56,15 +56,14 @@ const CRUDModal: FC<ClusterData> = () => {
               if (form2 && exposeType) type = 'expose';
             }
             else { type = modalType }
-            query += `dep?namespace=${ns}&crud=${type}&image=${form2}&replicas=${scale}
-            &deployment=${form ? form : deployment}&old=${oldReplicas}
+            query += `dep?namespace=${ns}&crud=${type}&${type === 'expose' ? `name=${form2}` : `image=${form2}`}
+            &replicas=${scale}&deployment=${form ? form : deployment}&old=${oldReplicas}
             &context=${globalClusterContext}&port=${port}&targetPort=${targetPort}&type=${exposeType}`;
             break;
-          // case 'service':
-          //   query += `svc?namespace=${ns}&crud=${type}&image=${form2}&replicas=${scale}
-          //   &deployment=${form ? form : deployment}&old=${oldReplicas}
-          //   &context=${globalClusterContext}&port=${port}&targetPort=${targetPort}&type=${exposeType}`;
-          //   break;
+          case 'service':
+            query += `svc?namespace=${ns}&crud=${modalType}&service=${service}&context=${globalClusterContext}
+            &port=${port}&targetPort=${targetPort}`;
+            break;
 
           default:
             break;
@@ -83,18 +82,18 @@ const CRUDModal: FC<ClusterData> = () => {
         <div className='page-mask'></div>
         <div className='crudMini' style={{ top: style, position: 'absolute' }}>
           <div className='crudHeader'>{innerText}</div>
-          {modalType === 'create' ?
+          {modalType === 'create' &&
             <>
               <input className='InvisInput' type='text' placeholder={`New ${crudSelection}`} onChange={(e) => setForm(e.target.value)} required />
-            </>
-            : null}
-          {modalType === 'create' && crudSelection !== 'namespace' ?
-            <input className='InvisInput' type='text' placeholder={crudSelection === 'service' ? 'Service Test' : 'Docker Image'} value={form2} onChange={(e) => setForm2(e.target.value)} required />
-            : null}
-          {modalType === 'edit' && crudSelection === 'deployment' ?
+              <div>
+                {crudSelection !== 'namespace' &&
+                  <input className='InvisInput' type='text' placeholder={crudSelection === 'service' ? 'Service Test' : 'Docker Image'} value={form2} onChange={(e) => setForm2(e.target.value)} required />}
+              </div></>}
+          {(modalType === 'edit' && crudSelection === 'deployment') &&
             <>
               <input className='InvisInput' type='number' placeholder='Scale Deployment' value={scale} onChange={(e) => setScale(Number(e.target.value))} />
               <div className='crudHeader'>Expose as Service</div>
+              <input className='InvisInput' type='text' placeholder='Service Name' value={form2} onChange={(e) => setForm2(e.target.value)} />
               <select className='InvisInput' value={exposeType} onChange={(e) => setExposeType(e.target.value)}>
                 <option key={uuidv4()} value={''}>Select Exposure</option>
                 <option key={uuidv4()} value={'LoadBalancer'}>Load Balancer</option>
@@ -109,9 +108,7 @@ const CRUDModal: FC<ClusterData> = () => {
                 <div style={{ width: '70%' }}>Target Port: </div>
                 <input className='InvisInput portsEdit' type='number' value={targetPort} onChange={(e) => setTargetPort(Number(e.target.value))} />
               </div>
-              <input className='InvisInput' type='text' placeholder='Service Name' value={form2} onChange={(e) => setForm2(e.target.value)} />
-            </>
-            : null}
+            </>}
           <button className='InvisSubmit' onClick={() => { crudFunction(); setShowEditModal ? setShowEditModal(false) : null; setOngoingCrudChange ? setOngoingCrudChange(true) : null }}>Finalize</button>
           <button className='closeInvisModal' onClick={() => setShowModal(false)} >X</button>
         </div>
