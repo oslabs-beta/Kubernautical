@@ -15,8 +15,9 @@ export interface clusterController {
   getAllDeployments: RequestHandler
   getAllIngresses: RequestHandler
   // getAllContexts: RequestHandler
-  setContext: RequestHandler
+  // setContext: RequestHandler
   // getAllPodLogs: RequestHandler
+  setContext: RequestHandler<{}, any, any, { context?: string; port?: string }>;
 }
 
 export interface prometheusController {

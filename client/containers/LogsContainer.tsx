@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 const types = ['error', 'info'];
 
 const LogsContainer: FC<Props> = ({ header }) => {
-  const [namespace, setNamespace] = useState('Cluster');
+  const [namespace, setNamespace] = useState('gmp-system');
   const { globalClusterData } = useContext(GlobalContext);
   const [logType, setLogType] = useState('');
 

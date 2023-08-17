@@ -3,13 +3,14 @@ import type { Props, LogEntry } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
 
 
-const Logs: FC<Props> = ({ namespace }) => {
+const Logs: FC<Props> = ({ namespace, logType }) => {
   const [data, setData] = useState<LogEntry[]>([]);
   const [expandedLog, setExpandedLog] = useState<LogEntry | null>(null);
 
   const getLogs = async () => {
     try {
-      const url = `/api/loki/logs?namespace=${namespace}`;
+      
+      const url = `/api/loki/logs?namespace=${namespace}&log=${logType}`;
       const response = await fetch(url);
       const data = (await response.json()).data.result;
 
@@ -23,7 +24,7 @@ const Logs: FC<Props> = ({ namespace }) => {
   };
   useEffect(() => {
     getLogs();
-  }, [namespace]);
+  }, [namespace, logType]);
   return (
     <div>
       {data.map((object: any, log) => {
