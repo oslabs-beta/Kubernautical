@@ -10,7 +10,7 @@ const clusterController: clusterController = {
         //TODO fix typing
         const context = req.query.context as string;
         const promPort = req.query.port;
-        
+        console.log('context:', context)
         try {
             //pull kube config from secret dir
             const KUBE_FILE_PATH = `${os.homedir()}/.kube/config`;
@@ -89,21 +89,22 @@ const clusterController: clusterController = {
     },
     getAllNamespaces: async (req: Request, res: Response, next: NextFunction) => {
         const { k8sApi } = res.locals;
+        const { all } = req.query;
         try {
             const result = await k8sApi.listNamespace();
-            const namespaces = result.body.items
-                .filter((namespace: ClientObj) => {
+            const filtered = all === 'true' ? result.body.items :
+                result.body.items.filter((namespace: ClientObj) => {
                     const name = namespace.metadata?.name;
                     //!very readable ternary operator here
                     return name?.slice(0, 4) !== 'kube' && name?.slice(0, 4) !== 'loki' && name?.slice(0, 7) !== 'default' && name?.slice(0, 10) !== 'gmp-public' ? true : false;
                 })
-                .map((namespace: ClientObj) => {
-                    const { metadata } = namespace;
-                    return {
-                        name: metadata?.name,
-                        uid: metadata?.uid,
-                    }
-                })
+            const namespaces = filtered.map((namespace: ClientObj) => {
+                const { metadata } = namespace;
+                return {
+                    name: metadata?.name,
+                    uid: metadata?.uid,
+                }
+            })
             res.locals.namespaces = namespaces;
             return next();
         } catch (error) {
