@@ -1,17 +1,14 @@
 import LineGraph from '../components/Graphs/LineGraph'
 import GaugeChart from '../components/Graphs/GaugeChart'
-import EditModal from '../components/CRUD/CRUDModal';
-import React, { FC } from 'react'
-import type { Props } from '../../types/types';
+import { GlobalContext } from '../components/Contexts';
+import React, { FC, useContext } from 'react'
+import type { Props, globalServiceObj } from '../../types/types';
 import InvisibleNavbar from './InvisibleNavbar';
 
 
 const MainDashBoard: FC<Props> = ({ header }) => {
   const textColor = 'rgba(255, 255, 255, 0.702)';
   return (
-    //age of cluster
-    //stacked bar chart on how much usage each namespace is taking
-    //
     <>
       <div className='mainHeader'>{header}</div>
       <InvisibleNavbar />
@@ -53,3 +50,13 @@ const MainDashBoard: FC<Props> = ({ header }) => {
 }
 
 export default MainDashBoard
+
+// const checkLocal = async () => {
+//   const localSvc = localStorage.getItem('serviceArr');
+//   if (localSvc) {
+//     svcArr = await JSON.parse(localSvc);
+//     console.log(svcArr)
+//   }
+//   else svcArr = globalServices;
+//   const tempEp = svcArr?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
+// }
