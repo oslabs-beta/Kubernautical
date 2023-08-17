@@ -42,7 +42,7 @@ const CRUDModal: FC<ClusterData> = () => {
 
     const crudFunction = async () => {
       try {
-        let query = `api/exec/`;
+        let query = `api/crud/`;
         if (modalType === 'create' && form === '') return alert('Please fill out all fields')
         // if (modalType === 'edit' && form === '') return alert('Please fill out all fields')
         switch (crudSelection) {

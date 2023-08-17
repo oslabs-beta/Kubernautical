@@ -16,12 +16,8 @@ const LogsContainer: FC<Props> = ({ header }) => {
   return (
     <>
       <div className='mainHeader'>{header}</div>
-      <div className='dropdown-container'>
-      <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
-        <select
-          className='containerButton mapButton'
-          value={namespace}
-          onChange={(e) => setNamespace(e.target.value)}>
+      <div className='buttonWrap'>
+        <select className='containerButton mapButton buttonLeft' value={namespace} onChange={(e) => setNamespace(e.target.value)}>
           <option value='Cluster'>Select a Namespace</option>
           {globalClusterData?.namespaces?.map((ns: CLusterObj) => {
             const { name } = ns;
@@ -32,24 +28,17 @@ const LogsContainer: FC<Props> = ({ header }) => {
             )
           })}
         </select>
-      </div>
-      <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
-        <select
-          className='containerButton mapButton'
-          value={logType}
-          onChange={(e) => setLogType(e.target.value)}>
+        <select className='containerButton mapButton' value={logType} onChange={(e) => setLogType(e.target.value)}>
           <option value=''>Select a Type</option>
           {types.map((type) => (
             <option key={uuidv4()} value={type}>
               {type}
             </option>
           ))}
-  
         </select>
       </div>
-      </div>
       <div className='miniContainerLogs'>
-        <Logs namespace={namespace} logType={logType}/>
+        <Logs namespace={namespace} logType={logType} />
       </div>
     </>
   )
