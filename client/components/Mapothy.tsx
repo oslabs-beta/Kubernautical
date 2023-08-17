@@ -211,12 +211,12 @@ export const Mapothy: FC<Props> = ({ header }) => {
                     })}
                 </select>
                 <select className='containerButton mapButton' value={clusterContext} onChange={(e) => { setClusterContext(e.target.value) }}>
-                    {globalClusterData ? globalClusterData.contexts?.map((context: ContextObj) => {
+                    {globalClusterData && globalClusterData.contexts?.map((context: ContextObj) => {
                         const { name } = context
                         return (
                             <option key={uuidv4()} value={name}>{name}</option>
                         )
-                    }) : <div></div>}
+                    })}
                 </select>
             </div>
             <div className='miniContainerMap'>
