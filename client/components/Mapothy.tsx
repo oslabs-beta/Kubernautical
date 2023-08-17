@@ -174,10 +174,10 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //         }
                 //     })
             })
-            if (globalServices?.length === 0 || newContext){
-                if(setGlobalServices) setGlobalServices(serviceArrTemp);
+            if (globalServices?.length === 0 || newContext) {
+                if (setGlobalServices) setGlobalServices(serviceArrTemp);
                 localStorage.setItem('serviceArr', JSON.stringify(serviceArrTemp));
-            } 
+            }
             //graph created using node and edges array created above
             setGraph({
                 nodes: nodesArr,
