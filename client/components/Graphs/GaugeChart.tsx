@@ -3,19 +3,23 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { humanReadable } from '../helperFunctions';
 ChartJS.register(ArcElement, Tooltip, Legend,);
-import type { Props } from '../../../types/types';
+import type { Props, globalServiceObj} from '../../../types/types';
 import { GlobalContext } from '../Contexts';
 
 const numberArr: Number[] = []
 const stringArr: String[] = []
-const GaugeChart: FC<Props> = ({ type, borderColor, backgroundColor, title, graphTextColor }) => {
+const GaugeChart: FC<Props> = ({ type, borderColor, backgroundColor, title, graphTextColor, ep }) => {
   const { globalServices } = useContext(GlobalContext);
   const [guageData, setGuageData] = useState(numberArr);
   const [guageName, setGuageName] = useState(stringArr);
+  let svcArr: globalServiceObj[] | undefined;
 
   const getData = async () => {
     try {
-      const ep = globalServices?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
+      const localSvc = localStorage.getItem('serviceArr');
+      if (localSvc) svcArr = await JSON.parse(localSvc);
+      else svcArr = globalServices;
+      const ep = svcArr?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
       let URL = `/api/prom/${type === 'mem' ? 'mem' : 'cpu'}?type=${type}&hour=24&notTime=true&ep=${ep}`;
       const response = await fetch(URL);
       const data = await response.json();

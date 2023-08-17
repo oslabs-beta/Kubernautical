@@ -1,9 +1,6 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
-import { GlobalContext } from './Contexts';
 import type { Props, LogEntry } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
-
-
 
 
 const Logs: FC<Props> = ({ namespace }) => {
@@ -12,11 +9,9 @@ const Logs: FC<Props> = ({ namespace }) => {
 
   const getLogs = async () => {
     try {
-      console.log('namespace:', namespace)
       const url = `/api/loki/logs?namespace=${namespace}`;
       const response = await fetch(url);
       const data = (await response.json()).data.result;
-      console.log('data:', data);
 
       setData(data);
     } catch (error) {
@@ -64,8 +59,3 @@ const Logs: FC<Props> = ({ namespace }) => {
 };
 
 export default Logs;
-
-
-//if ts=
-
-//return substring(index, index+24)

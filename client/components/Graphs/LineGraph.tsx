@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, FC } from 'react';
 import { GlobalContext } from '../Contexts';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import type { CLusterObj, Props } from '../../../types/types';
+import type { CLusterObj, Props, globalServiceObj } from '../../../types/types';
 import { v4 as uuidv4 } from 'uuid';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -21,11 +21,15 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color, graphTextColor }
   const getData = async () => {
     const time: Number[] = [];
     const specificData: Number[] = [];
-    const gigaBytes: Number[] = []
-    const kiloBytes: Number[] = []
+    const gigaBytes: Number[] = [];
+    const kiloBytes: Number[] = [];
+    let svcArr: globalServiceObj[] | undefined;
 
     try {
-      const ep = globalServices?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
+      const localSvc = localStorage.getItem('serviceArr');
+      if (localSvc) svcArr = await JSON.parse(localSvc);
+      else svcArr = globalServices;
+      const ep = svcArr?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip;
       const response = await fetch(`/api/prom/metrics?ep=${ep}&type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
         method: 'GET',
         headers: {

@@ -37,6 +37,7 @@ export interface lokiController {
 export interface execController {
   namespace: RequestHandler
   deployment: RequestHandler
+  service: RequestHandler
 }
 
 export interface mapController {
@@ -80,7 +81,8 @@ export interface Props {
   style?: number;
   clusterData?: ClusterData;
   namespace?: string;
-  logType?: string;
+  ep?: string
+  logType?: string
 }
 export interface SelectorProps {
   type: string;
@@ -177,3 +179,4 @@ export interface LogEntry {
   job: string
   // values?: [string, string][];
 }
+
