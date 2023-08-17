@@ -82,6 +82,7 @@ export interface Props {
   clusterData?: ClusterData;
   namespace?: string;
   ep?: string
+  logType?: string
 }
 export interface SelectorProps {
   type: string;
@@ -178,3 +179,4 @@ export interface LogEntry {
   job: string
   // values?: [string, string][];
 }
+
