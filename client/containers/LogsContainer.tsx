@@ -9,9 +9,9 @@ import { v4 as uuidv4 } from 'uuid';
 const types = ['error', 'info'];
 
 const LogsContainer: FC<Props> = ({ header }) => {
-  const [namespace, setNamespace] = useState('Cluster');
+  const [namespace, setNamespace] = useState('gmp-system');
   const { globalClusterData } = useContext(GlobalContext);
-  const [logType, setLogType] = useState('');
+  const [logType, setLogType] = useState('info');
 
   return (
     <>
@@ -19,7 +19,7 @@ const LogsContainer: FC<Props> = ({ header }) => {
       <div className='dropdown-container'>
       <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
         <select
-          className='containerButton mapButton dropdown-select'
+          className='containerButton mapButton'
           value={namespace}
           onChange={(e) => setNamespace(e.target.value)}>
           <option value='Cluster'>Select a Namespace</option>
