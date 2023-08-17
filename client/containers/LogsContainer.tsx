@@ -11,7 +11,7 @@ const types = ['error', 'info'];
 const LogsContainer: FC<Props> = ({ header }) => {
   const [namespace, setNamespace] = useState('gmp-system');
   const { globalClusterData } = useContext(GlobalContext);
-  const [logType, setLogType] = useState('info');
+  const [logType, setLogType] = useState('');
 
   return (
     <>

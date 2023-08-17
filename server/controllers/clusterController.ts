@@ -5,11 +5,12 @@ import type { clusterController, ClientObj, container } from '../../types/types'
 
 
 const clusterController: clusterController = {
+    // setContext called before every route to obtain the correct cluster information based on user selected cluster
     setContext: async (req: Request, res: Response, next: NextFunction) => {
         //TODO fix typing
-        const context = req.query.context as unknown as string;
+        const context = req.query.context as string;
         const promPort = req.query.port;
-
+        
         try {
             //pull kube config from secret dir
             const KUBE_FILE_PATH = `${os.homedir()}/.kube/config`;
