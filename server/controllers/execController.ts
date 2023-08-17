@@ -24,7 +24,7 @@ const execController: execController = {
     }
   },
   deployment: async (req: Request, res: Response, next: NextFunction) => {
-    const { namespace, crud, image, deployment, replicas, type, port, targetPort, old, context } = req.query;
+    const { namespace, crud, image, deployment, replicas, type, port, targetPort, old, context, name } = req.query;
     try {
       let action = '';
       switch (crud) {
@@ -35,7 +35,7 @@ const execController: execController = {
           action = `--replicas=${replicas}`;
           break;
         case 'expose':
-          action = `--port=${port} --target-port=${targetPort} --type=${type}`;
+          action = `--port=${port} --target-port=${targetPort} --type=${type} --name=${name}`;
           break;
         default:
           break;
