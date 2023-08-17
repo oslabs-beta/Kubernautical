@@ -34,7 +34,7 @@ export interface lokiController {
   testing: RequestHandler
 }
 
-export interface execController {
+export interface crudController {
   namespace: RequestHandler
   deployment: RequestHandler
   service: RequestHandler

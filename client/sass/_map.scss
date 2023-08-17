@@ -45,3 +45,14 @@ div.vis-tooltip {
     transform: translate(1px, 1px);
     color: lighten($font-color, 20%);
 }
+
+.buttonWrap {
+    // border: 2px solid cyan;
+    width: 80%;
+    padding: 0;
+    margin: 0;
+}
+
+.buttonLeft {
+    margin-left: -4px;
+}

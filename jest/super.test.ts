@@ -4,7 +4,7 @@ import app from '../server/server';
 import { Chance } from 'chance'
 import promController from '../server/controllers/promController';
 import clusterController from '../server/controllers/clusterController';
-import execController from '../server/controllers/execController';
+import execController from '../server/controllers/crudController';
 import k6Controller from '../server/controllers/k6Controller';
 import mapController from '../server/controllers/mapController';
 require('dotenv').config()
