@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { execController } from '../../types/types';
-import { exec, execFile, execSync } from 'child_process';
+import type { crudController } from '../../types/types';
+import { exec } from 'child_process';
 
-const execController: execController = {
+const crudController: crudController = {
   namespace: async (req: Request, res: Response, next: NextFunction) => {
     const { namespace, crud, context } = req.query;
     try {
@@ -17,7 +17,7 @@ const execController: execController = {
       });
     } catch (error) {
       return next({
-        log: 'Error in execController.namespace' + error,
+        log: 'Error in crudController.namespace' + error,
         status: 400,
         message: { error: 'Error getting data' },
       });
@@ -54,7 +54,7 @@ const execController: execController = {
       });
     } catch (error) {
       return next({
-        log: 'Error in execController.deployment' + error,
+        log: 'Error in crudController.deployment' + error,
         status: 400,
         message: { error: 'Error getting data' },
       });
@@ -90,7 +90,7 @@ const execController: execController = {
       });
     } catch (error) {
       return next({
-        log: 'Error in execController.deployment' + error,
+        log: 'Error in crudController.deployment' + error,
         status: 400,
         message: { error: 'Error getting data' },
       });
@@ -98,4 +98,4 @@ const execController: execController = {
   }
 };
 
-export default execController;
+export default crudController;

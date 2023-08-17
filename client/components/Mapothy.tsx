@@ -200,8 +200,8 @@ export const Mapothy: FC<Props> = ({ header }) => {
             <div className='mainHeader'>
                 {header}
             </div>
-            <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
-                <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
+            <div className='buttonWrap'>
+                <select className='containerButton mapButton buttonLeft' value={ns} onChange={(e) => setNs(e.target.value)}>
                     <option value='Cluster'>Cluster</option>
                     {globalClusterData?.namespaces?.map((el: CLusterObj) => {
                         const { name } = el;
