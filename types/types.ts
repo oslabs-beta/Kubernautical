@@ -15,8 +15,9 @@ export interface clusterController {
   getAllDeployments: RequestHandler
   getAllIngresses: RequestHandler
   // getAllContexts: RequestHandler
-  setContext: RequestHandler
+  // setContext: RequestHandler
   // getAllPodLogs: RequestHandler
+  setContext: RequestHandler<{}, any, any, { context?: string; port?: string }>;
 }
 
 export interface prometheusController {
@@ -34,9 +35,10 @@ export interface lokiController {
   testing: RequestHandler
 }
 
-export interface execController {
+export interface crudController {
   namespace: RequestHandler
   deployment: RequestHandler
+  service: RequestHandler
 }
 
 export interface mapController {
@@ -80,6 +82,8 @@ export interface Props {
   style?: number;
   clusterData?: ClusterData;
   namespace?: string;
+  ep?: string
+  logType?: string
 }
 export interface SelectorProps {
   type: string;
@@ -176,3 +180,4 @@ export interface LogEntry {
   job: string
   // values?: [string, string][];
 }
+

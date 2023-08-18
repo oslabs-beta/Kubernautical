@@ -1,6 +1,43 @@
-
-.log-item {
+.log-container {
   margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
 }
+
+.log-entry {
+  margin: 10px;
+  padding: 3px;
+  // border: 1px solid #d1d0d0;
+  background-color: #252525;
+  color: $font-color;
+}
+
+.value-entry {
+  margin-bottom: 10px;
+}
+
+.clickable {
+  cursor: pointer;
+  background-color: lighten($container-background, 15%);
+  padding: 8px;
+  border-radius: 4px;
+  
+}
+
+.clickable:hover {
+  background-color: rgb(27, 27, 27);
+}
+
+.log-details {
+  margin-top: 5px;
+  padding: 5px;
+  background-color: #858383;
+  border: 1px solid #555555;
+}
+
+.dropdown-container {
+  display: flex;
+}
+
+
+
+
+

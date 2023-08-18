@@ -1,22 +1,18 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
-import { GlobalContext } from './Contexts';
 import type { Props, LogEntry } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
-import { AnySrvRecord } from 'dns';
 
 
-
-const Logs: FC<Props> = ({ namespace }) => {
+const Logs: FC<Props> = ({ namespace, logType }) => {
   const [data, setData] = useState<LogEntry[]>([]);
   const [expandedLog, setExpandedLog] = useState<LogEntry | null>(null);
 
   const getLogs = async () => {
     try {
-      console.log('namespace:', namespace)
-      const url = `/api/loki/logs?namespace=${namespace}`;
+      
+      const url = `/api/loki/logs?namespace=${namespace}&log=${logType}`;
       const response = await fetch(url);
       const data = (await response.json()).data.result;
-      console.log('data:', data);
 
       setData(data);
     } catch (error) {
@@ -28,7 +24,7 @@ const Logs: FC<Props> = ({ namespace }) => {
   };
   useEffect(() => {
     getLogs();
-  }, [namespace]);
+  }, [namespace, logType]);
   return (
     <div>
       {data.map((object: any, log) => {
@@ -64,8 +60,3 @@ const Logs: FC<Props> = ({ namespace }) => {
 };
 
 export default Logs;
-
-
-//if ts=
-
-//return substring(index, index+24)

@@ -8,12 +8,15 @@ const PORT = 3000;
 const app = express();
 app.use(express.json());
 
+// general endpoint for routes
 app.use('/api', apiRouter);
 
+// error handler for bad routes/requests to backend
 app.use((req, res) => {
     res.sendStatus(404);
 });
 
+// global error handler for all middleware and routes
 app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
     const defaultErr = {
         log: 'Error caught in global handler',
@@ -25,6 +28,7 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
     console.log(err);
     return res.status(errorObj.status).json(errorObj.message);
 });
+
 
 if(process.env.NODE_ENV !== 'test'){
 app.listen(PORT, () => {

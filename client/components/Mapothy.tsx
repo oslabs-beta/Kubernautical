@@ -174,7 +174,10 @@ export const Mapothy: FC<Props> = ({ header }) => {
                 //         }
                 //     })
             })
-            if (globalServices?.length === 0 || newContext) setGlobalServices ? setGlobalServices(serviceArrTemp) : null;
+            if (globalServices?.length === 0 || newContext) {
+                if (setGlobalServices) setGlobalServices(serviceArrTemp);
+                localStorage.setItem('serviceArr', JSON.stringify(serviceArrTemp));
+            }
             //graph created using node and edges array created above
             setGraph({
                 nodes: nodesArr,
@@ -197,8 +200,8 @@ export const Mapothy: FC<Props> = ({ header }) => {
             <div className='mainHeader'>
                 {header}
             </div>
-            <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
-                <select className='containerButton mapButton' value={ns} onChange={(e) => setNs(e.target.value)}>
+            <div className='buttonWrap'>
+                <select className='containerButton mapButton buttonLeft' value={ns} onChange={(e) => setNs(e.target.value)}>
                     <option value='Cluster'>Cluster</option>
                     {globalClusterData?.namespaces?.map((el: CLusterObj) => {
                         const { name } = el;
@@ -208,12 +211,12 @@ export const Mapothy: FC<Props> = ({ header }) => {
                     })}
                 </select>
                 <select className='containerButton mapButton' value={clusterContext} onChange={(e) => { setClusterContext(e.target.value) }}>
-                    {globalClusterData ? globalClusterData.contexts?.map((context: ContextObj) => {
+                    {globalClusterData && globalClusterData.contexts?.map((context: ContextObj) => {
                         const { name } = context
                         return (
                             <option key={uuidv4()} value={name}>{name}</option>
                         )
-                    }) : <div></div>}
+                    })}
                 </select>
             </div>
             <div className='miniContainerMap'>

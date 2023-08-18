@@ -6,18 +6,18 @@ import Logs from '../components/Logs';
 import { v4 as uuidv4 } from 'uuid';
 
 
+const types = ['error', 'info'];
+
 const LogsContainer: FC<Props> = ({ header }) => {
-  const [namespace, setNamespace] = useState('Cluster');
+  const [namespace, setNamespace] = useState('gmp-system');
   const { globalClusterData } = useContext(GlobalContext);
+  const [logType, setLogType] = useState('');
 
   return (
     <>
       <div className='mainHeader'>{header}</div>
-      <div style={{ position: 'relative', zIndex: 3, right: '28.5%' }}>
-        <select
-          className='containerButton mapButton'
-          value={namespace}
-          onChange={(e) => setNamespace(e.target.value)}>
+      <div className='buttonWrap'>
+        <select className='containerButton mapButton buttonLeft' value={namespace} onChange={(e) => setNamespace(e.target.value)}>
           <option value='Cluster'>Select a Namespace</option>
           {globalClusterData?.namespaces?.map((ns: CLusterObj) => {
             const { name } = ns;
@@ -28,9 +28,17 @@ const LogsContainer: FC<Props> = ({ header }) => {
             )
           })}
         </select>
+        <select className='containerButton mapButton' value={logType} onChange={(e) => setLogType(e.target.value)}>
+          <option value=''>Select a Type</option>
+          {types.map((type) => (
+            <option key={uuidv4()} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
       </div>
       <div className='miniContainerLogs'>
-        <Logs namespace={namespace} />
+        <Logs namespace={namespace} logType={logType} />
       </div>
     </>
   )

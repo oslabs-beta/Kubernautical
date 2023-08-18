@@ -4,7 +4,7 @@ import clusterpic from '../assets/images/clusterPic.png'
 import mainDashBoard from '../assets/images/mainDashBoard.png'
 import netWork from '../assets/images/network.png'
 import edit from '../assets/images/edit.png'
-import logo from '../assets/images/ourlogo.png'
+import docs from '../assets/images/docs.png'
 import { GlobalContext } from '../components/Contexts';
 import gif2 from '../assets/gif3.gif'
 
@@ -51,7 +51,7 @@ export default function Navbar() {
       </button>
 
       <button className='navButton' id='LogsButton' onClick={Logs}>
-        <img className="btn-icon" src={netWork} />
+        <img className="btn-icon" src={docs} />
         <p className="btn-text">Logs</p>
       </button>
 
