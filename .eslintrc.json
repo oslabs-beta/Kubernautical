@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+         "airbnb",
+        "standard-with-typescript",
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "sourceType": "module",
+        "project": "tsconfig.eslint.json",
+        "tsconfigRootDir": "./"
+      },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "import/extensions": [
+           "error",
+           "ignorePackages",
+           {
+            "": "never",
+             "js": "never",
+             "jsx": "never",
+             "ts": "never",
+             "tsx": "never"
+           }
+        ],
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
+     },
+    "root": true,
+    "settings": {
+        "import/resolver": {
+          "node": {
+            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+          }
+        }
+      }
+}
