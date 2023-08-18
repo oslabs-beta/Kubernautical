@@ -31,3 +31,5 @@ lokiYamls
 
 coverage
 
+Daemonset.yaml
+values.yml

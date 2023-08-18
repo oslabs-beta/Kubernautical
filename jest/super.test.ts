@@ -7,6 +7,7 @@ import clusterController from '../server/controllers/clusterController';
 import execController from '../server/controllers/execController';
 import k6Controller from '../server/controllers/k6Controller';
 import mapController from '../server/controllers/mapController';
+import lokiController from '../server/controllers/lokiController'
 require('dotenv').config()
 
 let server: any
@@ -23,6 +24,8 @@ describe('404 error handler', () => {
     expect(res.statusCode).toEqual(404);
   });
 });
+
+
 //?-----------------------------------------Prom Controller------------------------------------------------>
 describe('Prometheus Controller', () => {
   const chance = new Chance()
@@ -38,6 +41,10 @@ describe('Prometheus Controller', () => {
     { type: 'cpu' },
     { type: 'mem' }
   ]
+  // const testGlobalHandleError = [
+  //   {endpoint:`/api/prom/metrics?type=sas&hour=24&ep=${process.env.PROMETHEUS_EP}`},
+  //   {endpoint:`/api/prom/metrics`},
+  // ]
   getMetricsTestData.forEach((entry) => {
     test(`/GET ${entry.type} for Line Chart returns data`, async () => {
       const res = await request(app).get(`/api/prom/metrics?type=${entry.type}&hour=${entry.hour}&ep=${process.env.PROMETHEUS_EP}`);
@@ -46,7 +53,6 @@ describe('Prometheus Controller', () => {
       // expect(res.body).toMatchSnapshot() 
     });
   });
-
   getMemOrCpuTestData.forEach((entry) => {
     test(`/Get ${entry.type} for Guage Chart returns data`, async () => {
       const res = await request(app).get(`/api/prom/${entry.type}?type=${entry.type}&hour=24&notTime=true&ep=${process.env.PROMETHEUS_EP}`)
@@ -55,13 +61,25 @@ describe('Prometheus Controller', () => {
       //expect(res.body).toMatchSnapshot()
     })
   })
+//   testGlobalHandleError.forEach((entry)=>{
+//   test('should handle global middleware errors', async()=>{
+//     const defaultErr = {
+//       log: 'Error caught in global handler',
+//       status: 400,
+//       message:{error: 'Error getting Data'}
+//     };
+//     const response = await request(app)
+//     .get(entry.endpoint)
+//     .expect(400)
+//     expect(response.body).toEqual(defaultErr.message);
+//   })
+// })
   test(`should have ${Object.keys(promController)} `, () => {
     properties.forEach(prop => expect(promController).toHaveProperty(prop))
   })
   test('All Properties should be a function', () => {
     properties.forEach((prop) => {
       expect(typeof (promController as any)[prop]).toBe('function');
-      /* expect(prop.constructor.name).toBe('function'); */
     });
   });
 })
@@ -104,7 +122,7 @@ describe('Exec Controller', () => {
   // ExecEndPoint.forEach((endpoint) => {
   //   test(`/Get ${endpoint.type} returns data`, async () => {
   //     const res = await request(app).get(`/api/exec/${endpoint.type}`)
-  //     expect(res.status).toEqual(200)
+  //     expect(res.status).toEqual(400)
   //   })
   // })
   test(`should have ${Object.keys(execController)}`, () => {
@@ -121,7 +139,10 @@ describe('Exec Controller', () => {
 //?-----------------------------------------K6 Controller------------------------------------------------>
 describe('k6Controller Controller', () => {
   const properties = Object.keys(k6Controller);
-
+  test(`/Get elements returns data`, async () => {
+    const res = await request(app).get(`/api/k6/test`)
+    expect(res.status).toEqual(200)
+  })
   test(`should have ${Object.keys(k6Controller)}`, () => {
     properties.forEach(prop => expect(k6Controller).toHaveProperty(prop));
   });
@@ -129,12 +150,10 @@ describe('k6Controller Controller', () => {
 //?-----------------------------------------Map Controller------------------------------------------------>
 describe('mapController Controller', () => {
   const properties = Object.keys(mapController);
-
   test(`/Get elements returns data`, async () => {
     const res = await request(app).get(`/api/map/elements`)
     expect(res.status).toEqual(200)
   })
-
   test(`should have ${Object.keys(mapController)}`, () => {
     properties.forEach(prop => expect(mapController).toHaveProperty(prop));
   });
@@ -142,6 +161,24 @@ describe('mapController Controller', () => {
   test('All Properties should be a function', () => {
     properties.forEach((prop) => {
       expect(typeof (mapController as any)[prop]).toBe('function');
+    });
+  });
+
+});
+//?-----------------------------------------Loki Controller------------------------------------------------>
+describe('Loki Controller',()=>{
+  const properties = Object.keys(lokiController)
+
+  test(`/Get logs returns data`, async () => {
+    const res = await request(app).get(`/api/loki/logs?namespace=gmp-system`)
+    expect(res.status).toEqual(200)
+  })
+  test(`should have ${Object.keys(lokiController)}`,()=>{
+    properties.forEach(prop => expect(lokiController).toHaveProperty(prop));
+  })
+  test('All Properties should be a function', () => {
+    properties.forEach((prop) => {
+      expect(typeof (lokiController as any)[prop]).toBe('function');
     });
   });
 
