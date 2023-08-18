@@ -109,6 +109,20 @@ export interface LogProps {
   logType: string
   pod: string
 }
+export interface MiniProps {
+  style: number
+  // state: any
+  // stateSetter: Dispatch<SetStateAction<any>>
+  // modalPos: number
+  // setModalPos: Dispatch<SetStateAction<number>>
+  modalType: string
+  // setModalType: Dispatch<SetStateAction<string>>
+  // showModal: boolean
+  setShowModal: Dispatch<SetStateAction<boolean>>
+  crudSelection?: string
+  // setCrudSelection: Dispatch<SetStateAction<string>>
+  ns?: string
+}
 export interface SelectorProps {
   type: string
   state: any
