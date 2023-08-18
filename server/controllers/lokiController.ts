@@ -3,27 +3,24 @@ import type { lokiController } from '../../types/types';
 require('dotenv').config();
 
 
-const GATE = process.env.LOKI_GATE;
-
+// const GATE = process.env.LOKI_GATE;
 const lokiController: lokiController = {
   testing: async (req: Request, res: Response, next: NextFunction) => {
     // {cluster=~".+"} |= "level=error"
 
     try {
-      const { namespace, limit, start, end, log } = req.query
+      const { namespace, limit, start, end, log, pod, ep } = req.query
 
       // lokiEndpoint using exposed gateway IP via load balancer
-      const lokiEndpoint = `http://${GATE}/loki/api/v1/query_range?query=`;
-      let logQuery = ``
+      const lokiEndpoint = `http://${ep}/loki/api/v1/query_range?query=`;
+      let logQuery = `{namespace="${namespace}"${pod ? `, pod="${pod}"` : ''}}`;
 
-      if (namespace) logQuery = `{namespace="${namespace}"}`;
-  
       // havent tested  start and end yet
       // if (start && end) logQuery += `{time >= ${start} and time <= ${end}}`;
 
       // query by type, error or info
       if (log) logQuery += ` |= "level=${log}"`
-      
+
       // if (limit) logQuery += `&limit=${limit}`;
       const query = lokiEndpoint + logQuery;
       console.log('query:', query);

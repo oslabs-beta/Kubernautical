@@ -96,7 +96,8 @@ const clusterController: clusterController = {
                 result.body.items.filter((namespace: ClientObj) => {
                     const name = namespace.metadata?.name;
                     //!very readable ternary operator here
-                    return name?.slice(0, 4) !== 'kube' && name?.slice(0, 4) !== 'loki' && name?.slice(0, 7) !== 'default' && name?.slice(0, 10) !== 'gmp-public' ? true : false;
+                    return name?.slice(0, 4) !== 'kube' && name?.slice(0, 7) !== 'default' && name?.slice(0, 10) !== 'gmp-public' ? true : false;
+                    // return name?.slice(0, 4) !== 'kube' && name?.slice(0, 4) !== 'loki' && name?.slice(0, 7) !== 'default' && name?.slice(0, 10) !== 'gmp-public' ? true : false;
                 })
             const namespaces = filtered.map((namespace: ClientObj) => {
                 const { metadata } = namespace;

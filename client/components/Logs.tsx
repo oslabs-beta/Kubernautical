@@ -1,16 +1,23 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
-import type { Props, LogEntry } from '../../types/types';
+import type { Props, LogEntry, globalServiceObj } from '../../types/types';
 import { v4 as uuidv4 } from 'uuid';
+import { GlobalContext } from './Contexts';
 
-
-const Logs: FC<Props> = ({ namespace, logType }) => {
+const Logs: FC<Props> = ({ namespace, logType, pod }) => {
   const [data, setData] = useState<LogEntry[]>([]);
   const [expandedLog, setExpandedLog] = useState<LogEntry | null>(null);
+  const { globalServices } = useContext(GlobalContext)
+  let svcArr: globalServiceObj[] | undefined;
 
   const getLogs = async () => {
     try {
-      if (!namespace) namespace = 'default';
-      const url = `/api/loki/logs?namespace=${namespace}&log=${logType}`;
+      console.log(globalServices)
+      const localSvc = localStorage.getItem('serviceArr');
+      if (localSvc) svcArr = await JSON.parse(localSvc);
+      else svcArr = globalServices;
+      const ep = svcArr?.find(({ name }) => name.slice(0, 12) === 'loki-gateway')?.ip;
+      console.log(ep)
+      const url = `/api/loki/logs?namespace=${namespace}&log=${logType}&pod=${pod}&ep=${ep}`;
       const response = await fetch(url);
       const data = (await response.json()).data.result;
 
@@ -24,10 +31,10 @@ const Logs: FC<Props> = ({ namespace, logType }) => {
   };
   useEffect(() => {
     getLogs();
-  }, [namespace, logType]);
+  }, [namespace, logType, pod]);
   return (
     <div>
-      {data.map((object: any, log) => {
+      {data && data.map((object: any, log) => {
         const { stream, values } = object;
         const { namespace, container, node_name, pod, job } = stream;
         return (

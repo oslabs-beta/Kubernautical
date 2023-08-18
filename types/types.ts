@@ -84,6 +84,7 @@ export interface Props {
   namespace?: string;
   ep?: string
   logType?: string
+  pod?: string
 }
 export interface SelectorProps {
   type: string;
