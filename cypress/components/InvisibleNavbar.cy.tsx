@@ -1,5 +1,5 @@
 import React from 'react'
-import InvisibleNavbar from '../../client/containers/InvisibleNavbar'
+import InvisibleNavbar from '../../client/containers/InvisibleNavbar/InvisibleNavbar'
 
 describe('<InvisibleNavbar />', () => {
   it('renders', () => {
