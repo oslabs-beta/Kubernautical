@@ -1,43 +1,42 @@
-import type { Request, Response, NextFunction } from 'express';
-import type { lokiController } from '../../types/types';
-require('dotenv').config();
+import type { Request, Response, NextFunction, RequestHandler } from 'express'
+import { type LokiController } from '../../types/types'
 
+// require('dotenv').config()
 
 // const GATE = process.env.LOKI_GATE;
-const lokiController: lokiController = {
-  testing: async (req: Request, res: Response, next: NextFunction) => {
+const lokiController: LokiController = {
+  testing: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // {cluster=~".+"} |= "level=error"
-
     try {
-      const { namespace, limit, start, end, log, pod, ep } = req.query
-
+      const { namespace, log, pod, ep } = req.query
+      // limit, start, and end
       // lokiEndpoint using exposed gateway IP via load balancer
-      const lokiEndpoint = `http://${ep}/loki/api/v1/query_range?query=`;
-      let logQuery = `{namespace="${namespace}"${pod ? `, pod="${pod}"` : ''}}`;
+      const lokiEndpoint = `http://${ep}/loki/api/v1/query_range?query=`
+      let logQuery = `{namespace="${namespace as string}"${pod !== undefined ? `, pod="${pod as string}"` : ''}}`
 
       // havent tested  start and end yet
       // if (start && end) logQuery += `{time >= ${start} and time <= ${end}}`;
 
       // query by type, error or info
-      if (log) logQuery += ` |= "level=${log}"`
+      if (log !== undefined) logQuery += ` |= "level=${log as string}"`
 
       // if (limit) logQuery += `&limit=${limit}`;
-      const query = lokiEndpoint + logQuery;
-      console.log('query:', query);
-      const response = await fetch(query);
-      const data = await response.json();
+      const query = lokiEndpoint + logQuery
+      console.log('query:', query)
+      const response = await fetch(query)
+      const data = await response.json()
 
-      res.locals.data = data;
+      res.locals.data = data
 
-      return next();
+      next()
     } catch (error) {
-      return next({
-        log: 'Error happened at lokiController.logs' + error,
+      next({
+        log: `Error happened at lokiController.logs${error as string}`,
         status: 400,
-        message: { error: 'Error getting data' },
-      });
+        message: { error: 'Error getting data' }
+      })
     }
-  }
-};
+  }) as RequestHandler
+}
 
-export default lokiController;
+export default lokiController

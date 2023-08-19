@@ -1,101 +1,123 @@
-import type { Request, Response, NextFunction } from 'express';
-import type { crudController } from '../../types/types';
-import { exec } from 'child_process';
+import { exec } from 'child_process'
+import type { Request, Response, NextFunction, RequestHandler } from 'express'
+import { type CrudController } from '../../types/types'
 
-const crudController: crudController = {
-  namespace: async (req: Request, res: Response, next: NextFunction) => {
-    const { namespace, crud, context } = req.query;
+const crudController: CrudController = {
+  namespace: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { namespace, crud, context } = req.query
     try {
-      const command = `kubectl config use-context ${context} && kubectl ${crud} namespace ${namespace}`;
+      const command = `kubectl config use-context ${context as string} && kubectl ${crud as string} namespace ${namespace as string}`
       exec(command, (err, stdout, stderr) => {
-        if (err) {
-          console.log('Error executing command:', err);
-          throw new Error();
+        if (err != null) {
+          console.log('Error executing command:', err)
+          throw new Error()
         }
-        console.log(`stdout:`, stdout);
-        return next();
-      });
+        console.log('stdout:', stdout)
+        next()
+      })
     } catch (error) {
-      return next({
-        log: 'Error in crudController.namespace' + error,
+      next({
+        log: `Error in crudController.namespace${error as string}`,
         status: 400,
-        message: { error: 'Error getting data' },
-      });
+        message: { error: 'Error getting data' }
+      })
     }
-  },
-  deployment: async (req: Request, res: Response, next: NextFunction) => {
-    const { namespace, crud, image, deployment, replicas, type, port, targetPort, old, context, name } = req.query;
+  }) as RequestHandler,
+  deployment: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const {
+      namespace,
+      crud,
+      image,
+      deployment,
+      replicas,
+      type,
+      port,
+      targetPort,
+      old,
+      context,
+      name
+    } = req.query
     try {
-      let action = '';
+      let action = ''
       switch (crud) {
         case 'create':
-          action = `--image=${image}`;
-          break;
+          action = `--image=${image as string}`
+          break
         case 'scale':
-          action = `--replicas=${replicas}`;
-          break;
+          action = `--replicas=${replicas as string}`
+          break
         case 'expose':
-          action = `--port=${port} --target-port=${targetPort} --type=${type} --name=${name}`;
-          break;
+          action = `--port=${port as string} --target-port=${targetPort as string} --type=${type as string} --name=${name as string}`
+          break
         default:
-          break;
+          break
       }
-      //TODO handle errors/edge cases from front end
-      const command = `kubectl config use-context ${context} && kubectl ${crud} deployment ${deployment} ${action ? `${action}` : ''} -n ${namespace}`;
+      // TODO handle errors/edge cases from front end
+      const command = `kubectl config use-context ${context as string} 
+      && kubectl ${crud as string} deployment ${deployment as string} 
+      ${action !== undefined ? `${action}` : ''} -n ${namespace as string}`
       console.log('command:', command)
       exec(command, (err, stdout, stderr) => {
-        if (err) {
-          console.log('Error executing command:', err);
-          throw new Error();
+        if (err != null) {
+          console.log('Error executing command:', err)
+          throw new Error()
         }
-        console.log(`stdout:`, stdout);
-
-        return setTimeout(() => next(), old && replicas ? old < replicas ? 5000 : 45000 : 2000); //45 works
-      });
+        console.log('stdout:', stdout)
+        let timeOut = 2000
+        if (old !== undefined && replicas !== undefined) {
+          timeOut = old < replicas ? 5000 : 45000
+        }
+        return setTimeout(() => {
+          next()
+        }, timeOut) // 45 works
+      })
     } catch (error) {
-      return next({
-        log: 'Error in crudController.deployment' + error,
+      next({
+        log: `Error in crudController.deployment${error as string}`,
         status: 400,
-        message: { error: 'Error getting data' },
-      });
+        message: { error: 'Error getting data' }
+      })
     }
-  },
-  service: async (req: Request, res: Response, next: NextFunction) => {
-    const { namespace, crud, service, type, port, targetPort, context } = req.query;
+  }) as RequestHandler,
+  service: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { namespace, crud, service, context } = req.query
+    // type port and targetPort
     try {
-      let action = '';
+      const action = ''
       switch (crud) {
         case 'create':
           // action = `--image=${image}`;
-          break;
+          break
         case 'scale':
           // action = `--replicas=${replicas}`;
-          break;
+          break
         case 'expose':
           // action = `--port=${port} --target-port=${targetPort} --type=${type}`;
-          break;
+          break
         default:
-          break;
+          break
       }
-      //TODO handle errors/edge cases from front end
-      const command = `kubectl config use-context ${context} && kubectl ${crud} svc ${service} ${action ? `${action}` : ''} -n ${namespace}`;
+      // TODO handle errors/edge cases from front end
+      const command = `kubectl config use-context ${context as string} 
+      && kubectl ${crud as string} svc ${service as string} 
+      ${action !== undefined ? `${action}` : ''} -n ${namespace as string}`
       console.log('command:', command)
       exec(command, (err, stdout, stderr) => {
-        if (err) {
-          console.log('Error executing command:', err);
-          throw new Error();
+        if (err != null) {
+          console.log('Error executing command:', err)
+          throw new Error()
         }
-        console.log(`stdout:`, stdout);
-        return setTimeout(() => next(), 1000);
-      });
+        console.log('stdout:', stdout)
+        return setTimeout(() => { next() }, 1000)
+      })
     } catch (error) {
-      return next({
-        log: 'Error in crudController.deployment' + error,
+      next({
+        log: `Error in crudController.deployment${error as string}`,
         status: 400,
-        message: { error: 'Error getting data' },
-      });
+        message: { error: 'Error getting data' }
+      })
     }
-  }
-};
+  }) as RequestHandler
+}
 
-export default crudController;
+export default crudController

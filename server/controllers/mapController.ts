@@ -1,51 +1,11 @@
-import * as k8s from '@kubernetes/client-node';
-import os from 'os';
-import type { Request, Response, NextFunction } from 'express';
-import type { mapController } from '../../types/types';
+import type { Request, Response, NextFunction, RequestHandler } from 'express'
+import { type MapController } from '../../types/types'
 
+const mapController: MapController = {
 
-//modularize later perhaps 
-const KUBE_FILE_PATH = `${os.homedir()}/.kube/config`;
-
-// create new kubeconfig class
-const kc = new k8s.KubeConfig();
-// load from kube config file
-kc.loadFromFile(KUBE_FILE_PATH);
-// make api client
-const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
-// console.log('PATH');
-// console.log(KUBE_FILE_PATH);
-// console.log(k8sApi);
-
-
-// const promURL = 'http://localhost:9090/api/v1/query?query=';
-//nodes, namespaces, pod
-// const getNodes = async () => {
-//   const data = await k8sApi.listNode();
-
-// };
-
-// const getNamespaces = async () => {
-//   const data = await k8sApi.listNamespace();
-
-// };
-
-// const getPods = async () => {
-//   const data = await k8sApi.listPodForAllNamespaces();
-
-// };
-
-
-//Nodes saved under res.locals.nodes
-//Pods saved under res.locals.pods
-
-const mapController: mapController = {
-  
-
-
-  getElements: async (req: Request, res: Response, next: NextFunction) => {
+  getElements: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { pods, namespaces, deployments, services, contexts, currentContext } = res.locals;
+      const { pods, namespaces, deployments, services, contexts, currentContext } = res.locals
       res.locals.elements = {
         pods,
         namespaces,
@@ -54,15 +14,15 @@ const mapController: mapController = {
         contexts,
         currentContext
       }
-      return next();
+      next()
     } catch (error) {
-      return next({
-        log: 'Error in mapController.getElements' + error,
+      next({
+        log: `Error in mapController.getElements${error as string}`,
         status: 400,
-        message: { error: 'Error getting data' },
-      });
+        message: { error: 'Error getting data' }
+      })
     }
-  }
-};
+  }) as RequestHandler
+}
 
-export default mapController;
+export default mapController
