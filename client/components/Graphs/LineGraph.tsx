@@ -54,7 +54,7 @@ function LineGraph (
         }
       })
       const newData = await response.json()
-      if (newData[0] !== undefined) {
+      if (newData[0] === undefined) {
         setData([])
         return
       }

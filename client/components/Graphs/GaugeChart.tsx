@@ -33,7 +33,7 @@ function GaugeChart (
       const URL = `/api/prom/${type === 'mem' ? 'mem' : 'cpu'}?type=${type}&hour=24&notTime=true&ep=${ep}`
       const response = await fetch(URL)
       const data = await response.json()
-      if (data[0] !== undefined) { setGuageData([0]); return }
+      if (data[0] === undefined) { setGuageData([0]); return }
       const dataArr: number[] = []
       const dataNames: string[] = []
       data.forEach((el: any) => {
