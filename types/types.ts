@@ -111,17 +111,12 @@ export interface LogProps {
 }
 export interface MiniProps {
   style: number
-  // state: any
-  // stateSetter: Dispatch<SetStateAction<any>>
-  // modalPos: number
-  // setModalPos: Dispatch<SetStateAction<number>>
   modalType: string
-  // setModalType: Dispatch<SetStateAction<string>>
-  // showModal: boolean
   setShowModal: Dispatch<SetStateAction<boolean>>
-  crudSelection?: string
-  // setCrudSelection: Dispatch<SetStateAction<string>>
-  ns?: string
+  crudSelection: string
+  ns: string
+  service: string
+  deployment: string
 }
 export interface SelectorProps {
   type: string

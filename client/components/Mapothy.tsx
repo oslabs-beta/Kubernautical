@@ -182,7 +182,7 @@ function Mapothy ({ header }: Props): ReactElement {
         //     })
       })
       if (globalServices?.length === 0 || newContext) {
-        if (setGlobalServices != null) setGlobalServices(serviceArrTemp)
+        if (setGlobalServices !== undefined) setGlobalServices(serviceArrTemp)
         localStorage.setItem('serviceArr', JSON.stringify(serviceArrTemp))
       }
       // graph created using node and edges array created above
