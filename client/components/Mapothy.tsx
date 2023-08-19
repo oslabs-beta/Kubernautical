@@ -71,28 +71,28 @@ function Mapothy ({ header }: Props): ReactElement {
       let newContext = false
       let data
       // conditionals to prevent an unnecessary fetching
-      if (((globalClusterData?.namespaces) === undefined) ||
-       (globalCrudChange === true) ||
+      if (globalClusterData?.namespaces === undefined ||
+       globalCrudChange === true ||
        globalClusterContext !== clusterContext) {
         // fetch made using the current context, checks used for base case and persistent context
         // TODO idk if this works anymore
-        const result = await fetch(`api/map/elements?context=${(clusterContext ?? globalClusterContext) as string}`)
+        const result = await fetch(`api/map/elements?context=${clusterContext ?? ''}`)
         data = await result.json()
         // swithces flipped and state assigned
         // TODO all conditionals have been changed
         if (setGlobalCrudChange !== undefined) setGlobalCrudChange(false)
         if (setGlobalClusterData !== undefined) setGlobalClusterData(data)
-        if ((setGlobalClusterContext !== undefined) && (clusterContext !== undefined)) {
+        if (setGlobalClusterContext !== undefined && clusterContext !== undefined) {
           setGlobalClusterContext(clusterContext)
         }
         newContext = true
       } else { data = globalClusterData }
       const { pods, namespaces, deployments, services, currentContext } = data
       // base case for context
-      if (globalClusterContext === '' && (setGlobalClusterContext != null)) {
+      if (globalClusterContext === '' && setGlobalClusterContext !== undefined) {
         setGlobalClusterContext(currentContext)
       }
-      if (clusterContext === undefined) setClusterContext(currentContext)
+      if (clusterContext === '') setClusterContext(currentContext)
       // center node assigned to current context, all namespaces will be connected to this node
       nodesArr.push({ id: '0', title: `${currentContext as string}`, size: 100, image: logoImg, shape: 'image' })
       // checks to filter cluste view if a namespace has been selected

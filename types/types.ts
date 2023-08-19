@@ -7,7 +7,7 @@ export interface ServerError {
   err: '400'
 }
 
-export interface clusterController {
+export interface ClusterController {
   getAllPods: RequestHandler
   getAllNodes: RequestHandler
   getAllNamespaces: RequestHandler
@@ -27,21 +27,21 @@ export interface prometheusController {
   getCpu: RequestHandler
 }
 
-export interface k6Controller {
+export interface K6Controller {
   testing: RequestHandler
 }
 
-export interface lokiController {
+export interface LokiController {
   testing: RequestHandler
 }
 
-export interface crudController {
+export interface CrudController {
   namespace: RequestHandler
   deployment: RequestHandler
   service: RequestHandler
 }
 
-export interface mapController {
+export interface MapController {
   getElements: RequestHandler
 }
 export interface ClusterNode {
