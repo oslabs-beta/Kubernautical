@@ -1,5 +1,7 @@
 
-# Kubernautical
+//Logo or Big Image Here
+
+<div align="center"> 
 
 ![JavaScript](https://img.shields.io/badge/javascript-black?style=for-the-badge&logo=javascript&logoColor=yellow)
 ![TypeScript](https://img.shields.io/badge/typescript-black?style=for-the-badge&logo=typescript&logoColor=%233178C6)
@@ -15,7 +17,58 @@
 ![React-graph-vis]()
 ![Helm]()
 ![GKE](https://img.shields.io/badge/GKE-black?style=for-the-badge&logo=googlecloud&logoColor=%234285F4)
-## Set Up
+<br>
+![Build Passing](https://img.shields.io/badge/build-awesome-brightgreen)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/oslabs-beta/kubernautical)
+![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
+![Release: 11.0](https://img.shields.io/badge/Release-1.0-brightgreen)
+<br>
+[![Stars](https://img.shields.io/github/stars/oslabs-beta/kubernautical?style=social)](https://github.com/oslabs-beta/kubernautical/stargazers)
+[![Fork](https://img.shields.io/github/forks/oslabs-beta/kubernautical?style=social)](https://github.com/oslabs-beta/kubernautical/network/members)
+[![Watchers](https://img.shields.io/github/watchers/oslabs-beta/kubernautical?style=social)](https://github.com/oslabs-beta/kubernautical/watchers)
+
+
+---
+
+<p align="center" style="display: block; font-size: 1.5em; font-weight: bold; margin-block-start: 1em">
+Quick Links
+  <br /><br />
+</p>
+<p align="center" style="font-size: 1em">
+<a name="website" href="">Website</a>
+<a name="medium" href="">Medium</a>
+<a name="product-hunt" href="">Product Hunt</a>
+<a name="linkedin" href="">LinkedIn</a>
+</p>
+<br /><br />
+
+</div>
+
+## KuberNautical
+Introducing KuberNautical,a dev tool designed to empower you with unparalleled insights and control over your Kubernetes clusters. Seamlessly merging the worlds of metrics analysis and streamlined cluster management, KuberNautical redefines the way you interact with your kubernetes infrastructure.
+
+## Features
+### 2D Cluster view
+Kubernautical has a 2D cluster view where you can see your everything related to your cluster
+
+//Add Gif Here
+### Metrics and Logs Visualization
+Users are able to
+
+//Add Gif Here
+### Load Testing
+Users are able to Load Test a specific NameSpace allowing them to find potential bottlenecks.
+
+//Add Gif Here
+### Cluster Manipulation
+Users have the ability to Add,Delete,Deploy, and Scale their Cluster.
+
+//Add Gif Here 
+
+
+
+
+# Set Up
 ### Helm and Prometheus
 1. Install Helm
    - If you use macOS, run: ` brew install helm `
@@ -32,7 +85,9 @@
     ` helm upgrade -i prometheus prometheus-community/prometheus \
     --namespace prometheus \
     --set alertmanager.persistentVolume.storageClass="standard-rwo",server.persistentVolume.storageClass="standard-rwo"`
-  
+  *STORAGE CLASS SHOULD BE DIFFERENT DEPENDING ON WHAT CLUSTER YOU ARE RUNNING* 
+### Loki
+
       <br><br>
 ### Terminal Commands
 1. Fork this repository and clone it onto your local machine:
