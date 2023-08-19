@@ -1,13 +1,13 @@
 // import type { V1Container, V1ContainerImage, V1PodIP } from '@kubernetes/client-node';
-import type { Request, Response, NextFunction, RequestHandler } from 'express';
-import { Dispatch, SetStateAction } from 'react';
-import { IncomingMessage } from 'http';
+import { type IncomingMessage } from 'http'
+import type { RequestHandler } from 'express'
+import { type Dispatch, type SetStateAction } from 'react'
 
 export interface ServerError {
   err: '400'
 }
 
-export interface clusterController {
+export interface ClusterController {
   getAllPods: RequestHandler
   getAllNodes: RequestHandler
   getAllNamespaces: RequestHandler
@@ -17,7 +17,7 @@ export interface clusterController {
   // getAllContexts: RequestHandler
   // setContext: RequestHandler
   // getAllPodLogs: RequestHandler
-  setContext: RequestHandler<{}, any, any, { context?: string; port?: string }>;
+  setContext: RequestHandler
 }
 
 export interface prometheusController {
@@ -27,28 +27,28 @@ export interface prometheusController {
   getCpu: RequestHandler
 }
 
-export interface k6Controller {
+export interface K6Controller {
   testing: RequestHandler
 }
 
-export interface lokiController {
+export interface LokiController {
   testing: RequestHandler
 }
 
-export interface crudController {
+export interface CrudController {
   namespace: RequestHandler
   deployment: RequestHandler
   service: RequestHandler
 }
 
-export interface mapController {
+export interface MapController {
   getElements: RequestHandler
 }
 export interface ClusterNode {
   // kind: string;
-  id: string;
-  title?: string;
-  label?: string | undefined;
+  id: string
+  title?: string
+  label?: string | undefined
   // font: {
   //   color: string;
   //   size?: number;
@@ -56,37 +56,70 @@ export interface ClusterNode {
   // labels?: any;
   // matchLabels?: any;
   size?: number
-  image?: any;
-  shape?: string;
+  image?: any
+  shape?: string
 }
 export interface ClusterEdge {
-  from: string;
-  to: string;
-  length?: number;
+  from: string
+  to: string
+  length?: number
 }
 export interface clusterGraphData {
-  nodes: ClusterNode[];
-  edges: ClusterEdge[];
+  nodes: ClusterNode[]
+  edges: ClusterEdge[]
 }
 export interface Props {
-  type?: string;
-  graphType?: string;
-  title?: string;
-  header?: string;
-  yAxisTitle?: string;
-  color?: string | string[];
-  graphTextColor?: string;
-  backgroundColor?: string | string[];
-  borderColor?: string | string[];
-  hour?: string;
-  style?: number;
-  clusterData?: ClusterData;
-  namespace?: string;
+  type?: string
+  // graphType?: string
+  // title?: string
+  header?: string
+  // yAxisTitle?: string
+  // color?: string | string[]
+  // graphTextColor?: string
+  // backgroundColor?: string | string[]
+  // borderColor?: string | string[]
+  hour?: string
+  style?: number
+  clusterData?: ClusterData
+  namespace?: string
   ep?: string
-  logType?: string
+  // logType?: string
+  // pod?: string
+}
+export interface InvisibleNavbarModalProps {
+  style: number
+  setShowModal: Dispatch<SetStateAction<boolean>>
+}
+export interface GaugeGraphProps {
+  type: string
+  title: string
+  graphTextColor: string
+  backgroundColor: string | string[]
+  borderColor: string | string[]
+}
+export interface LineGraphProps {
+  type: string
+  title: string
+  yAxisTitle: string
+  color: string | string[]
+  graphTextColor: string
+}
+export interface LogProps {
+  namespace: string
+  logType: string
+  pod: string
+}
+export interface MiniProps {
+  style: number
+  modalType: string
+  setShowModal: Dispatch<SetStateAction<boolean>>
+  crudSelection: string
+  ns: string
+  service: string
+  deployment: string
 }
 export interface SelectorProps {
-  type: string;
+  type: string
   state: any
   stateSetter: Dispatch<SetStateAction<any>>
   modalPos: number
@@ -105,15 +138,15 @@ export interface CLusterObj {
   name: string
   namespace?: string
   uid: string
-  containerNames?: string[] //array of strings (for now)
+  containerNames?: string[] // array of strings (for now)
   nodeName?: string
   serviceAccount?: string
   subdomain?: string
   phase?: string
   ipFamilies?: string[]
-  ports?: portObj[]  //array of obj (portObj)
+  ports?: portObj[] // array of obj (portObj)
   type?: string
-  // strategy?: strategyObj  //object with type as string 
+  // strategy?: strategyObj  //object with type as string
   availableReplicas?: number
   // conditions?: string
 }
@@ -127,9 +160,9 @@ export interface ClusterData {
 }
 export interface ContextObj {
   [key: string]: any
-  cluster: string,
-  name?: string,
-  user?: string,
+  cluster: string
+  name?: string
+  user?: string
   namespace?: string
 }
 export interface portObj {
@@ -139,23 +172,21 @@ export interface portObj {
   protocol: string
   targetPort: number
 }
-export interface nestedObj {
-  [key: string | number]: any
-}
+export type nestedObj = Record<string | number, any>
 export interface Pod {
-  name: string;
-  namespace: string;
-  uid: string;
+  name: string
+  namespace: string
+  uid: string
   // labels: any;
-  containerNames: string[];
-  nodeName: string;
-  serviceAccount: string;
-  phase: string;
-  subdomain: string;
+  containerNames: string[]
+  nodeName: string
+  serviceAccount: string
+  phase: string
+  subdomain: string
 }
 export interface log {
-  response: IncomingMessage;
-  body: string;
+  response: IncomingMessage
+  body: string
 }
 export interface globalServiceObj {
   name: string
@@ -180,4 +211,3 @@ export interface LogEntry {
   job: string
   // values?: [string, string][];
 }
-
