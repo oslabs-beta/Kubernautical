@@ -1,8 +1,4 @@
-import React, { useState, useContext, type ReactElement } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-import { type ClusterData, CLusterObj, type Props } from '../../../types/types'
-import { GlobalContext } from '../Contexts'
-// import { capitalize } from '../helperFunctions';
+import React, { useState, type ReactElement } from 'react'
 import CrudSelector from './CRUDSelector'
 import CRUDMini from './CRUDMini'
 
@@ -17,15 +13,18 @@ function CRUDModal (): ReactElement {
 
   return (
     <div className="invisModal editModal">
-      {showModal
-        ? (
+      {showModal &&
+        (
           <CRUDMini
+            ns={ns}
             style={modalPos}
             modalType={modalType}
             setShowModal={setShowModal}
+            crudSelection={crudSelection}
+            service={service}
+            deployment={deployment}
           />
-          )
-        : null}
+        )}
       <div className="crudHeader">Cluster Editor</div>
       <hr className="hrCrud" />
       <CrudSelector
@@ -40,8 +39,8 @@ function CRUDModal (): ReactElement {
         setModalType={setModalType}
         setCrudSelection={setCrudSelection}
       />
-      {ns
-        ? (
+      {ns !== '' &&
+        (
           <CrudSelector
             type="scope"
             state={ns}
@@ -55,10 +54,9 @@ function CRUDModal (): ReactElement {
             crudSelection={crudSelection}
             setCrudSelection={setCrudSelection}
           />
-          )
-        : null}
-      {crudSelection !== 'namespace' && ns
-        ? (
+        )}
+      {(crudSelection !== 'namespace' && ns !== '') &&
+        (
           <CrudSelector
             ns={ns}
             type={`${crudSelection}`}
@@ -72,8 +70,7 @@ function CRUDModal (): ReactElement {
             setModalType={setModalType}
             setCrudSelection={setCrudSelection}
           />
-          )
-        : null}
+        )}
     </div>
   )
 }
