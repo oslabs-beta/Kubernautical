@@ -1,8 +1,8 @@
+/* eslint-disable no-shadow */
 import React, { useState, useContext, type ReactElement } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { type MiniProps } from '../../../types/types'
 import { GlobalContext } from '../Contexts'
-// import { capitalize } from '../helperFunctions';
 
 function CRUDMini (
   {
@@ -34,19 +34,20 @@ function CRUDMini (
   let innerText
   if (modalType === 'create') innerText = `Enter ${crudSelection} here`
   if (modalType === 'delete') innerText = name === undefined ? 'Please make a selection' : `Are you sure you want to remove ${name}?`
-  // completely different modal for some selections
+  // completely different text for some selections
   if (crudSelection === 'deployment' && modalType === 'edit') innerText = 'Scale Deployment'
-  // service expose
-  const obj = (globalClusterData != null) ? globalClusterData[`${crudSelection}s`].find(({ name }: any) => name === (crudSelection === 'service' ? service : deployment)) : null
-  const [scale, setScale] = useState(obj?.availableReplicas ?? 0)
+  // dynamically find the obj selected for changes
+  const obj = (globalClusterData !== undefined) ? globalClusterData[`${crudSelection}s`].find(({ name }: any) => name === (crudSelection === 'service' ? service : deployment)) : null
+  // assign previous variable for curent scale of deployment
   const oldReplicas = obj?.availableReplicas ?? 0
+  const [scale, setScale] = useState(oldReplicas)
 
   const crudFunction = async (): Promise<void> => {
     try {
       let query = 'api/crud/'
       let type = ''
       if (modalType === 'create' && form === '') { alert('Please fill out all fields'); return }
-      // if (modalType === 'edit' && form === '') return alert('Please fill out all fields')
+      // build query string for back-end operations based on user input
       switch (crudSelection) {
         case 'namespace':
           query += `ns?namespace=${modalType === 'create' ? form : ns}&crud=${modalType}&context=${globalClusterContext ?? ''}`

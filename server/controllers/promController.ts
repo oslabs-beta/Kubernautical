@@ -16,6 +16,7 @@ const promController: prometheusController = {
 
   getMetrics: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { type, hour, scope, name, notTime, ep } = req.query // pods--->scope, podname---->name
+    console.log(ep)
     // ? default start, stop, step, query string
     let start = new Date(Date.now() - 1440 * 60000).toISOString() // 24 hours
     const end = new Date(Date.now()).toISOString()
