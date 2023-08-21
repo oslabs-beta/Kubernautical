@@ -49,7 +49,7 @@ Introducing KuberNautical,a dev tool designed to empower you with unparalleled i
 
 ## Features
 ### 2D Cluster view
-Kubernautical has a 2D cluster view where you can see your everything related to your cluster
+Kubernautical has a 2D cluster view where you can see everything related to your cluster
 
 //Add Gif Here
 ### Metrics and Logs Visualization
@@ -65,10 +65,23 @@ Users have the ability to Add,Delete,Deploy, and Scale their Cluster.
 
 //Add Gif Here 
 
+## Set Up
+1. Fork this repository and clone it onto your local machine:
+    `git clone https://github.com/oslabs-beta/Kubernautical`
+1. Run `npm install` to install all package dependencies
+### Command Line Interface
+Install Kubectl to interact with your kubernetes cluster
+https://kubernetes.io/docs/tasks/tools/
+### Set Up your cluster
+Google Cluster<br>
+1. Create a google cluster in GCP<br>
+1. Click Connect in GCP and copy the command into your terminal<br>
+1. Use `kubectl config view` to confirm that your cluster is in your kube config<br>
+1. For our Application you need to expose the prometheus-server via Load Balancer<br>
+For GCP you can do `kubectl expose deployment prometheus-server --port=80 --target-port=9090 --type=LoadBalancer --name prometheus-server-lb -n prometheus`
 
-
-
-# Set Up
+Deployment, target port, type and namespace are all mandatory as above
+  	Port, and name can be customized if desired but name MUST start with prometheus-server 
 ### Helm and Prometheus
 1. Install Helm
    - If you use macOS, run: ` brew install helm `
@@ -86,13 +99,33 @@ Users have the ability to Add,Delete,Deploy, and Scale their Cluster.
     --namespace prometheus \
     --set alertmanager.persistentVolume.storageClass="standard-rwo",server.persistentVolume.storageClass="standard-rwo"`
   *STORAGE CLASS SHOULD BE DIFFERENT DEPENDING ON WHAT CLUSTER YOU ARE RUNNING* 
-### Loki
+### Loki Logs
+1. Use helm to add grafana `helm repo add grafana https://grafana.github.io/helm-charts`
+2. Update helm if necessary `helm repo update`
+3. `helm search repo loki`
+4. Create a namespace for loki `kubectl create ns loki`
+5. Install Loki on the loki namespace `helm upgrade --install --namespace loki logging grafana/loki -f yamls/values.yml --set loki auth_enabled=false`
+5. `helm upgrade --install --namespace=loki loki-grafana grafana/grafana`
+6. `helm upgrade --install promtail grafana/promtail -n loki`
+7. `kubectl expose deployment loki-gateway --port=80 --target-port=8080 --type=LoadBalancer --name loki-gateway-lb -n loki`
+8. kubectl apply -f yamls/Daemonset.yaml
+### Minikube (Local Cluster Testing)
+Local cluster testing
+Requirements for running Minikube
+1. 2 CPUs or more
+2. 2GB of free memory
+3. 20GB of free disk space
+4. Internet connection
+5. Container or virtual machine manager, such as: Docker,
 
-      <br><br>
-### Terminal Commands
-1. Fork this repository and clone it onto your local machine:
-    `git clone https://github.com/oslabs-beta/Kubernautical`
-1. Run `npm install` to install all package dependencies
+We Reccommend you have 4g+ of free ram as Docker Desktop can overload and crash your machine.
+
+1. Install docker desktop
+2. run minikube start → to start your own local cluster
+3. minikube dashboard → see ur dashboard
+4. minikube stop → stop ur minikube
+5. minikube delete --all → delete all of minikube
+
 # Contributing
 Contributions play a vital role in the open-source community. Any contributions are greatly appreciated!
 
