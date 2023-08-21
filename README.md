@@ -110,7 +110,7 @@ Users are able to apply a load test to a deployed application of their choosing.
   2. Install [Minikube](https://minikube.sigs.k8s.io/docs/start).
   - Check system requirements!
   - Create a cluster: 
-  ```sh 
+  ```javascript
   minikube start
   ```
   
