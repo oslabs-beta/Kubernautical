@@ -87,9 +87,9 @@ npm install
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/) installed
 - [Helm](https://helm.sh/docs/intro/install/) installed
 - SDK for your cluster(see specific instructions for your OS)
-  - [gcloud](https://cloud.google.com/sdk/docs/install) CLI
-  - [azure](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt) CLI
-  - [aws](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) CLI
+  - [GCP](https://cloud.google.com/sdk/docs/install) CLI
+  - [Azure](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt) CLI
+  - [AWS](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) CLI
 - [Prometheus](#prometheus) deployed
 - [Grafana Loki](#grafana-loki) deployed
 - [Grafana k6](https://k6.io/docs/get-started/installation/) installed
@@ -98,16 +98,17 @@ npm install
 **Google Cluster**
 1. Create a standard cluster with [Google](https://cloud.google.com/kubernetes-engine) (autopilot clusters will not work).
 2. Click Connect in GCP and copy the command into your terminal.
-
 **Microsoft Cluster**
-1. ads.
-2. command for copying into kube config?
-
+1. Create a cluster with [Microsoft](https://azure.microsoft.com/en-us/products/kubernetes-service).
+2. Copy cluster into kube config 
+```
+az aks get-credentials --resource-group <yourResourceGroupName> \
+--name <yourAKSClusterName> --admin
+```
 **Amazon Cluster**
 1. Create a cluster with [AWS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.htm).
   - Properly setup IAM permissions.
 2. command for copying into kube config?
-
 **Minikube Cluster**
   1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/).
 **We Reccommend you have 4g+ of free ram as Docker Desktop can overload and crash your machine.**
@@ -150,7 +151,7 @@ kubectl expose deployment prometheus-server --port=80 --target-port=9090 --type=
  --name prometheus-server-lb --n prometheus
 ```
 
-  **Deployment, target port, type and namespace are all mandatory as above. Port, and name can be customized if desired but name MUST start with `prometheus-server`**
+  **Deployment, target port, type and namespace are all mandatory as above, while port, and name can be customized if desired but name MUST start with `prometheus-server`**
 
 
 ## Grafana-loki
@@ -172,7 +173,8 @@ kubectl create ns loki
 ```
 5. Install Loki on the `loki` namespace 
 ```
-helm upgrade --install --namespace loki logging grafana/loki -f yamls/values.yml --set loki auth_enabled=false
+helm upgrade --install --namespace loki logging grafana/loki -f yamls/values.yml \
+--set loki auth_enabled=false
 ```
 6. Deploy Grafana with Loki data source to enable log aggregation
 ```
@@ -188,7 +190,8 @@ kubectl apply -f yamls/Daemonset.yaml
 ```
 9. Expose `loki-gateway` as a load balancer
 ```
-kubectl expose deployment loki-gateway --port=80 --target-port=8080 --type=LoadBalancer --name loki-gateway-lb -n loki
+kubectl expose deployment loki-gateway --port=80 --target-port=8080 --type=LoadBalancer \
+--name loki-gateway-lb -n loki
 ```
 
 ***Naming conventions for namespaces and services created are customizable, but name for `loki-gateway` service must start with `loki-gateway`.***
