@@ -17,6 +17,8 @@ dist
 
 #GKE folder
 gke-setup
+#EKS folder
+eks-setup
 
 #yaml files
 prometheus.yaml
