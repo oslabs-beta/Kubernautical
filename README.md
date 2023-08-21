@@ -74,8 +74,13 @@ Users are able to apply a load test to a deployed application of their choosing.
 
 ## Set Up
 1. Fork this repository and clone it onto your local machine:
-    `git clone https://github.com/oslabs-beta/Kubernautical`
-1. Run `npm install` to install all package dependencies
+```javascript
+git clone https://github.com/oslabs-beta/Kubernautical
+```
+2. Install all package dependencies
+```javascript
+npm install
+```
 
 ### Before you start checklist
 - [Cluster](#cluster-setup) from provider of choice
@@ -90,7 +95,6 @@ Users are able to apply a load test to a deployed application of their choosing.
 - [Grafana k6](https://k6.io/docs/get-started/installation/) installed
 
 ## Cluster Setup
-
 **Google Cluster**
 1. Create a standard cluster with [Google](https://cloud.google.com/kubernetes-engine) (autopilot clusters will not work).
 2. Click Connect in GCP and copy the command into your terminal.
@@ -113,11 +117,19 @@ Users are able to apply a load test to a deployed application of their choosing.
   ```javascript
   minikube start
   ```
-  
-  - Stop your cluster `minikube stop`.
-  - delete your cluster `minikube delete`.
+  - Stop your cluster 
+  ```javascript
+  minikube stop
+  ```
+  - Delete your cluster
+  ```javascript
+  minikube delete
+  ```
 
-***Use `kubectl config view` to confirm that your cluster is in your kube config***
+***Confirm that your cluster is in your kube config***
+```javascript
+kubectl config view
+```
 
 ## Prometheus
 1. Create a namespace for prometheus `kubectl create namespace prometheus`
