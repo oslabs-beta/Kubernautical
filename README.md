@@ -146,8 +146,8 @@ helm upgrade -i prometheus prometheus-community/prometheus --namespace prometheu
 ```
 4. For our application you need to expose the prometheus-server as a load balancer
 ```
-kubectl expose deployment prometheus-server --port=80 --target-port=9090 --type=LoadBalancer --name prometheus-server-lb \
---n prometheus
+kubectl expose deployment prometheus-server --port=80 --target-port=9090 --type=LoadBalancer \
+ --name prometheus-server-lb --n prometheus
 ```
 
   **Deployment, target port, type and namespace are all mandatory as above. Port, and name can be customized if desired but name MUST start with `prometheus-server`**
