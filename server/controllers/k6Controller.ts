@@ -6,9 +6,11 @@ const k6Controller: K6Controller = {
   testing: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { vus, duration, ip } = req.query
     try {
-      const command = `export INGRESS_EP=http://${ip} 
-      && k6 run${vus !== undefined ? ` --vus ${vus as string}` : ''}
-      ${duration !== undefined ? ` --duration ${duration as string}s` : ''} scripts/loadtest.js`
+      let command = `export INGRESS_EP=http://${ip} && k6 run`
+      if (vus !== undefined && duration !== undefined) {
+        command += ` --vus ${vus as string} --duration ${duration as string}s scripts/loadtest.js`
+      } else throw new Error()
+      console.log(command)
       exec(command, (err) => {
         if (err !== null) {
           throw new Error()
@@ -17,7 +19,7 @@ const k6Controller: K6Controller = {
       next()
     } catch (error) {
       next({
-        log: `Error in k6Controller.testing${error as string}`,
+        log: `Error in k6Controller.testing ${error as string}`,
         status: 400,
         message: { error: 'Error getting data' }
       })
