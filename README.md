@@ -23,7 +23,7 @@
 [![GKE](https://img.shields.io/badge/GKE-%234285F4?style=for-the-badge&logo=googlecloud&logoColor=white)](https://cloud.google.com/kubernetes-engine)
 [![AKS](https://img.shields.io/badge/AKS-326CE5?style=for-the-badge&logo=microsoft-azure&logoColor=white)](https://azure.microsoft.com/en-us/services/kubernetes-service/)
 [![EKS](https://img.shields.io/badge/EKS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/eks/)
-<br>
+<!-- <br>
 ![Build Passing](https://img.shields.io/badge/build-awesome-brightgreen)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/oslabs-beta/kubernautical)
 ![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
@@ -31,7 +31,7 @@
 <br>
 [![Stars](https://img.shields.io/github/stars/oslabs-beta/kubernautical?style=social)](https://github.com/oslabs-beta/kubernautical/stargazers)
 [![Fork](https://img.shields.io/github/forks/oslabs-beta/kubernautical?style=social)](https://github.com/oslabs-beta/kubernautical/network/members)
-[![Watchers](https://img.shields.io/github/watchers/oslabs-beta/kubernautical?style=social)](https://github.com/oslabs-beta/kubernautical/watchers)
+[![Watchers](https://img.shields.io/github/watchers/oslabs-beta/kubernautical?style=social)](https://github.com/oslabs-beta/kubernautical/watchers) -->
 
 
 ---
@@ -74,11 +74,11 @@ Users are able to apply a load test to a deployed application of their choosing.
 
 ## Set Up
 1. Fork this repository and clone it onto your local machine:
-```javascript
+```
 git clone https://github.com/oslabs-beta/Kubernautical
 ```
 2. Install all package dependencies
-```javascript
+```
 npm install
 ```
 
@@ -114,20 +114,20 @@ npm install
   2. Install [Minikube](https://minikube.sigs.k8s.io/docs/start).
   - Check system requirements!
   - Create a cluster: 
-  ```javascript
+  ```
   minikube start
   ```
   - Stop your cluster 
-  ```javascript
+  ```
   minikube stop
   ```
   - Delete your cluster
-  ```javascript
+  ```
   minikube delete
   ```
 
 ***Confirm that your cluster is in your kube config***
-```javascript
+```
 kubectl config view
 ```
 
@@ -146,7 +146,8 @@ helm upgrade -i prometheus prometheus-community/prometheus --namespace prometheu
 ```
 4. For our application you need to expose the prometheus-server as a load balancer
 ```
-kubectl expose deployment prometheus-server --port=80 --target-port=9090 --type=LoadBalancer --name prometheus-server-lb -n prometheus
+kubectl expose deployment prometheus-server --port=80 --target-port=9090 --type=LoadBalancer --name prometheus-server-lb \
+--n prometheus
 ```
 
   **Deployment, target port, type and namespace are all mandatory as above. Port, and name can be customized if desired but name MUST start with `prometheus-server`**
@@ -170,21 +171,22 @@ helm search repo loki
 kubectl create ns loki
 ```
 5. Install Loki on the `loki` namespace 
-```helm upgrade --install --namespace loki logging grafana/loki -f yamls/values.yml --set loki auth_enabled=false
 ```
-5. Deploy Grafana with Loki data source to enable log aggregation
+helm upgrade --install --namespace loki logging grafana/loki -f yamls/values.yml --set loki auth_enabled=false
+```
+6. Deploy Grafana with Loki data source to enable log aggregation
 ```
 helm upgrade --install --namespace=loki loki-grafana grafana/grafana
 ```
-6. Deploy Promtail to enable log scraping from whole cluster
+7. Deploy Promtail to enable log scraping from whole cluster
 ```
 helm upgrade --install promtail grafana/promtail -n loki
 ```
-7. Create a daemonset to ensure system-level logging
+8. Create a daemonset to ensure system-level logging
 ```
 kubectl apply -f yamls/Daemonset.yaml
 ```
-8. Expose `loki-gateway` as a load balancer
+9. Expose `loki-gateway` as a load balancer
 ```
 kubectl expose deployment loki-gateway --port=80 --target-port=8080 --type=LoadBalancer --name loki-gateway-lb -n loki
 ```
