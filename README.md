@@ -1,7 +1,8 @@
 
-//Logo or Big Image Here
 
 <div align="center"> 
+
+![Logo](client/assets/images/KN-logo.png)
 
 [![JavaScript](https://img.shields.io/badge/javascript-yellow?style=for-the-badge&logo=javascript&logoColor=white)](https://www.javascript.com/)
 [![TypeScript](https://img.shields.io/badge/typescript-%233178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -95,9 +96,11 @@ npm install
 - [Grafana k6](https://k6.io/docs/get-started/installation/) installed
 
 ## Cluster Setup
+
 **Google Cluster**
 1. Create a standard cluster with [Google](https://cloud.google.com/kubernetes-engine) (autopilot clusters will not work).
 2. Click Connect in GCP and copy the command into your terminal.
+
 **Microsoft Cluster**
 1. Create a cluster with [Microsoft](https://azure.microsoft.com/en-us/products/kubernetes-service).
 2. Copy cluster into kube config 
@@ -105,16 +108,18 @@ npm install
 az aks get-credentials --resource-group <yourResourceGroupName> \
 --name <yourAKSClusterName> --admin
 ```
+
 **Amazon Cluster**
 1. Create a cluster with [AWS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.htm).
   - Properly setup IAM permissions.
 2. command for copying into kube config?
+
 **Minikube Cluster**
   1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/).
 **We Reccommend you have 4g+ of free ram as Docker Desktop can overload and crash your machine.**
   2. Install [Minikube](https://minikube.sigs.k8s.io/docs/start).
   - Check system requirements!
-  - Create a cluster: 
+  - Create a cluster 
   ```
   minikube start
   ```

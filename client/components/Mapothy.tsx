@@ -9,7 +9,7 @@ import nsImg from '../assets/ns-icon.png'
 import podImg from '../assets/pod-icon.png'
 import svcImg from '../assets/svc-icon.png'
 import depImg from '../assets/dep-icon.png'
-import logoImg from '../assets/images/ourlogo.png'
+import logoImg from '../assets/images/KN-logo.png'
 
 // ?-----------------------------------------Physics Testing--------------------------------------->
 const options = {
