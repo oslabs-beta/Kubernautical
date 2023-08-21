@@ -1,3 +1,6 @@
+/* eslint-disable no-shadow */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect, useContext, type ReactElement } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { LogProps, LogEntry, globalServiceObj } from '../../types/types'
@@ -11,12 +14,10 @@ function Logs ({ namespace, logType, pod }: LogProps): ReactElement {
 
   const getLogs = async (): Promise<void> => {
     try {
-      // console.log(globalServices)
       const localSvc = localStorage.getItem('serviceArr')
       if (localSvc !== null) svcArr = await JSON.parse(localSvc)
       else svcArr = globalServices
       const ep = svcArr?.find(({ name }) => name.slice(0, 12) === 'loki-gateway')?.ip
-      // console.log(ep)
       const url = `/api/loki/logs?namespace=${namespace}&log=${logType}&pod=${pod}&ep=${ep ?? ''}`
       const response = await fetch(url)
       const newData = (await response.json()).data.result
@@ -36,11 +37,11 @@ function Logs ({ namespace, logType, pod }: LogProps): ReactElement {
     <div>
       {data?.map((object: any, log) => {
         const { stream, values } = object
-        const { namespace, container, node_name, pod, job } = stream
+        const { namespace, container, job } = stream
         return (
           <div key={uuidv4()} className="log-entry">
             {values.map((value: any) => {
-              const i = value[1].indexOf('ts=')
+              const i: number = value[1].indexOf('ts=')
               const t = value[1].substring(i + 3, i + 24)
               return (
                 <div key={value[0]} className="value-entry">
