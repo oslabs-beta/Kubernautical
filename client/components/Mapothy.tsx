@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-shadow */
 import React, { useEffect, useState, useContext, type ReactElement } from 'react'
 import Graph from 'react-graph-vis'
 import { v4 as uuidv4 } from 'uuid'
@@ -9,7 +10,7 @@ import nsImg from '../assets/ns-icon.png'
 import podImg from '../assets/pod-icon.png'
 import svcImg from '../assets/svc-icon.png'
 import depImg from '../assets/dep-icon.png'
-import logoImg from '../assets/images/ourlogo.png'
+import logoImg from '../assets/images/KN-logo.png'
 
 // ?-----------------------------------------Physics Testing--------------------------------------->
 const options = {
@@ -52,18 +53,11 @@ function Mapothy ({ header }: Props): ReactElement {
   })
   const [ns, setNs] = useState('Cluster')
   const [clusterContext, setClusterContext] = useState(globalClusterContext)
-  const events = {
-    select: function (event: any) { // TODO fix typing
-      const { nodes, edges } = event
-    }
-  }
   const getData = async (): Promise<void> => {
     try {
       // arrays used to store nodes and edges for use in react-graph-vis
       const nodesArr: ClusterNode[] = []
       const edgesArr: ClusterEdge[] = []
-      // storage of temporary arrays to be used for global arrays (soon to be deprecated)
-      const namespaceArr: string[] = []
       const serviceArrTemp: globalServiceObj[] = []
       // temporary arrray used for filtering cluster view by namespace
       let filteredNsArr: CLusterObj[] = []
@@ -101,8 +95,7 @@ function Mapothy ({ header }: Props): ReactElement {
       // ?----------------------------------Namespace Search------------------------------------->
       // namespace array iterated over, with all other resources being attached accordingly
       filteredNsArr.forEach((nS: CLusterObj) => {
-        if (nS === null) return
-        namespaceArr.push(nS.name)
+        if (nS.name === 'loki') return
         const { name, uid } = nS
         const nsObj = {
           id: uid,
@@ -230,7 +223,6 @@ function Mapothy ({ header }: Props): ReactElement {
         <Graph
           graph={graph}
           options={options}
-          events={events}
           getNetwork={(network) => {
             console.log(network.getSeed())
             setTimeout(

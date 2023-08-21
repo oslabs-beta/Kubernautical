@@ -122,7 +122,8 @@ const clusterController: ClusterController = {
           const { name, uid, namespace } = service.metadata
           const { ipFamilies, ports, type } = service.spec
           const ips = service.status?.loadBalancer?.ingress
-          const ingressIP = ips !== undefined ? ips[0]?.ip : undefined
+          let ingressIP
+          if (ips !== undefined) ingressIP = ips[0]?.ip ?? ips[0]?.hostname
           // TODO pull more data as needed here
           return {
             name,
