@@ -51,7 +51,7 @@ Quick Links
 </div>
 
 ## KuberNautical
-Introducing KuberNautical,a dev tool designed to empower you with unparalleled insights and control over your Kubernetes clusters. Seamlessly merging the worlds of metrics analysis and streamlined cluster management, KuberNautical redefines the way you interact with your kubernetes infrastructure.
+Introducing KuberNautical, an open-source Kuberenetes developer tool designed to empower you with unparalleled insights and control over your Kubernetes clusters. Seamlessly merging the worlds of metrics analysis and streamlined cluster management, KuberNautical redefines the way you interact with your kubernetes infrastructure.
 
 ## Features
 ### 2D Cluster view
@@ -132,25 +132,62 @@ kubectl config view
 ```
 
 ## Prometheus
-1. Create a namespace for prometheus `kubectl create namespace prometheus`
-2. Install the helm charts `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
-3. Apply the helm charts and install prometheus in the namespace `helm upgrade -i prometheus prometheus-community/prometheus --namespace prometheus`
+1. Create a namespace for prometheus
+```
+kubectl create namespace prometheus
+```
+2. Install the helm charts
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+3. Apply the helm charts and install prometheus in the namespace
+```
+helm upgrade -i prometheus prometheus-community/prometheus --namespace prometheus
+```
 4. For our application you need to expose the prometheus-server as a load balancer
-  - `kubectl expose deployment prometheus-server --port=80 --target-port=9090 --type=LoadBalancer --name prometheus-server-lb -n prometheus`
+```
+kubectl expose deployment prometheus-server --port=80 --target-port=9090 --type=LoadBalancer --name prometheus-server-lb -n prometheus
+```
 
   **Deployment, target port, type and namespace are all mandatory as above. Port, and name can be customized if desired but name MUST start with `prometheus-server`**
 
 
 ## Grafana-loki
-1. Use helm to add Grafana `helm repo add grafana https://grafana.github.io/helm-charts`
-2. Update helm if necessary `helm repo update`
-3. Check if helm charts installed `helm search repo loki`
-4. Create a namespace for Loki `kubectl create ns loki`
-5. Install Loki on the `loki` namespace `helm upgrade --install --namespace loki logging grafana/loki -f yamls/values.yml --set loki auth_enabled=false`
-5. Deploy Grafana with Loki data source to enable log aggregation `helm upgrade --install --namespace=loki loki-grafana grafana/grafana`
-6. Deploy Promtail to enable log scraping from whole cluster `helm upgrade --install promtail grafana/promtail -n loki`
-7. Create a daemonset to ensure system-level logging `kubectl apply -f yamls/Daemonset.yaml`
-8. Expose `loki-gateway` as a load balancer `kubectl expose deployment loki-gateway --port=80 --target-port=8080 --type=LoadBalancer --name loki-gateway-lb -n loki`
+1. Use helm to add Grafana 
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+```
+2. Update helm if necessary 
+```
+helm repo update
+```
+3. Check if helm charts installed 
+```
+helm search repo loki
+```
+4. Create a namespace for Loki 
+```
+kubectl create ns loki
+```
+5. Install Loki on the `loki` namespace 
+```helm upgrade --install --namespace loki logging grafana/loki -f yamls/values.yml --set loki auth_enabled=false
+```
+5. Deploy Grafana with Loki data source to enable log aggregation
+```
+helm upgrade --install --namespace=loki loki-grafana grafana/grafana
+```
+6. Deploy Promtail to enable log scraping from whole cluster
+```
+helm upgrade --install promtail grafana/promtail -n loki
+```
+7. Create a daemonset to ensure system-level logging
+```
+kubectl apply -f yamls/Daemonset.yaml
+```
+8. Expose `loki-gateway` as a load balancer
+```
+kubectl expose deployment loki-gateway --port=80 --target-port=8080 --type=LoadBalancer --name loki-gateway-lb -n loki
+```
 
 ***Naming conventions for namespaces and services created are customizable, but name for `loki-gateway` service must start with `loki-gateway`.***
 
