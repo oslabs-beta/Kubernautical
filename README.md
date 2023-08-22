@@ -54,7 +54,7 @@ Quick Links
 ## KuberNautical
 Introducing KuberNautical, an open-source Kuberenetes developer tool designed to empower you with unparalleled insights and control over your Kubernetes clusters. Seamlessly merging the worlds of metrics analysis and streamlined cluster management, KuberNautical redefines the way you interact with your kubernetes infrastructure.
 
-[Getting Started](#Set-up)
+[Getting Started](#set-up)
 ## Features
 ### 2D Cluster view
 Upon application launch, users can view a robust 2D configuration of their desired cluster.
@@ -106,7 +106,7 @@ npm install
 ### Before you start checklist
 - [Cluster](#cluster-setup) from provider of choice
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/) installed
-  -[Kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+  - [Kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [Helm](https://helm.sh/docs/intro/install/) installed
 - SDK for your cluster(see specific instructions for your OS)
   - [GCP](https://cloud.google.com/sdk/docs/install) CLI
