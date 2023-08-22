@@ -54,6 +54,7 @@ Quick Links
 ## KuberNautical
 Introducing KuberNautical, an open-source Kuberenetes developer tool designed to empower you with unparalleled insights and control over your Kubernetes clusters. Seamlessly merging the worlds of metrics analysis and streamlined cluster management, KuberNautical redefines the way you interact with your kubernetes infrastructure.
 
+[Getting Started](#Set-up)
 ## Features
 ### 2D Cluster view
 Upon application launch, users can view a robust 2D configuration of their desired cluster.
@@ -102,10 +103,10 @@ git clone https://github.com/oslabs-beta/Kubernautical
 ```
 npm install
 ```
-
 ### Before you start checklist
 - [Cluster](#cluster-setup) from provider of choice
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/) installed
+  -[Kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [Helm](https://helm.sh/docs/intro/install/) installed
 - SDK for your cluster(see specific instructions for your OS)
   - [GCP](https://cloud.google.com/sdk/docs/install) CLI
@@ -119,21 +120,24 @@ npm install
 
 **Google Cluster**
 1. Create a standard cluster with [Google](https://cloud.google.com/kubernetes-engine) (autopilot clusters will not work).
-2. Click Connect in GCP and copy the command into your terminal.
-
+2. Click Connect in GCP and copy the command into your terminal or fill out the command below with pertinent information:
+```
+gcloud container clusters get-credentials <yourGKEClusterName> \
+ --zone <yourClusterZone> --project <ProjectName>
+```
 **Microsoft Cluster**
 1. Create a cluster with [Microsoft](https://azure.microsoft.com/en-us/products/kubernetes-service).
-2. Copy cluster into kube config 
+2. Click Connect in Azure and copy the command into your terminal or fill out the command below with pertinent information: 
 ```
 az aks get-credentials --resource-group <yourResourceGroupName> \
 --name <yourAKSClusterName> --admin
 ```
-
 **Amazon Cluster**
 1. Create a cluster with [AWS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.htm).
-  - Properly setup IAM permissions.
-2. command for copying into kube config?
-
+2. Fill out the command below with pertinent information: 
+```
+aws eks update-kubeconfig --region <region-code> --name <my-cluster>
+```
 **Minikube Cluster**
   1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/).
 **We Reccommend you have 4g+ of free ram as Docker Desktop can overload and crash your machine.**
@@ -147,7 +151,7 @@ az aks get-credentials --resource-group <yourResourceGroupName> \
   ```
   minikube stop
   ```
-  - Delete your cluster
+  - Delete your cluster (can also use '--all' flag to delete all)
   ```
   minikube delete
   ```
@@ -156,11 +160,14 @@ az aks get-credentials --resource-group <yourResourceGroupName> \
 ```
 kubectl config view
 ```
-
+***Confirm context is set to desired cluster***
+```
+kubectl config use-context <my-cluster-name>
+```
 ## Prometheus
 1. Create a namespace for prometheus
 ```
-kubectl create namespace prometheus
+kubectl create ns prometheus
 ```
 2. Install the helm charts
 ```
