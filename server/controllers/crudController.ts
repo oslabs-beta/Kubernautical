@@ -6,7 +6,8 @@ const crudController: CrudController = {
   namespace: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { namespace, crud, context } = req.query
     try {
-      const command = `kubectl config use-context ${context as string} && kubectl ${crud as string} namespace ${namespace as string}`
+      const command = `kubectl config use-context ${context as string}\
+       && kubectl ${crud as string} namespace ${namespace as string}`
       exec(command, (err, stdout, stderr) => {
         if (err != null) {
           console.log('Error executing command:', err)
@@ -47,15 +48,16 @@ const crudController: CrudController = {
           action = `--replicas=${replicas as string}`
           break
         case 'expose':
-          action = `--port=${port as string} --target-port=${targetPort as string} --type=${type as string} --name=${name as string}`
+          action = `--port=${port as string} --target-port=${targetPort as string}\
+           --type=${type as string} --name=${name as string}`
           break
         default:
           break
       }
       // TODO handle errors/edge cases from front end
-      const command = `kubectl config use-context ${context as string} 
-      && kubectl ${crud as string} deployment ${deployment as string} 
-      ${action !== undefined ? `${action}` : ''} -n ${namespace as string}`
+      const command = `kubectl config use-context ${context as string} \
+       && kubectl ${crud as string} deployment ${deployment as string}\
+       ${action !== undefined ? `${action}` : ''} -n ${namespace as string}`
       console.log('command:', command)
       exec(command, (err, stdout, stderr) => {
         if (err != null) {
@@ -98,8 +100,8 @@ const crudController: CrudController = {
           break
       }
       // TODO handle errors/edge cases from front end
-      const command = `kubectl config use-context ${context as string} 
-      && kubectl ${crud as string} svc ${service as string} 
+      const command = `kubectl config use-context ${context as string}\
+      && kubectl ${crud as string} svc ${service as string}\
       ${action !== undefined ? `${action}` : ''} -n ${namespace as string}`
       console.log('command:', command)
       exec(command, (err, stdout, stderr) => {

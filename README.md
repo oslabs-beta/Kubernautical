@@ -58,7 +58,7 @@ Introducing KuberNautical, an open-source Kuberenetes developer tool designed to
 ### 2D Cluster view
 Upon application launch, users can view a robust 2D configuration of their desired cluster.
 
-//Add Gif Here
+![ClusterViewGif](client/assets/gifs/ClusterView.gif)
 ### Metrics and Logs Visualization
 Users are able to view important metrics and logs pertinent to cluster health.
 

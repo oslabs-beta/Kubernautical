@@ -58,7 +58,7 @@ function CRUDMini (
             if (form2 !== '' && exposeType !== '') type = 'expose'
           } else { type = modalType }
           query += `dep?namespace=${ns}&crud=${type}&${type === 'expose' ? `name=${form2}` : `image=${form2}`}
-            &replicas=${scale as string}&deployment=${form !== '' ? deployment : ''}&old=${oldReplicas as string}
+            &replicas=${scale as string}&deployment=${deployment !== '' ? deployment : ''}&old=${oldReplicas as string}
             &context=${globalClusterContext ?? ''}&port=${port}&targetPort=${targetPort}&type=${exposeType}`
           break
         case 'service':
