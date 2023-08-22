@@ -58,21 +58,41 @@ Introducing KuberNautical, an open-source Kuberenetes developer tool designed to
 ### 2D Cluster view
 Upon application launch, users can view a robust 2D configuration of their desired cluster.
 
-//Add Gif Here
-### Metrics and Logs Visualization
+![ClusterViewGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ClusterView.gif)
+
+### Metrics Visualization
 Users are able to view important metrics and logs pertinent to cluster health.
 
-//Add Gif Here
-### Cluster Manipulation
-Users have the ability to alter their cluster, including but not limited to adding and deleting a namespace or even deploying an appication with a Docker image! 
+![MetricsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/Metrics.gif)
 
-//Add Gif Here
+### Cluster Logs
+Users are able to view logs regarding events occuring within cluster. These logs can be filtered by namespace and pod.
+
+![LogsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/Logs.gif)
+
+### Cluster Manipulation
+Users have the ability to make live changes to thier cluster in a variety of ways.
+
+![NSCreateGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/NsCreate.gif)
+Users can create a new namespace within the current cluster context through the "Edit Cluster" Modal.
+
+![MakeDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/MakeDep.gif)
+Users can create a new deployment within a given namespace using a public docker image.
+
+![ScaleDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ScaleDep.gif)
+Users can scale deployments as needed to meet demand.
+
+![ExposeDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ExposeDep.gif)
+Users can expose deployments within any chosen method, at the given ports. 
+
+![DeleteNsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/DeleteNs.gif)
+Users can remove a namespace and all resources inside of it. 
+
 ### Load Testing
 Users are able to apply a load test to a deployed application of their choosing. 
-
-
-//Add Gif Here 
-
+![LoadTestGif](https://github.com/NotHogue/GifStorage/blob/6c5fc3338eb80e9ea52707e442a7847343962b5b/gifs/LoadTest.gif)
+Load Test Result
+![LoadTestAfter](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/LoadTestStill.png)
 ## Set Up
 1. Fork this repository and clone it onto your local machine:
 ```

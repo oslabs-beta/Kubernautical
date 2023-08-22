@@ -11,18 +11,17 @@ const lokiController: LokiController = {
       const { namespace, log, pod, ep } = req.query
       // limit, start, and end
       // lokiEndpoint using exposed gateway IP via load balancer
-      const lokiEndpoint = `http://${ep}/loki/api/v1/query_range?query=`
-      let logQuery = `{namespace="${namespace as string}"${pod !== undefined ? `, pod="${pod as string}"` : ''}}`
+      const lokiEndpoint = `http://${ep as string}/loki/api/v1/query_range?query=`
+      let logQuery = `{namespace="${namespace as string}"${pod !== undefined && pod !== '' ? `, pod="${pod as string}"` : ''}}`
 
       // havent tested  start and end yet
       // if (start && end) logQuery += `{time >= ${start} and time <= ${end}}`;
 
       // query by type, error or info
-      if (log !== undefined) logQuery += ` |= "level=${log as string}"`
+      if (log !== undefined && log !== '') logQuery += ` |= "level=${log as string}"`
 
       // if (limit) logQuery += `&limit=${limit}`;
       const query = lokiEndpoint + logQuery
-      console.log('query:', query)
       const response = await fetch(query)
       const data = await response.json()
 

@@ -91,7 +91,7 @@ function CrudSelector (
           </option>
           {globalClusterData?.[`${type}s`]?.filter((el: CLusterObj) => {
             const { name, namespace } = el
-            if (type === 'namespace' && (name === 'prometheus' || name === 'gmp-system')) return false
+            if (type === 'namespace' && (name === 'loki' || name === 'gmp-system')) return false
             if ((type === 'deployment' || type === 'service') && namespace !== ns) return false
             return true
           }).map(({ name }: CLusterObj) => (

@@ -95,7 +95,7 @@ function Mapothy ({ header }: Props): ReactElement {
       // ?----------------------------------Namespace Search------------------------------------->
       // namespace array iterated over, with all other resources being attached accordingly
       filteredNsArr.forEach((nS: CLusterObj) => {
-        if (nS.name === 'loki') return
+        // if (nS.name === 'loki') return
         const { name, uid } = nS
         const nsObj = {
           id: uid,
