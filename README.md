@@ -58,11 +58,18 @@ Introducing KuberNautical, an open-source Kuberenetes developer tool designed to
 ### 2D Cluster view
 Upon application launch, users can view a robust 2D configuration of their desired cluster.
 
-![ClusterViewGif](client/assets/gifs/ClusterView.gif)
-### Metrics and Logs Visualization
+![ClusterViewGif](https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/ClusterView.gif)
+
+### Metrics Visualization
 Users are able to view important metrics and logs pertinent to cluster health.
 
-//Add Gif Here
+![MetricsGif]([https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/ClusterView.gif](https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/Metrics.gif))
+
+### Cluster Logs
+Users are able to view logs regarding events occuring within cluster. These logs can be filtered by namespace and pod.
+
+![LogsGif]([https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/ClusterView.gif](https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/Logs.gif))
+
 ### Cluster Manipulation
 Users have the ability to alter their cluster, including but not limited to adding and deleting a namespace or even deploying an appication with a Docker image! 
 
@@ -71,7 +78,7 @@ Users have the ability to alter their cluster, including but not limited to addi
 Users are able to apply a load test to a deployed application of their choosing. 
 
 
-//Add Gif Here 
+![LoadTestGif](https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/LoadTest.gif)
 
 ## Set Up
 1. Fork this repository and clone it onto your local machine:
