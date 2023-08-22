@@ -142,19 +142,21 @@ aws eks update-kubeconfig --region <region-code> --name <my-cluster>
   1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/).
 **We Reccommend you have 4g+ of free ram as Docker Desktop can overload and crash your machine.**
   2. Install [Minikube](https://minikube.sigs.k8s.io/docs/start).
-  - Check system requirements!
-  - Create a cluster 
+  3. Create a cluster 
   ```
   minikube start
   ```
-  - Stop your cluster 
+  **Minikube Teardown**
+  1. Stop your cluster 
   ```
   minikube stop
   ```
-  - Delete your cluster (can also use '--all' flag to delete all)
+  2. Delete your cluster (can also use '--all' flag to delete all)
   ```
   minikube delete
   ```
+## Once your cluster is created
+
 
 ***Confirm that your cluster is in your kube config***
 ```
