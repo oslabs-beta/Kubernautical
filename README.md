@@ -63,12 +63,12 @@ Upon application launch, users can view a robust 2D configuration of their desir
 ### Metrics Visualization
 Users are able to view important metrics and logs pertinent to cluster health.
 
-![MetricsGif]([https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/ClusterView.gif](https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/Metrics.gif))
+![MetricsGif](https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/Metrics.gif)
 
 ### Cluster Logs
 Users are able to view logs regarding events occuring within cluster. These logs can be filtered by namespace and pod.
 
-![LogsGif]([https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/ClusterView.gif](https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/Logs.gif))
+![LogsGif](https://github.com/NotHogue/GifStorage/blob/c344ca40d0b7f6dc696cfa52176cc82debb0beab/gifs/Logs.gif)
 
 ### Cluster Manipulation
 Users have the ability to alter their cluster, including but not limited to adding and deleting a namespace or even deploying an appication with a Docker image! 
