@@ -93,7 +93,7 @@ Users can remove a namespace and all resources inside of it.
 Users are able to apply a load test to a deployed application of their choosing. 
 ![LoadTestGif](https://github.com/NotHogue/GifStorage/blob/6c5fc3338eb80e9ea52707e442a7847343962b5b/gifs/LoadTest.gif?raw=true)
 Load Test Result
-![LoadTestAfter](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/LoadTestStill.png?raw=true)
+![LoadTestAfter](https://github.com/NotHogue/GifStorage/blob/fbf54ef3eaa1928acf69aab11e5af468ee745a55/gifs/LoadTestStill.png?raw=true)
 ## Set Up
 1. Fork this repository and clone it onto your local machine:
 ```
