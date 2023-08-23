@@ -10,17 +10,22 @@ node_modules/
 # yarn-error.log*
 
 # output from webpack
-# dist/
+dist
 
 #dotenv
 .env
 
 #GKE folder
 gke-setup
+#EKS folder
+eks-setup
 
 #yaml files
 prometheus.yaml
 kubeconfig.yaml
+lokiYaml
 
 #jeremiahs garbage
-CRUDSelector.tsx
+#CRUDSelector.tsx
+
+coverage

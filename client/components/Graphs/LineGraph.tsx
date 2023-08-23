@@ -1,47 +1,68 @@
-import React, { useState, useEffect, useContext, FC } from 'react';
-import { GlobalContext } from '../Contexts';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions, Filler } from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import type { Props } from '../../../types/types';
-import { v4 as uuidv4 } from 'uuid';
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { useState, useEffect, useContext, type ReactElement } from 'react'
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, type ChartOptions, Filler } from 'chart.js'
+import { Line } from 'react-chartjs-2'
+import { v4 as uuidv4 } from 'uuid'
+import type { CLusterObj, LineGraphProps, globalServiceObj } from '../../../types/types'
+import { GlobalContext } from '../Contexts'
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+)
+const defaultArr: number[] = []
+const stringArr: string[] = []
 
-const defaultArr: Number[] = []; //typescript set up for UseState make this in types file
-const stringArr: String[] = [];
+function LineGraph (
+  {
+    type,
+    title,
+    yAxisTitle,
+    color,
+    graphTextColor
+  }: LineGraphProps
+): ReactElement {
+  const { globalClusterData, globalServices } = useContext(GlobalContext)
+  const [data, setData] = useState(defaultArr)
+  const [label, setLabel] = useState(stringArr)
+  const [hourSelection, setHourSelection] = useState('24')
+  const [scope, setScope] = useState('')
+  const [scopeType, setScopeType] = useState('')
 
-const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor }) => {
-  const { globalNamespaces } = useContext(GlobalContext);
-  const [data, setData] = useState(defaultArr);
-  const [label, setLabel] = useState(stringArr);
-  const [hourSelection, setHourSelection] = useState('24');
-  const [scope, setScope] = useState('');
-  const [scopeType, setScopeType] = useState('');
-
-  const getData = async () => {
-
-    const time: Number[] = [];
-    const specificData: Number[] = [];
-    const gigaBytes: Number[] = []
-    const kiloBytes: Number[] = []
+  const getData = async (): Promise<void> => {
+    const time: number[] = []
+    const specificData: number[] = []
+    const gigaBytes: number[] = []
+    const kiloBytes: number[] = []
+    let svcArr: globalServiceObj[] | undefined
 
     try {
-      const response = await fetch(`/api/prom/metrics?type=${type}&hour=${hourSelection}${scope ? `&scope=${scopeType}&name=${scope}` : ''}`, {
+      const localSvc = localStorage.getItem('serviceArr')
+      if (localSvc !== null) svcArr = await JSON.parse(localSvc)
+      else svcArr = globalServices
+      const ep = svcArr?.find(({ name }) => name.slice(0, 17) === 'prometheus-server')?.ip ?? ''
+      const response = await fetch(`/api/prom/metrics?ep=${ep}&type=${type}&hour=${hourSelection}${scope !== '' ? `&scope=${scopeType}&name=${scope}` : ''}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      if (!data[0]) {
-        setData([]);
-        return;
-      }
-      data[0].values.forEach((el: [number, string]) => {
-        time.push(el[0]);
-        specificData.push(Number(el[1]));
+          'Content-Type': 'application/json'
+        }
       })
-      //convert bytes into gigabytes if asking for mem
+      const newData = await response.json()
+      if (newData[0] === undefined) {
+        setData([])
+        return
+      }
+      newData[0].values.forEach((el: [number, string]) => {
+        time.push(el[0])
+        specificData.push(Number(el[1]))
+      })
+      // convert bytes into gigabytes if asking for mem
       if (type === 'mem') {
         specificData.forEach((el: any) => {
           const newEl = el / 1073741824
@@ -57,41 +78,41 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
       } else {
         setData(specificData)
       }
-      //set Unix time to Hours and Minutes
-      const timeLabels: String[] = [];
+      // set Unix time to Hours and Minutes
+      const timeLabels: string[] = []
       time.forEach((el: any) => {
-        const date: Date = new Date(1000 * el); // Convert seconds to milliseconds for Date Function
-        const formattedTime = `${date.getHours()}:${date.getMinutes()}`;
-        timeLabels.push(formattedTime);
-        setLabel(timeLabels);
-      });
+        const date: Date = new Date(1000 * el) // Convert seconds to milliseconds for Date Function
+        const formattedTime = `${date.getHours()}:${date.getMinutes()}`
+        timeLabels.push(formattedTime)
+        setLabel(timeLabels)
+      })
     } catch (error) {
-      console.log('Error fetching data:', error);
+      console.log('Error fetching data:', error)
     }
   }
 
-  //? add needed watchers to useEffect
+  // ? add needed watchers to useEffect
   useEffect(() => {
-    getData();
-  }, [hourSelection, scope]);
+    void getData()
+  }, [hourSelection, scope])
 
   const dataSet = { // Data for tables
-    labels: label, //set data for X Axis
+    labels: label, // set data for X Axis
     datasets: [{
       label: title,
-      data: data, // set data for Y Axis
+      data, // set data for Y Axis
       fill: true,
       // backgroundColor: color,   //looks better without fill
       borderColor: color,
       pointBorderColor: color,
-      tension: .5,
-      pointBackgroundColor:'white',
+      tension: 0.5,
+      pointBackgroundColor: 'white',
       pointBorderWidth: 1,
       pointHoverRadius: 4,
       pointRadius: 1,
-      borderWidth: 1.5,
+      borderWidth: 1.5
     }]
-  };
+  }
   const options: ChartOptions<'line'> = {
     animations: {
       tension: {
@@ -104,22 +125,22 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
     },
     plugins: {
       legend: {
-        labels:{
-          color:graphTextColor
+        labels: {
+          color: graphTextColor
         },
         display: true
-        
-      },
+
+      }
     },
     responsive: true,
     scales: {
       y: {
-        ticks:{
-          color:graphTextColor
+        ticks: {
+          color: graphTextColor
         },
         grid: {
-          display: true ,
-          color: `rgba(128, 128, 128, 0.1)`
+          display: true,
+          color: 'rgba(128, 128, 128, 0.1)'
         },
         display: true,
         title: {
@@ -129,12 +150,12 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
         }
       },
       x: {
-        ticks:{
-          color:graphTextColor
+        ticks: {
+          color: graphTextColor
         },
         grid: {
-          display: false ,
-          color: `rgba(128, 128, 128, 0.1)`
+          display: false,
+          color: 'rgba(128, 128, 128, 0.1)'
         },
         display: true,
         title: {
@@ -146,21 +167,22 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
     }
   }
   return (
-    <div className='lineGraph'>
+    <div className="lineGraph">
       <div>
-        <select className='containerButton' id ='hourDropDown' value={hourSelection} onChange={(e) => setHourSelection(e.target.value)}>
-          <option value='1'>1 hour</option>
-          <option value='6'>6 hours</option>
-          <option value='12'>12 hours</option>
-          <option value='24'>24 hours</option>
+        <select className="containerButton" id="hourDropDown" value={hourSelection} onChange={(e) => { setHourSelection(e.target.value) }}>
+          <option value="1">1 hour</option>
+          <option value="6">6 hours</option>
+          <option value="12">12 hours</option>
+          <option value="24">24 hours</option>
         </select>
-        <select className='containerButton' value={scope} onChange={(e) => { setScope(e.target.value); setScopeType('namespace') }}>
-          <option value=''>Cluster</option>
-          {globalNamespaces ? globalNamespaces.map((el) => {
+        <select className="containerButton" value={scope} onChange={(e) => { setScope(e.target.value); setScopeType('namespace') }}>
+          <option value="">Cluster</option>
+          {globalClusterData?.namespaces?.map((el: CLusterObj) => {
+            const { name } = el
             return (
-              <option key={uuidv4()} value={`${el}`}>{el}</option>
+              <option key={uuidv4()} value={`${name}`}>{name}</option>
             )
-          }) : <div></div>}
+          })}
         </select>
       </div>
       <Line data={dataSet} options={options} />
@@ -168,4 +190,4 @@ const LineGraph: FC<Props> = ({ type, title, yAxisTitle, color,graphTextColor })
   )
 }
 
-export default LineGraph;
+export default LineGraph

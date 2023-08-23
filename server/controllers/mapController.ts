@@ -1,23 +1,28 @@
-import type { Request, Response, NextFunction } from 'express';
-import type { mapController } from '../../types/types';
+import type { Request, Response, NextFunction, RequestHandler } from 'express'
+import { type MapController } from '../../types/types'
 
-const mapController: mapController = {
+const mapController: MapController = {
 
-
-  getElements: async (req: Request, res: Response, next: NextFunction) => {
+  getElements: (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { pods, namespaces, deployments, services } = res.locals;
+      const { pods, namespaces, deployments, services, contexts, currentContext } = res.locals
       res.locals.elements = {
         pods,
         namespaces,
         deployments,
-        services
+        services,
+        contexts,
+        currentContext
       }
-      return next();
-    } catch (err) {
-      return next(err);
+      next()
+    } catch (error) {
+      next({
+        log: `Error in mapController.getElements${error as string}`,
+        status: 400,
+        message: { error: 'Error getting data' }
+      })
     }
-  }
-};
+  }) as RequestHandler
+}
 
-export default mapController;
+export default mapController

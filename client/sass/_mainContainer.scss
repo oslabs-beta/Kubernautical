@@ -12,7 +12,7 @@
 }
 
 .mainHeader {
-    // border:2px solid pink;
+    // border: 2px solid pink;
     color: lighten($font-color, 30%);
     padding: 5px;
     margin: 5px;
@@ -49,6 +49,22 @@
     height: 40%;
     display: flex;
     // flex-direction: column;
+    animation: loadin 1s lienar;
+}
+
+.miniContainerLogs {
+    border-radius: 5px;
+    padding: 5px;
+    width: 80%;
+    height: 95%;
+    display: flex;
+    margin: 8px;
+    border-radius: 5px;
+    background-color: $container-background;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    overflow: auto;
+    // flex-direction: column;
+    // animation: loadin 1s ease-in;
     animation: loadin 1s lienar;
 }
 

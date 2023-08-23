@@ -3,17 +3,19 @@
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    margin: 100% -100px 5px 50px;
+    margin: 100% -100px 5px 40px;
     padding: 0px 3px 3px 3px;
     height: 500px;
+    width: 125%;
+    // border: 2px solid magenta;
 }
 
 .centerModal {
     display: flex;
     flex-direction: column;
+    // border: 2px solid cyan;
     // justify-content: center;
     margin: 10px 5px 5px 10px;
-    // border: 2px solid cyan;
 }
 
 .crudDelete {
@@ -39,7 +41,7 @@
     align-items: end;
     // border: 2px solid cyan;
     padding: 0px;
-    margin: 0px 5px 5px 5px;
+    margin: 5px 5px 5px 5px;
     width: 80%;
     height: 8%;
     animation: loadin 1s ease-in;
@@ -50,25 +52,34 @@
     width: 90%;
 }
 
-// .invisModal {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-//     width: 200px;
-//     height: 200px;
-//     margin: 8px;
-//     padding: 5px 5px 0 5px;
-//     border-radius: 5px;
-//     background-color: lighten($container-background, 10%);
-//     box-shadow: $container-shadow;
-//     z-index: 10;
-//   }
-//   .editModal {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: start;
-//     align-items: start;
-//     margin: 100% -100px 5px 50px;
-//     height: 500px;
-// }
+.smallEdit {
+    height: 15px;
+    width: 15px;
+}
+
+.crudMini {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    width: 200px;
+    min-height: 200px;
+    margin: 8px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: lighten($container-background, 10%);
+    box-shadow: $container-shadow;
+    z-index: 10;
+}
+
+.portsDiv {
+    color: lighten($font-color, 30%);
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.portsEdit {
+    width: 20%;
+    justify-self: end;
+}

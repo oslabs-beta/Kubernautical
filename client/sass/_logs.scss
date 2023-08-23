@@ -1,0 +1,38 @@
+.log-container {
+  margin: 10px;
+}
+
+.log-entry {
+  margin: 10px;
+  padding: 3px;
+  // border: 1px solid #d1d0d0;
+  background-color: #252525;
+  color: $font-color;
+}
+
+.value-entry {
+  margin-bottom: 10px;
+}
+
+.clickable {
+  cursor: pointer;
+  background-color: lighten($container-background, 10%);
+  padding: 8px;
+  border-radius: 4px;
+
+}
+
+.clickable:hover {
+  background-color: lighten($container-background, 5%);
+}
+
+.log-details {
+  margin-top: 5px;
+  padding: 5px;
+  background-color: lighten($container-background, 20%);
+  border: 1px solid #555555;
+}
+
+.dropdown-container {
+  display: flex;
+}

@@ -1,30 +1,30 @@
-import { createContext, Dispatch, SetStateAction } from 'react'
-import { globalServiceObj, ClusterData } from '../../types/types'
+import { createContext, type Dispatch, type SetStateAction } from 'react'
+import { type globalServiceObj, type ClusterData } from '../../types/types'
 
-interface GlobalContext {
-    globalNamespaces?: string[]
-    setGlobalNamesapces?: Dispatch<SetStateAction<string[]>>
+export interface GlobalContextInterace {
+  globalServices?: globalServiceObj[]
+  setGlobalServices?: Dispatch<SetStateAction<globalServiceObj[]>>
 
-    globalServices?: globalServiceObj[]
-    setGlobalServices?: Dispatch<SetStateAction<globalServiceObj[]>>
+  globalTimer?: number
+  setGlobalTimer?: Dispatch<SetStateAction<number>>
 
-    globalTimer?: number
-    setGlobalTimer?: Dispatch<SetStateAction<number>>
+  globalServiceTest?: string
+  setGlobalServiceTest?: Dispatch<SetStateAction<string>>
 
-    globalServiceTest?: string
-    setGlobalServiceTest?: Dispatch<SetStateAction<string>>
+  showEditModal?: boolean
+  setShowEditModal?: Dispatch<SetStateAction<boolean>>
 
-    showEditModal?: boolean
-    setShowEditModal?: Dispatch<SetStateAction<boolean>>
+  globalClusterData?: ClusterData
+  setGlobalClusterData?: Dispatch<SetStateAction<ClusterData>>
 
-    globalClusterData?: ClusterData
-    setGlobalClusterData?: Dispatch<SetStateAction<ClusterData>>
+  globalCrudChange?: boolean
+  setGlobalCrudChange?: Dispatch<SetStateAction<boolean>>
 
-    globalCrudChange?: boolean
-    setGlobalCrudChange?: Dispatch<SetStateAction<boolean>>
+  ongoingCrudChange?: boolean
+  setOngoingCrudChange?: Dispatch<SetStateAction<boolean>>
 
-    ongoingCrudChange?: boolean
-    setOngoingCrudChange?: Dispatch<SetStateAction<boolean>>
+  globalClusterContext?: string
+  setGlobalClusterContext?: Dispatch<SetStateAction<string>>
 }
 
-export const GlobalContext = createContext<GlobalContext>({})
+export const GlobalContext = createContext<GlobalContextInterace>({})
