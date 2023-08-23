@@ -54,45 +54,46 @@ Quick Links
 ## KuberNautical
 Introducing KuberNautical, an open-source Kuberenetes developer tool designed to empower you with unparalleled insights and control over your Kubernetes clusters. Seamlessly merging the worlds of metrics analysis and streamlined cluster management, KuberNautical redefines the way you interact with your kubernetes infrastructure.
 
+[Getting Started](#set-up)
 ## Features
 ### 2D Cluster view
 Upon application launch, users can view a robust 2D configuration of their desired cluster.
 
-![ClusterViewGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ClusterView.gif)
+![ClusterViewGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ClusterView.gif?raw=true)
 
 ### Metrics Visualization
 Users are able to view important metrics and logs pertinent to cluster health.
 
-![MetricsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/Metrics.gif)
+![MetricsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/Metrics.gif?raw=true)
 
 ### Cluster Logs
 Users are able to view logs regarding events occuring within cluster. These logs can be filtered by namespace and pod.
 
-![LogsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/Logs.gif)
+![LogsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/Logs.gif?raw=true)
 
 ### Cluster Manipulation
 Users have the ability to make live changes to thier cluster in a variety of ways.
 
-![NSCreateGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/NsCreate.gif)
+![NSCreateGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/NsCreate.gif?raw=true)
 Users can create a new namespace within the current cluster context through the "Edit Cluster" Modal.
 
-![MakeDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/MakeDep.gif)
+![MakeDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/MakeDep.gif?raw=true)
 Users can create a new deployment within a given namespace using a public docker image.
 
-![ScaleDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ScaleDep.gif)
+![ScaleDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ScaleDep.gif?raw=true)
 Users can scale deployments as needed to meet demand.
 
-![ExposeDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ExposeDep.gif)
+![ExposeDepGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/ExposeDep.gif?raw=true)
 Users can expose deployments within any chosen method, at the given ports. 
 
-![DeleteNsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/DeleteNs.gif)
+![DeleteNsGif](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/DeleteNs.gif?raw=true)
 Users can remove a namespace and all resources inside of it. 
 
 ### Load Testing
 Users are able to apply a load test to a deployed application of their choosing. 
-![LoadTestGif](https://github.com/NotHogue/GifStorage/blob/6c5fc3338eb80e9ea52707e442a7847343962b5b/gifs/LoadTest.gif)
+![LoadTestGif](https://github.com/NotHogue/GifStorage/blob/6c5fc3338eb80e9ea52707e442a7847343962b5b/gifs/LoadTest.gif?raw=true)
 Load Test Result
-![LoadTestAfter](https://github.com/NotHogue/GifStorage/blob/2c3d50eebdc0634be4815c5189e3a082d4beab53/gifs/LoadTestStill.png)
+![LoadTestAfter](https://github.com/NotHogue/GifStorage/blob/fbf54ef3eaa1928acf69aab11e5af468ee745a55/gifs/LoadTestStill.png?raw=true)
 ## Set Up
 1. Fork this repository and clone it onto your local machine:
 ```
@@ -102,10 +103,10 @@ git clone https://github.com/oslabs-beta/Kubernautical
 ```
 npm install
 ```
-
 ### Before you start checklist
 - [Cluster](#cluster-setup) from provider of choice
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/) installed
+  - [Kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [Helm](https://helm.sh/docs/intro/install/) installed
 - SDK for your cluster(see specific instructions for your OS)
   - [GCP](https://cloud.google.com/sdk/docs/install) CLI
@@ -119,48 +120,56 @@ npm install
 
 **Google Cluster**
 1. Create a standard cluster with [Google](https://cloud.google.com/kubernetes-engine) (autopilot clusters will not work).
-2. Click Connect in GCP and copy the command into your terminal.
-
+2. Click Connect in GCP and copy the command into your terminal or fill out the command below with pertinent information:
+```
+gcloud container clusters get-credentials <yourGKEClusterName> \
+ --zone <yourClusterZone> --project <ProjectName>
+```
 **Microsoft Cluster**
 1. Create a cluster with [Microsoft](https://azure.microsoft.com/en-us/products/kubernetes-service).
-2. Copy cluster into kube config 
+2. Click Connect in Azure and copy the command into your terminal or fill out the command below with pertinent information: 
 ```
 az aks get-credentials --resource-group <yourResourceGroupName> \
 --name <yourAKSClusterName> --admin
 ```
-
 **Amazon Cluster**
 1. Create a cluster with [AWS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.htm).
-  - Properly setup IAM permissions.
-2. command for copying into kube config?
-
+2. Fill out the command below with pertinent information: 
+```
+aws eks update-kubeconfig --region <region-code> --name <my-cluster>
+```
 **Minikube Cluster**
   1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/).
 **We Reccommend you have 4g+ of free ram as Docker Desktop can overload and crash your machine.**
   2. Install [Minikube](https://minikube.sigs.k8s.io/docs/start).
-  - Check system requirements!
-  - Create a cluster 
+  3. Create a cluster 
   ```
   minikube start
   ```
-  - Stop your cluster 
+  **Minikube Teardown**
+  1. Stop your cluster 
   ```
   minikube stop
   ```
-  - Delete your cluster
+  2. Delete your cluster (can also use '--all' flag to delete all)
   ```
   minikube delete
   ```
+## Once your cluster is created
+
 
 ***Confirm that your cluster is in your kube config***
 ```
 kubectl config view
 ```
-
+***Confirm context is set to desired cluster***
+```
+kubectl config use-context <my-cluster-name>
+```
 ## Prometheus
 1. Create a namespace for prometheus
 ```
-kubectl create namespace prometheus
+kubectl create ns prometheus
 ```
 2. Install the helm charts
 ```
@@ -232,4 +241,4 @@ Contributions play a vital role in the open-source community. Any contributions 
 # Meet the Team
  ![Jeremiah Hogue](client/assets/images/kitten.png) | ![Anthony Vuong](client/assets/images/kitten.png) | ![Stephen Acosta](client/assets/images/kitten.png) |  ![Michael Van](client/assets/images/kitten.png) |
 | ------------- | ------------- |------------- | ------------- |
-| Jeremiah Hogue [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/NotHogue)  [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/jeremiah-hogue/)| Anthony Vuong [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/AnthonyKTVuong) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/anthony-v-9772351b7/) | Stephen Acosta  [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/STAC98) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/staclb)  | Michael Van [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/michaelvan996) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/michael-van-901533222/) |
+| Jeremiah Hogue [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/NotHogue)  [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/jeremiah-hogue/)| Anthony Vuong [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/AnthonyKTVuong) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/anthonyktvuong/) | Stephen Acosta  [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/STAC98) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/staclb)  | Michael Van [<img src="https://cdn.icon-icons.com/icons2/2351/PNG/512/logo_github_icon_143196.png" width="30px" >](https://github.com/michaelvan996) [<img src="https://www.freeiconspng.com/uploads/linkedin-icon-19.png" width="30px" >](https://www.linkedin.com/in/michael-van-901533222/) |
