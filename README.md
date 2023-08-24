@@ -42,10 +42,10 @@ Quick Links
   <br /><br />
 </p>
 <p align="center" style="font-size: 1em">
-<a name="website" href="">Website</a>
-<a name="medium" href="">Medium</a>
+<a name="website" href="www.kubernautical.com">Website</a>
+<a name="medium" href="https://medium.com/@kubernautical/kubernautical-a-comprehensive-kubernetes-developer-tool-3bf80c34e51a">Medium</a>
 <!-- <a name="product-hunt" href="">Product Hunt</a> -->
-<a name="linkedin" href="">LinkedIn</a>
+<a name="linkedin" href="https://www.linkedin.com/company/kubernautical">LinkedIn</a>
 </p>
 <br /><br />
 
