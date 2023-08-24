@@ -42,15 +42,13 @@ Quick Links
   <br /><br />
 </p>
 <p align="center" style="font-size: 1em">
-<a name="website" href="">Website</a>
-<a name="medium" href="">Medium</a>
+<a name="website" href="https://kubernautical.com">Website</a>
+<a name="medium" href="https://medium.com/@kubernautical/kubernautical-a-comprehensive-kubernetes-developer-tool-3bf80c34e51a">Medium</a>
 <!-- <a name="product-hunt" href="">Product Hunt</a> -->
 <a name="linkedin" href="">LinkedIn</a>
 </p>
 <br /><br />
-
 </div>
-
 ## KuberNautical
 Introducing KuberNautical, an open-source Kuberenetes developer tool designed to empower you with unparalleled insights and control over your Kubernetes clusters. Seamlessly merging the worlds of metrics analysis and streamlined cluster management, KuberNautical redefines the way you interact with your kubernetes infrastructure.
 
